@@ -1,0 +1,61 @@
+<div class="container-fluid" style="margin-top: 0px; padding: 0px">
+  <div class="row topbanner" style="border-bottom: 1px solid rgba(0,0,0,0.3)">
+    <div class="col-md-4">
+      <div style="float: left" class="cursor" (click)="goTo({path: ['']})"> <img src="assets/img/logo.png" style="height: 70px"></div>
+      <div style="margin-top: 2px;float: left" class="cursor" (click)="goTo({path: ['']})"> &nbsp; &nbsp; <b style="font-size: 40px;" class="text-muted">HTMR</b></div>
+    </div>
+    <div class="col-md-8">
+      <div class="dropdown pull-right" style="margin-top: 10px; font-size: 12px">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-user-circle"></i> Username
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item cursor" (click)="goToChangePass()">
+            <i class="fa fa-lock"></i>
+            Password
+          </a>
+          <a class="dropdown-item cursor" (click)="logout()">
+            <i class="fa fa-sign-out"></i>
+            Log Out
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" >
+    <div class="col-sm-2 menu" style="padding: 0px">
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'dashboard']})">
+        <div class="text-center"><i class="fa fa-dashboard"></i></div>
+        <h3>Dashboard</h3>
+      </div>
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'data_entry']})">
+        <div class="text-center"><i class="fa fa-edit"></i></div>
+        <h3>Data Entry</h3>
+      </div>
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'reports']})">
+        <div class="text-center"><i class="fa fa-bar-chart"></i></div>
+        <h3>Reports</h3>
+      </div>
+      <div class="col-sm-12 item"  (click)="goTo({path:['/home', 'settings']})">
+        <div class="text-center"><i class="fa fa-cogs"></i></div>
+        <h3>Settings</h3>
+      </div>
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'user']})">
+        <div class="text-center"><i class="fa fa-user"></i></div>
+        <h3>User Management</h3>
+      </div>
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'forms']})">
+        <div class="text-center"><i class="fa fa-file-text"></i></div>
+        <h3>Form Management</h3>
+      </div>
+      <div class="col-sm-12 item" (click)="goTo({path:['/home', 'location']})">
+        <div class="text-center"><i class="fa fa-map-signs"></i></div>
+        <h3>Location Management</h3>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
