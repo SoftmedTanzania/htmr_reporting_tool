@@ -6,20 +6,20 @@ import * as _ from 'lodash';
 
 const PERIOD_TYPE: Array<any> = [
   {value: 'Monthly', name: 'Monthly', shown: true},
-  {value: 'BiMonthly', name: 'BiMonthly', shown: true},
+  // {value: 'BiMonthly', name: 'BiMonthly', shown: true},
   {value: 'Quarterly', name: 'Quarterly', shown: true},
-  {value: 'SixMonthly', name: 'Six-Monthly', shown: false},
-  {value: 'SixMonthlyApril', name: 'Six-Monthly April', shown: false},
+  // {value: 'SixMonthly', name: 'Six-Monthly', shown: false},
+  // {value: 'SixMonthlyApril', name: 'Six-Monthly April', shown: false},
   {value: 'Yearly', name: 'Yearly', shown: true},
-  {value: 'FinancialApril', name: 'Financial-April', shown: true},
-  {value: 'FinancialJuly', name: 'Financial-July', shown: true},
-  {value: 'FinancialOct', name: 'Financial-Oct', shown: false},
-  {value: 'RelativeMonth', name: 'Relative Month', shown: true},
-  {value: 'RelativeBiMonth', name: 'Relative Bi-Month', shown: true},
-  {value: 'RelativeQuarter', name: 'Relative Quarter', shown: true},
-  {value: 'RelativeSixMonthly', name: 'Relative Six Monthly', shown: true},
-  {value: 'RelativeYear', name: 'Relative Year', shown: true},
-  {value: 'RelativeFinancialYear', name: 'Relative Financial Year', shown: true},
+  // {value: 'FinancialApril', name: 'Financial-April', shown: true},
+  // {value: 'FinancialJuly', name: 'Financial-July', shown: true},
+  // {value: 'FinancialOct', name: 'Financial-Oct', shown: false},
+  // {value: 'RelativeMonth', name: 'Relative Month', shown: true},
+  // {value: 'RelativeBiMonth', name: 'Relative Bi-Month', shown: true},
+  // {value: 'RelativeQuarter', name: 'Relative Quarter', shown: true},
+  // {value: 'RelativeSixMonthly', name: 'Relative Six Monthly', shown: true},
+  // {value: 'RelativeYear', name: 'Relative Year', shown: true},
+  // {value: 'RelativeFinancialYear', name: 'Relative Financial Year', shown: true},
 ];
 
 
@@ -46,6 +46,7 @@ export class PeriodFilterComponent implements OnInit {
   @Input() period_type: string = 'Monthly';
   @Input() starting_year: number = new Date().getFullYear();
   @Input() showUpdate: boolean = false;
+  @Input() hide_types: boolean = false;
   @Output() onPeriodUpdate: EventEmitter<any> = new EventEmitter<any>();
   @Output() onPeriodChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() onYearUpdate: EventEmitter<any> = new EventEmitter<any>();
@@ -154,6 +155,11 @@ export class PeriodFilterComponent implements OnInit {
     this.year -= 1;
     this.periods = this.getPeriodArray(this.period_type, this.year);
     this.onYearUpdate.emit(this.year);
+  }
+
+  loadPeriods() {
+    console.log(this.period_type)
+    this.periods = this.getPeriodArray(this.period_type, this.year);
   }
 
   changePeriodType() {

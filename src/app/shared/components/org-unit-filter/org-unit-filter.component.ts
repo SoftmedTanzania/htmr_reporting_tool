@@ -32,7 +32,7 @@ export class OrgUnitFilterComponent implements OnInit {
     loading_message: 'Loading Organisation units...',
     multiple: true,
     multiple_key: 'none', // can be control or shift
-    placeholder: 'Select Organisation Unit'
+    placeholder: 'Select Location'
   };
 
   @Input() showUpdate: boolean = false;
@@ -48,9 +48,6 @@ export class OrgUnitFilterComponent implements OnInit {
   orgunit_levels: any[] = [];
   @ViewChild('orgtree')
   orgtree: TreeComponent;
-
-  @ViewChild('period_selector')
-  period_selector: MultiselectComponent;
 
   organisationunits: any[] = [];
   selected_orgunits: any[] = [];
@@ -149,7 +146,6 @@ export class OrgUnitFilterComponent implements OnInit {
                 this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
                   (initial_data) => {
                     this.organisationunits = initial_data;
-                    this.orgunit_tree_config.loading = false;
                     // a hack to make sure the user orgunit is not triggered on the first time
                     this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
                     // after done loading initial organisation units now load all organisation units
@@ -159,6 +155,7 @@ export class OrgUnitFilterComponent implements OnInit {
                         items[0].expanded = true;
                         this.organisationunits = items;
 
+                        this.orgunit_tree_config.loading = false;
                         // activate organisation units
                         for (const active_orgunit of this.orgunit_model.selected_orgunits) {
                           this.activateNode(active_orgunit.id, this.orgtree, true);
@@ -167,11 +164,11 @@ export class OrgUnitFilterComponent implements OnInit {
                           this.emit(false);
                         }
                         // backup to make sure that always there is default organisation unit
-                        if (this.orgunit_model.selected_orgunits.length === 0 && this.orgunit_model.selected_user_orgunit.length === 0) {
-                          for (const active_orgunit of this.orgunit_model.user_orgunits) {
-                            this.activateNode(active_orgunit.id, this.orgtree, true);
-                          }
-                        }
+                        // if (this.orgunit_model.selected_orgunits.length === 0 && this.orgunit_model.selected_user_orgunit.length === 0) {
+                        //   for (const active_orgunit of this.orgunit_model.user_orgunits) {
+                        //     this.activateNode(active_orgunit.id, this.orgtree, true);
+                        //   }
+                        // }
                         this.prepareOrganisationUnitTree(this.organisationunits, 'parent');
                       },
                       error => {
@@ -265,10 +262,10 @@ export class OrgUnitFilterComponent implements OnInit {
 
   // action to be called when a tree item is deselected(Remove item in array of selected items
   deactivateOrg ( $event ) {
-    this.period_selector.reset();
+    // this.period_selector.reset();
     if (this.orgunit_model.selection_mode === 'Usr_orgUnit') {
       this.orgunit_model.selection_mode = 'orgUnit';
-      this.period_selector.reset();
+      // this.period_selector.reset();
     }
     this.orgunit_model.selected_orgunits.forEach((item, index) => {
       if ( $event.node.data.id === item.id ) {
@@ -283,10 +280,9 @@ export class OrgUnitFilterComponent implements OnInit {
 
   // add item to array of selected items when item is selected
   activateOrg = ($event) => {
-    this.period_selector.reset();
     if (this.orgunit_model.selection_mode === 'Usr_orgUnit') {
       this.orgunit_model.selection_mode = 'orgUnit';
-      this.period_selector.reset();
+      // this.period_selector.reset();
     }
     this.selected_orgunits = [$event.node.data];
     if (!this.checkOrgunitAvailabilty($event.node.data, this.orgunit_model.selected_orgunits)) {
@@ -426,11 +422,6 @@ export class OrgUnitFilterComponent implements OnInit {
       if ( orgunit_model.selected_orgunits.length === 1 ) {
         const detailed_orgunit = this.orgtree.treeModel.getNodeById(orgunit_model.selected_orgunits[0].id);
         orgUnits.push(detailed_orgunit.id);
-        if (detailed_orgunit.hasOwnProperty('children') && with_children) {
-          for ( const orgunit of detailed_orgunit.children ) {
-            orgUnits.push(orgunit.id);
-          }
-        }
 
       }else {
         orgunit_model.selected_orgunits.forEach((orgunit) => { // If there is more than one organisation unit selected
