@@ -71,6 +71,22 @@ export class HttpClientService {
     });
   }
 
+  putOpenMRS(url, data, options?) {
+    const headers: string = this.createOpenMRSAuthorizationHeader();
+    return this.http.put<any>(this.OPENMRSURL + url, data, {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
+  }
+
+  deleteOpenMRS(url, options?) {
+    const headers: string = this.createOpenMRSAuthorizationHeader();
+    return this.http.delete(this.OPENMRSURL + url,  {
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
+    });
+  }
+
 
   // get_from_base(url) {
   //   const headers = new HttpHeaders();

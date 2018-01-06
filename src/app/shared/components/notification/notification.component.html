@@ -1,3 +1,6 @@
-<p>
-  notification works!
-</p>
+<div class="alert" [ngClass]="{'alert-danger':error,'alert-success':!error}" role="alert">
+  <i class="fa" [ngClass]="{'fa-ban':error,'fa fa-check':!error}"></i> {{message}} <span *ngIf="error">, Sorry!</span>
+  <button type="button" class="close" style="margin-top:-5px;" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

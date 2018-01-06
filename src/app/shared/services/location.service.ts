@@ -7,7 +7,8 @@ import {Observable} from 'rxjs/Observable';
 export class LocationService {
 
   locations: Location[];
-  loadingMessage = 'loading locations';
+  loadingMessage = 'Loading locations';
+
   constructor(private http: HttpClientService) {
   }
 
@@ -23,7 +24,8 @@ export class LocationService {
               return {
                 uuid: location.uuid,
                 display: location.display,
-                links: location.links
+                links: location.links,
+                confirmDelete: false
               };
             });
             this.loadingMessage = 'loaded successfully';
@@ -39,5 +41,41 @@ export class LocationService {
 
   }
 
+  createLocation(dataObject): Observable<any> {
+    this.loadingMessage = 'Creating new  location';
+    return Observable.create(observer => {
+
+      this.http.postOpenMRS(`location`, dataObject)
+        .subscribe((locationResponse: any) => {
+            this.loadingMessage = 'Created successfully';
+            observer.next(locationResponse);
+            observer.complete();
+          },
+          error => {
+            this.loadingMessage = 'Creation failed';
+            observer.error('some error occur');
+          });
+
+    });
+
+  }
+
+  deleteLocation(location): Observable<any> {
+    this.loadingMessage = 'Deleting ' + location.name + ' location';
+    return Observable.create(observer => {
+
+      this.http.deleteOpenMRS(`location/` + location.uuid)
+        .subscribe((locationResponse: any) => {
+            this.loadingMessage = ' Deleted successfully';
+            observer.next(locationResponse);
+            observer.complete();
+          },
+          error => {
+            this.loadingMessage = 'Deletion failed';
+            observer.error('some error occur');
+          });
+
+    });
+  }
 
 }
