@@ -16,7 +16,9 @@
   padding-bottom: 20px;
   cursor: pointer;
 }
-
+.menu .active-item{
+  background-color: rgba(45,105,165,0.3)!important;
+}
 .menu .item:hover {
  background-color: rgba(45,105,165,0.3);
   /*background: url(../../assets/img/rsz_clint-adair-68588.jpg) no-repeat center center fixed;*/
@@ -25,6 +27,8 @@
   /*-o-background-size: cover;*/
   /*background-size: cover;*/
 }
+
+
 
 .topbanner {
   background-color: rgba(45,105,165,0.3);

@@ -2,11 +2,52 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item " routerLinkActive="active">
+        <li class="nav-item " routerLinkActive="active-item">
           <a class="nav-link" routerLink="../location">Location Manager<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
   </nav>
 </div>
-<router-outlet></router-outlet>
+
+<div class="user-manager">
+  <div class="users-manager-bar">
+    <div class="row">
+      <div class="col-md-6">
+        <p class="page-header">Location Manager</p>
+      </div>
+      <div class="col-md-6">
+        <div title="Create Location" class="btn  round-button pull-right">
+          <i class="fa fa-plus"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="users-list">
+    <table class="table table-bordered  table-condensed">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">System Id</th>
+        <th scope="col">User Name</th>
+        <th scope="col">Give</th>
+        <th scope="col">Family Name</th>
+        <th scope="col">Roles</th>
+        <th scope="col">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

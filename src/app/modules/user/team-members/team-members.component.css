@@ -1,0 +1,33 @@
+.page-header{
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.user-manager{
+  margin-top: 10px;
+  font-size: 12px!important;
+}
+
+
+.round-button{
+  cursor: pointer;
+  height: 40px;
+  width:40px;
+  border-radius: 40px;
+  text-align: center;
+  border: 1px solid #cccccc;
+  background-color: rgba(45,105,165,0.1)!important;
+}
+
+.round-button:hover{
+  border: 1px solid #cccccc;
+  background-color: rgba(45,105,165,0.2)!important;
+}
+
+a.icon-link i{
+  margin-bottom: -15px!important;
+}
+
+.users-manager-bar{
+  margin-bottom: 10px;
+}

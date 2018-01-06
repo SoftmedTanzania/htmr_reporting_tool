@@ -36,6 +36,7 @@ import { DataEntryComponent } from './modules/data-entry/data-entry.component';
 import { TeamComponent } from './modules/user/team/team.component';
 import { TeamMembersComponent } from './modules/user/team-members/team-members.component';
 import { UsersComponent } from './modules/user/users/users.component';
+import {LocationService} from './shared/services/location.service';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { UsersComponent } from './modules/user/users/users.component';
     OrgUnitService,
     VisualizerService,
     FilterService,
+    LocationService,
     ...fromGuards.guards
   ],
   bootstrap: [AppComponent]

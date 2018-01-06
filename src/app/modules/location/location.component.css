@@ -1,3 +1,52 @@
 .inner-menu{
   margin-top: 10px;
 }
+
+.inner-menu{
+  font-size: 13px!important;
+}
+
+.active-menu {
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  background-color: rgba(45,105,165,0.2);
+  cursor: pointer;
+  font-weight: bolder;
+}
+.navbar{
+  padding:0em 0em!important;
+}
+
+
+.page-header{
+  font-size: 25px;
+  font-weight: bolder;
+}
+
+.user-manager{
+  margin-top: 10px;
+  font-size: 12px!important;
+}
+
+
+.round-button{
+  cursor: pointer;
+  height: 40px;
+  width:40px;
+  border-radius: 40px;
+  text-align: center;
+  border: 1px solid #cccccc;
+  background-color: rgba(45,105,165,0.1)!important;
+}
+
+.round-button:hover{
+  border: 1px solid #cccccc;
+  background-color: rgba(45,105,165,0.2)!important;
+}
+
+a.icon-link i{
+  margin-bottom: -15px!important;
+}
+
+.users-manager-bar{
+  margin-bottom: 10px;
+}

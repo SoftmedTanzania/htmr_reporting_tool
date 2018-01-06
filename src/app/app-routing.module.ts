@@ -48,7 +48,8 @@ const routes: Routes = [
     }, {
       path: 'user',
       component: UserComponent,
-      children: [{
+      children: [
+        {
         path: 'team',
         component: TeamComponent
       }, {
@@ -57,7 +58,8 @@ const routes: Routes = [
       }, {
         path: 'team_members',
         component: TeamMembersComponent
-      }, ]
+      }],
+
     }, {
       path: 'reports',
       component: ReportsComponent,
