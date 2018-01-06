@@ -32,7 +32,7 @@ import {ClickOutsideDirective} from './directives/click-outside.directive';
     SafeHtmlPipe,
     OrgUnitFilterComponent,
     PeriodFilterComponent,
-    MultiselectComponent
+    MultiselectComponent,
   ],
   exports: [
     RouterModule,

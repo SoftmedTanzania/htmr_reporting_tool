@@ -7,12 +7,12 @@ import {Observable} from 'rxjs/Observable';
 export class LocationService {
 
   locations: Location[];
-
+  loadingMessage = 'loading locations';
   constructor(private http: HttpClientService) {
   }
 
   // get all data element group
-  loadLocations() {
+  loadLocations(): Observable<Array<Location>> {
 
     return Observable.create(observer => {
 
@@ -26,11 +26,12 @@ export class LocationService {
                 links: location.links
               };
             });
-
+            this.loadingMessage = 'loaded successfully';
             observer.next(this.locations);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'loading failed';
             observer.error('some error occur');
           });
 

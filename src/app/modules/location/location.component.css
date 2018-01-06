@@ -28,6 +28,15 @@
 }
 
 
+.custom-btn-primary{
+  background-color: rgba(45,105,165,0.1)!important;
+}
+
+.btn{
+  cursor: pointer!important;
+}
+
+
 .round-button{
   cursor: pointer;
   height: 40px;
