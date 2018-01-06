@@ -6,7 +6,6 @@ import {Go} from '../store/actions/router.action';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./home.component.css'],
   animations: []
 })

@@ -37,6 +37,8 @@ import { TeamComponent } from './modules/user/team/team.component';
 import { TeamMembersComponent } from './modules/user/team-members/team-members.component';
 import { UsersComponent } from './modules/user/users/users.component';
 import {LocationService} from './shared/services/location.service';
+import {NotificationComponent} from './shared/components/notification/notification.component';
+import {LoaderComponent} from './shared/components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import {LocationService} from './shared/services/location.service';
     DataEntryComponent,
     TeamComponent,
     TeamMembersComponent,
-    UsersComponent
+    UsersComponent,
+    NotificationComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
