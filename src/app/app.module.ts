@@ -39,6 +39,14 @@ import { UsersComponent } from './modules/user/users/users.component';
 import {LocationService} from './shared/services/location.service';
 import {NotificationComponent} from './shared/components/notification/notification.component';
 import {LoaderComponent} from './shared/components/loader/loader.component';
+import {OrgUnitFilterComponent} from './shared/components/org-unit-filter/org-unit-filter.component';
+import {PeriodFilterComponent} from './shared/components/period-filter/period-filter.component';
+import {MultiselectComponent} from './shared/components/org-unit-filter/multiselect/multiselect.component';
+import {DndModule} from 'ng2-dnd';
+import {Ng2HighchartsModule} from 'ng2-highcharts';
+import {TreeModule} from 'angular-tree-component';
+import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
+import { EntryFormComponent } from './modules/data-entry/entry-form/entry-form.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +65,12 @@ import {LoaderComponent} from './shared/components/loader/loader.component';
     TeamMembersComponent,
     UsersComponent,
     NotificationComponent,
-    LoaderComponent
+    LoaderComponent,
+    OrgUnitFilterComponent,
+    PeriodFilterComponent,
+    MultiselectComponent,
+    ClickOutsideDirective,
+    EntryFormComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +80,9 @@ import {LoaderComponent} from './shared/components/loader/loader.component';
     ReactiveFormsModule,
     ReportingRoutingModule,
     NgxPaginationModule,
+    DndModule.forRoot(),
+    Ng2HighchartsModule,
+    TreeModule,
     StoreModule.forRoot(reducers),
     StoreRouterConnectingModule,
     EffectsModule.forRoot(effects),

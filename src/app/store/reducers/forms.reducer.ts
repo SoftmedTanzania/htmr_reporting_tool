@@ -40,6 +40,8 @@ export interface FormsState {
   loading: boolean;
   loaded: boolean;
   current_form: string;
+  period: any;
+  orgunit: any;
 }
 
 export const InitialFormState: FormsState  = {
@@ -48,7 +50,9 @@ export const InitialFormState: FormsState  = {
   dataElelments: {},
   loaded: false,
   loading: false,
-  current_form: null
+  current_form: null,
+  period: null,
+  orgunit: null
 };
 
 export function formReducer(
@@ -89,6 +93,14 @@ export function formReducer(
       return {...state, current_form: action.payload };
     }
 
+    case(formAction.SET_ORGUNIT): {
+      return {...state, orgunit: action.payload };
+    }
+
+    case(formAction.SET_PERIOD): {
+      return {...state, period: action.payload };
+    }
+
   }
   return state;
 }
@@ -114,3 +126,5 @@ export const getFormsLoading = (state: FormsState) => state.loading;
 export const getSelectedForm = (state: FormsState) => state.current_form;
 export const getCategories = (state: FormsState) => state.categories;
 export const getDataelements = (state: FormsState) => state.dataElelments;
+export const getOrgunit = (state: FormsState) => state.period;
+export const getPeriod = (state: FormsState) => state.orgunit;

@@ -1,3 +1,58 @@
-<p>
-  data-entry works!
-</p>
+<div class="container-fluid" style="margin-top: 15px">
+  <!--Loading message-->
+  <div class="row" *ngIf="loading$ | async">
+    <div class="col-sm-12" style="padding: 0px">
+      <app-loader [message]="'Loading please wait...'"></app-loader>
+    </div>
+  </div>
+  <!--Error message in case something doesnt load-->
+  <div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">
+    <div class="col-sm-12 text-center text-danger">
+      Loading Failed
+    </div>
+  </div>
+  <!--data selections-->
+  <div *ngIf="!(loading$ | async)">
+    <div class="row">
+      <div class="col-sm-5" style="padding-left: 0px">
+        <select class="form-control tree-view" #f (change)="updateSelectedForm(f.value)">
+          <option value="">--Select Form</option>
+          <option *ngFor="let form of forms$ | async" [value]="form.id">{{ form.name }}</option>
+        </select>
+      </div>
+      <div class="col-sm-5">
+        <app-org-unit-filter
+          (onOrgUnitChange)= "changeOrgUnit($event)"
+          [orgunit_tree_config]="orgunit_tree_config">
+        </app-org-unit-filter>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 8px">
+      <div class="col-sm-5" style="padding-left: 0px">
+        {{periodType$ | async}}
+          <app-period-filter
+            #periodComponent
+            [hide_types]="true"
+            [period_type]="periodType$ | async"
+            (onPeriodChange) = "updatePeriod($event)">
+          </app-period-filter>
+      </div>
+      <div class="col-sm-5" style="padding-right: 0px">
+        <button class="btn btn-outline-secondary tree-view1 cursor" >
+          <i class="fa fa-edit"></i> Enter Data</button>
+      </div>
+    </div>
+    <!--data entry-->
+    <div class="row" *ngIf="selectedForm$ | async">
+      <app-entry-form
+        [form]="selectedForm$ | async"
+        [dataElements]="dataElements$ | async"
+        [categories]="categories$ | async"
+      ></app-entry-form>
+    </div>
+    <!--submissions-->
+    <div class="row">
+      Data Submission area
+    </div>
+  </div>
+</div>
