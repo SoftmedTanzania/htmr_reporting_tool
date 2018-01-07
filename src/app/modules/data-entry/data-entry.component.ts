@@ -19,7 +19,7 @@ export class DataEntryComponent implements OnInit {
   forms$: Observable<Forms[]>;
   loading$: Observable<boolean>;
   loaded$: Observable<boolean>;
-  dataElements$: Observable<DataElement[]>;
+  dataElements$: Observable<any>;
   categories$: Observable<FormCategory[]>;
   selectedForm$: Observable<Forms>;
   selectedFormId$: Observable<string>;
@@ -30,6 +30,7 @@ export class DataEntryComponent implements OnInit {
   form_data$: Observable<any>;
   data_loaded$: Observable<boolean>;
   data_loading: Observable<boolean>;
+  data_object$: Observable<any>;
 
 
   constructor(private store: Store<ApplicationState>) {
@@ -37,7 +38,7 @@ export class DataEntryComponent implements OnInit {
     this.forms$ = store.select( formSelectors.getFormsList );
     this.loading$ = store.select( formSelectors.getFormsLoading );
     this.loaded$ = store.select( formSelectors.getFormsLoaded );
-    this.dataElements$ = store.select( formSelectors.getDataelementsList );
+    this.dataElements$ = store.select( formSelectors.getDataelements);
     this.categories$ = store.select( formSelectors.getCategoriesList );
     this.selectedForm$ = store.select( formSelectors.getSelectedForm );
     this.selectedFormId$ = store.select( formSelectors.getSelectedFormID );
@@ -48,6 +49,7 @@ export class DataEntryComponent implements OnInit {
     this.form_ready$ = store.select( formSelectors.getFormReady );
     this.data_loaded$ = store.select( dataelectors.getDataLoaded );
     this.data_loading = store.select( dataelectors.getDataLoading );
+    this.data_object$ = store.select( dataelectors.getDataObect );
   }
 
   ngOnInit() {

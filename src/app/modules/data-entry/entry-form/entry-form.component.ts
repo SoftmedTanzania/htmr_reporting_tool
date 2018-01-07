@@ -1,5 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {DataElement, FormCategory, Forms} from '../../../store/reducers/forms.reducer';
+import {Store} from '@ngrx/store';
+import {ApplicationState} from '../../../store/reducers';
+import * as dataActions from '../../../store/actions/ui.actions';
 
 @Component({
   selector: 'app-entry-form',
@@ -14,9 +17,16 @@ export class EntryFormComponent implements OnInit {
   @Input() form_data: any;
   @Input() data_loaded: boolean = false;
   @Input() data_loading: boolean = false;
+  @Input() period: any;
+  @Input() orgunit: any;
+  @Input() dataObject: any;
 
   data: any = {};
-  constructor() { }
+
+  data_to_save = {
+    dataValues: []
+  };
+  constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
   }
@@ -58,8 +68,21 @@ export class EntryFormComponent implements OnInit {
   }
 
   saveData(item, cat) {
-    console.log( this.data[item.id + cat]);
-    console.log(item)
+    const key = cat + '_' + this.period.value + '_' + this.orgunit.value;
+    const dataElement = this.dataElements[cat];
+    if (dataElement) {
+      const dataValue = {
+        dataValues: [{
+          dataElement: dataElement.id,
+          period: this.period.value,
+          orgUnit: this.orgunit.value,
+          value: (this.data[key]) ? this.data[key] : 0
+        }]
+      };
+      console.log(dataValue);
+      this.store.dispatch(new dataActions.SaveFormData(dataValue));
+    }
+
   }
 
 }

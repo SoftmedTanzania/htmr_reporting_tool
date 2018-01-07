@@ -6,6 +6,9 @@ export const SET_VIEW_STYLE = '[UI] Set View Style';
 export const LOAD_FORM_DATA = '[forms] Load Form Data';
 export const LOAD_FORM_DATA_SUCCESS = '[forms] Load Form Data Success';
 export const LOAD_FORM_DATA_FAIL = '[forms] Load Form Data Fail';
+export const SAVE_FORM_DATA = '[forms] Save Form Data';
+export const SAVE_FORM_DATA_SUCCESS = '[forms] Save Form Data Success';
+export const SAVE_FORM_DATA_FAIL = '[forms] Save Form Data Fail';
 
 
 export class SetViewTitle implements Action {
@@ -40,10 +43,28 @@ export class LoadFormDataFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class SaveFormData implements Action {
+  readonly type = SAVE_FORM_DATA;
+  constructor(public payload: any) {}
+}
+
+export class SaveFormDataSuccess implements Action {
+  readonly type = SAVE_FORM_DATA_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class SaveFormDataFail implements Action {
+  readonly type = SAVE_FORM_DATA_FAIL;
+  constructor(public payload: any) {}
+}
+
 export type UiActions =
   SetViewTitle
   | SetHomeLoadingPercent
   | SetViewStyle
   | LoadFormData
   | LoadFormDataFail
-  | LoadFormDataSuccess;
+  | LoadFormDataSuccess
+  | SaveFormDataFail
+  | SaveFormDataSuccess
+  | SaveFormData;

@@ -71,6 +71,7 @@ export class HttpClientService {
     });
   }
 
+
   putOpenMRS(url, data, options?) {
     const headers: string = this.createOpenMRSAuthorizationHeader();
     return this.http.put<any>(this.OPENMRSURL + url, data, {
