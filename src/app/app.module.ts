@@ -80,7 +80,7 @@ import { AddTeamMemberComponent } from './modules/user/team-members/forms/add-te
     MultiselectComponent,
     ClickOutsideDirective,
     EntryFormComponent,
-    FormSelectionComponent
+    FormSelectionComponent,
     EntryFormComponent,
     AddLocationComponent,
     UpdateLocationComponent,
