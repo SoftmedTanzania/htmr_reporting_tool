@@ -21,11 +21,6 @@ export class EntryFormComponent implements OnInit {
   @Input() orgunit: any;
   @Input() dataObject: any;
 
-  data: any = {};
-
-  data_to_save = {
-    dataValues: []
-  };
   constructor(private store: Store<ApplicationState>) { }
 
   ngOnInit() {
@@ -76,7 +71,7 @@ export class EntryFormComponent implements OnInit {
           dataElement: dataElement.id,
           period: this.period.value,
           orgUnit: this.orgunit.value,
-          value: (this.data[key]) ? this.data[key] : 0
+          value: (this.dataObject[key]) ? this.dataObject[key] : 0
         }]
       };
       console.log(dataValue);

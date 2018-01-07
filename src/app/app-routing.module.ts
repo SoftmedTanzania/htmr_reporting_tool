@@ -17,6 +17,8 @@ import {DashboardComponent} from './modules/dashboard/dashboard.component';
 import {TeamComponent} from './modules/user/team/team.component';
 import {TeamMembersComponent} from './modules/user/team-members/team-members.component';
 import {UsersComponent} from './modules/user/users/users.component';
+import {FormsGuard} from './guards/forms.exist';
+import {BasicReportsComponent} from './modules/basic-reports/basic-reports.component';
 
 const routes: Routes = [
   {
@@ -35,9 +37,11 @@ const routes: Routes = [
       component: PasswordComponent,
     }, {
       path: 'data_entry',
+      canActivate: [FormsGuard],
       component: DataEntryComponent ,
     }, {
       path: 'forms',
+      canActivate: [FormsGuard],
       component: FormsManagementComponent,
     }, {
       path: 'location',
@@ -62,8 +66,13 @@ const routes: Routes = [
 
     }, {
       path: 'reports',
+      canActivate: [FormsGuard],
       component: ReportsComponent,
-    }, ]
+    }, {
+      path: 'basic_reports',
+      canActivate: [FormsGuard],
+      component: BasicReportsComponent,
+    } ]
   },
   {
     path: 'login',

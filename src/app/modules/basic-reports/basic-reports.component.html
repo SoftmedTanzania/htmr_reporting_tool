@@ -1,4 +1,4 @@
-<div class="inner-menu">
+<div class="inner-menu no-print" >
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
@@ -6,29 +6,28 @@
           <a class="nav-link" [routerLink]="['']"> <i class="fa fa-home"></i> <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item " routerLinkActive="active-item">
-          <a class="nav-link" routerLink="../data_entry">Data Entry<span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="../basic_reports">Basic Reports<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
   </nav>
 </div>
-
 <div class="container-fluid" style="margin-top: 15px">
   <!--Loading message-->
-  <div class="row" *ngIf="loading$ | async">
+  <div class="row no-print" *ngIf="loading$ | async">
     <div class="col-sm-12" style="padding: 0px">
       <app-loader [message]="'Loading please wait...'"></app-loader>
     </div>
   </div>
   <!--Error message in case something doesnt load-->
-  <div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">
+  <div class="row no-print" *ngIf="!(loading$ | async) && !(loaded$ | async)">
     <div class="col-sm-12 text-center text-danger">
       Loading Failed
     </div>
   </div>
   <!--data selections-->
   <div *ngIf="!(loading$ | async)">
-    <app-form-selection
+    <app-report-selection
       [forms]="forms$ | async"
       [periodType]="periodType$ | async"
       [period]="period$ | async"
@@ -36,10 +35,10 @@
       [selectedFormID]="selectedFormId$ | async"
       [selectedForm]="selectedForm$ | async"
     >
-    ></app-form-selection>
+      ></app-report-selection>
     <!--data entry-->
     <div class="row" *ngIf="form_ready$ | async">
-      <app-entry-form
+      <app-report-templete
         [form]="selectedForm$ | async"
         [dataElements]="dataElements$ | async"
         [categories]="categories$ | async"
@@ -49,7 +48,7 @@
         [period]="period$ | async"
         [orgunit]="orgunit$ | async"
         [dataObject]="data_object$ | async"
-      ></app-entry-form>
+      ></app-report-templete>
     </div>
   </div>
 </div>

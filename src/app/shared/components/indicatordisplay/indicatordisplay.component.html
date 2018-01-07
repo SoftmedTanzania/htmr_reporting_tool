@@ -1,0 +1,36 @@
+
+<div class="container-fluid">
+  <div class="col-sm-12">
+    <div class="lead" *ngIf="loading">
+      <h3 class="lead text-center"></h3>
+      Loading data
+    </div>
+    <div *ngIf="!loading && visualizerType == 'chart' && !error_loaded && chartTypes != null"
+         [ng2-highcharts]="chartObject"></div>
+    <div *ngIf="!loading && visualizerType == 'table' && !error_loaded && tableObject != null">
+      <app-table-template [tableObject]="tableObject"></app-table-template>
+    </div>
+
+    <!--error handling-->
+    <div class="lead text-warning" *ngIf="error_loaded">
+      <i class="fa fa-warning"></i> Sorry, something went wrong while fetching data! make sure you have internet
+      connection and try to reload the page
+    </div>
+  </div>
+
+  <div class="row text-muted" style="margin-right: 5px">
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'table'),'btn-secondary':(visualizerType == 'table') }"
+            (click)="updateType('table', indicator)">
+      <i class="fa fa-table"></i> Table
+    </button>
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart') }"
+            (click)="updateType('chart', indicator)">
+      Chart
+    </button>
+    <a class="btn btn-outline-success btn-sm cursor" (click)="getCSV(indicator)" >
+      <i class="fa fa-file-excel-o"></i> Excel
+    </a>
+  </div>
+</div>
