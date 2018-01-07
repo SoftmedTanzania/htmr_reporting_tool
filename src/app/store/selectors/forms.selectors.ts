@@ -10,9 +10,22 @@ export const getCategories = createSelector(getFormState, formSelectors.getCateg
 export const getDataelements = createSelector(getFormState, formSelectors.getDataelements);
 export const getOrgunit = createSelector(getFormState, formSelectors.getOrgunit);
 export const getPeriod = createSelector(getFormState, formSelectors.getPeriod);
+export const getFormReady = createSelector(getFormState, formSelectors.getFormReady);
 
-export const getSelectedForm = createSelector(getForms, getSelectedFormID, (forms, selectedFormId) => forms[selectedFormId]);
-export const getPeriodType = createSelector(getSelectedForm, (form) => form? form.periodType: 'Monthly');
+// export const getSelectedForm = createSelector(getForms, getSelectedFormID, (forms, selectedFormId) => forms[selectedFormId]);
+export const getSelectedForm = createSelector(getFormState, (formstate) => {
+  const form = formstate.forms[formstate.current_form];
+  if (form) {
+    for ( const section of form.sections) {
+      section.categoryItems = section.categories.map((cat) => {
+        return formstate.categories[cat];
+      });
+    }
+  }
+
+  return form;
+});
+export const getPeriodType = createSelector(getSelectedForm, (form) => form ? form.periodType : 'Monthly');
 
 export const getFormsList = createSelector(getForms, (forms) => {
   return Object.keys(forms).map((key) => forms[key]);

@@ -47,6 +47,7 @@ import {Ng2HighchartsModule} from 'ng2-highcharts';
 import {TreeModule} from 'angular-tree-component';
 import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
 import { EntryFormComponent } from './modules/data-entry/entry-form/entry-form.component';
+import { FormSelectionComponent } from './modules/data-entry/form-selection/form-selection.component';
 import { AddLocationComponent } from './modules/location/forms/add-location/add-location.component';
 import { UpdateLocationComponent } from './modules/location/forms/update-location/update-location.component';
 import { AddUserComponent } from './modules/user/users/forms/add-user/add-user.component';
@@ -78,6 +79,8 @@ import { AddTeamMemberComponent } from './modules/user/team-members/forms/add-te
     PeriodFilterComponent,
     MultiselectComponent,
     ClickOutsideDirective,
+    EntryFormComponent,
+    FormSelectionComponent,
     EntryFormComponent,
     AddLocationComponent,
     UpdateLocationComponent,

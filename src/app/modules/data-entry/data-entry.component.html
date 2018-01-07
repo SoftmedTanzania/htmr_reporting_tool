@@ -13,41 +13,24 @@
   </div>
   <!--data selections-->
   <div *ngIf="!(loading$ | async)">
-    <div class="row">
-      <div class="col-sm-5" style="padding-left: 0px">
-        <select class="form-control tree-view" #f (change)="updateSelectedForm(f.value)">
-          <option value="">--Select Form</option>
-          <option *ngFor="let form of forms$ | async" [value]="form.id">{{ form.name }}</option>
-        </select>
-      </div>
-      <div class="col-sm-5">
-        <app-org-unit-filter
-          (onOrgUnitChange)= "changeOrgUnit($event)"
-          [orgunit_tree_config]="orgunit_tree_config">
-        </app-org-unit-filter>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 8px">
-      <div class="col-sm-5" style="padding-left: 0px">
-        {{periodType$ | async}}
-          <app-period-filter
-            #periodComponent
-            [hide_types]="true"
-            [period_type]="periodType$ | async"
-            (onPeriodChange) = "updatePeriod($event)">
-          </app-period-filter>
-      </div>
-      <div class="col-sm-5" style="padding-right: 0px">
-        <button class="btn btn-outline-secondary tree-view1 cursor" >
-          <i class="fa fa-edit"></i> Enter Data</button>
-      </div>
-    </div>
+    <app-form-selection
+      [forms]="forms$ | async"
+      [periodType]="periodType$ | async"
+      [period]="period$ | async"
+      [orgunit]="orgunit$ | async"
+      [selectedFormID]="selectedFormId$ | async"
+      [selectedForm]="selectedForm$ | async"
+    >
+    ></app-form-selection>
     <!--data entry-->
-    <div class="row" *ngIf="selectedForm$ | async">
+    <div class="row" *ngIf="form_ready$ | async">
       <app-entry-form
         [form]="selectedForm$ | async"
         [dataElements]="dataElements$ | async"
         [categories]="categories$ | async"
+        [form_data]="form_data$ | async"
+        [data_loaded]="data_loaded$ | async"
+        [data_loading]="data_loading | async"
       ></app-entry-form>
     </div>
     <!--submissions-->
