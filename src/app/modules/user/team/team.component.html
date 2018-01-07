@@ -5,36 +5,112 @@
         <p class="page-header">Team Manager</p>
       </div>
       <div class="col-md-6">
-        <div title="Create Team" class="btn  round-button pull-right">
+        <div title="Create Team" class="btn  round-button pull-right"  data-toggle="modal" data-target="#exampleModal">
           <i class="fa fa-plus"></i>
         </div>
       </div>
     </div>
   </div>
   <div class="users-list">
-    <table class="table table-bordered  table-condensed">
+    <app-loader *ngIf="loading||deleting" [message]="loadingMessage"></app-loader>
+    <app-notification
+      [error]="loadingIsError||deletingIsError"
+      *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
+      [message]="loadingMessage">
+    </app-notification>
+    <table  class="table table-bordered  table-condensed"  *ngIf="!loading">
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">System Id</th>
-        <th scope="col">User Name</th>
-        <th scope="col">Give</th>
-        <th scope="col">Family Name</th>
-        <th scope="col">Roles</th>
+        <th scope="col">Identifier</th>
+        <th scope="col">Name</th>
+        <th scope="col">Owns Team</th>
+        <th scope="col">Report To</th>
+        <th scope="col">Reported by</th>
+        <th scope="col">Voiced</th>
+        <th scope="col">Members</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+      <tr *ngFor="let team of teams; let teamCounter = index">
+        <th scope="row">{{teamCounter+1}}</th>
+        <td>{{team.identifier}}</td>
+        <td>{{team.name}}</td>
+        <td>{{team.owns_team}}</td>
+        <td>{{team.reported_to}}</td>
+        <td>{{team.reported_by}}</td>
+        <td>{{team.voiced}}</td>
+        <td>{{team.members}}</td>
+        <td>
+          <div class="pull-right">
+            <a class="btn custom-btn-primary btn-sm"   title="View History">
+              <i class="fa fa-reply-all"></i>
+            </a>
+            <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(team)" title="Edit">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a class="btn btn-danger btn-sm"
+               *ngIf="!team.confirmDelete"
+               (click)="team.confirmDelete = !team.confirmDelete" title="Delete">
+              <i class="fa fa-trash"></i>
+            </a>
+
+            <a class="btn btn-danger btn-sm" *ngIf="team.confirmDelete" (click)="deleteUser(team)"
+               title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
+            <a class="btn btn-success btn-sm" *ngIf="team.confirmDelete"
+               (click)="team.confirmDelete = !team.confirmDelete" title="Cancel Delete"><i
+              class="fa fa-check"></i> Cancel</a>
+
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"   *ngIf="!showEditForm">New Team</h5>
+        <h5 class="modal-title"   *ngIf="showEditForm">Update Team</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
+        <!--<app-notification-->
+          <!--[error]="updatingIsError"-->
+          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
+          <!--[message]="loadingMessage">-->
+        <!--</app-notification>-->
+        <app-add-team
+          *ngIf="showAddForm"
+          [teamForm]="teamForm"
+          [teams]="teams"
+          (formSubmissionEvent)="onSubmit($event)">
+
+        </app-add-team>
+        <!--<app-update-location-->
+        <!--*ngIf="showEditForm"-->
+        <!--[locationForm]="locationForm"-->
+        <!--[locations]="locations"-->
+        <!--(formSubmissionEvent)="onSubmit($event)">-->
+
+        <!--</app-update-location>-->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
+        <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+

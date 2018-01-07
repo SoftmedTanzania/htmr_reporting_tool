@@ -1,3 +1,34 @@
-<p>
-  add-team works!
-</p>
+<form [formGroup]="teamForm" (ngSubmit)="onSubmit()" validate>
+
+  <div class="row">
+    <div class="col-md-4">
+      <button type="button" class="btn btn-success btn-sm" (click)="showNewPersonFrom()">Create New Person</button>
+    </div>
+    <div class="col-md-8">
+      <button  type="button"  class="btn custom-btn-primary form-control">Search Person</button>
+      <input class="form-control" id="searchPerson" style="margin-top: 10px" placeholder="Enter person name or Id">
+    </div>
+  </div>
+  <br/>
+  <div *ngIf="showNewPersonForm" class="bordered-form">
+    <div class="form-group">
+
+
+      <label for="name">Name <span class="important-field">*</span></label>
+      <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
+             placeholder="First Name">
+      <small *ngIf="teamForm.invalid&&teamForm.touched" class="form-text  important-field">Given Name
+        is important
+      </small>
+    </div>
+    <div class="form-group">
+      <label for="name">Identifier<span class="important-field">*</span></label>
+      <input type="text" class="form-control form-control-sm" id="name" formControlName="familyName"
+             placeholder="First Name">
+      <small *ngIf="teamForm.invalid&&teamForm.touched" class="form-text  important-field">Family Name
+        is important
+      </small>
+    </div>
+  </div>
+  <button type="submit" style="display: none" id="teamFormButton">Create</button>
+</form>

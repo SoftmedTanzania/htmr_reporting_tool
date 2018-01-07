@@ -33,3 +33,18 @@
   }
 
 }
+
+
+.custom-btn-primary{
+  background-color: rgba(45,105,165,0.1)!important;
+}
+
+.btn{
+  cursor: pointer!important;
+}
+
+.bordered-form{
+  border:1px solid #C1D1E3;
+  padding:10px;
+  border-radius: 4px!important;
+}

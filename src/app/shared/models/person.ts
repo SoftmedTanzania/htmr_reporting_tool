@@ -1,7 +1,7 @@
 export interface Person {
-  uuid: string;
-  display: string;
+
+  names: string;
+  birthdate: string;
   gender: string;
   age: string;
-  birthdate: string;
 }

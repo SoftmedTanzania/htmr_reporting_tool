@@ -149,6 +149,17 @@ export class LocationComponent implements OnInit {
     });
   }
 
+
+
+  renderTags(tags) {
+    let tagString = '';
+    tags.forEach((tag) => {
+      tagString += ',' + tag.display;
+    });
+    tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
+    return tagString;
+  }
+
   /**
    * Close and reset the form
    * */
@@ -158,6 +169,7 @@ export class LocationComponent implements OnInit {
     this.showEditForm = false;
     this.resetForm();
   }
+
 
   resetForm() {
     this.locationForm.reset();
@@ -177,17 +189,6 @@ export class LocationComponent implements OnInit {
     this.showAddForm = true;
     this.showEditForm = false;
   }
-
-  renderTags(tags) {
-    let tagString = '';
-    tags.forEach((tag) => {
-      tagString += ',' + tag.display;
-    });
-    tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
-    return tagString;
-  }
-
-
   showEditFormTemplate(editedLocation) {
     this.showEditForm = true;
     this.showAddForm = false;
