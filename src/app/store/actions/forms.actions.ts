@@ -6,6 +6,7 @@ export const LOAD_FORMS_FAIL = '[forms] Load Forms Fail';
 export const SET_ACTIVE_FORM = '[forms] Set Active Form';
 export const SET_ORGUNIT = '[forms] Set Orgunit';
 export const SET_PERIOD = '[forms] Set Period';
+export const SET_FORM_READY = '[forms] Set Form Ready';
 
 export class LoadForms implements Action {
   readonly type = LOAD_FORMS;
@@ -36,4 +37,17 @@ export class SetPeriod implements Action {
   constructor(public payload: any) {}
 }
 
-export type FormsActions = LoadForms | LoadFormsFail | LoadFormsSuccess | SetActiveForm | SetOrgUnit | SetPeriod;
+export class SetFormReady implements Action {
+  readonly type = SET_FORM_READY;
+  constructor(public payload: boolean) {}
+}
+
+
+export type FormsActions =
+  LoadForms
+  | LoadFormsFail
+  | LoadFormsSuccess
+  | SetActiveForm
+  | SetOrgUnit
+  | SetPeriod
+  | SetFormReady;

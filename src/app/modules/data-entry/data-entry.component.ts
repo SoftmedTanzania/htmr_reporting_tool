@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {LoadForms} from '../../store/actions/forms.actions';
 import * as formSelectors from '../../store/selectors/forms.selectors';
+import * as dataelectors from '../../store/selectors/ui.selectors';
 import * as formActions from '../../store/actions/forms.actions';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/reducers';
@@ -21,23 +22,15 @@ export class DataEntryComponent implements OnInit {
   dataElements$: Observable<DataElement[]>;
   categories$: Observable<FormCategory[]>;
   selectedForm$: Observable<Forms>;
+  selectedFormId$: Observable<string>;
   period$: Observable<any>;
   orgunit$: Observable<any>;
-  periodType$: Observable<string>
+  periodType$: Observable<string>;
+  form_ready$: Observable<boolean>;
+  form_data$: Observable<any>;
+  data_loaded$: Observable<boolean>;
+  data_loading: Observable<boolean>;
 
-  orgunit_tree_config: any = {
-    show_search : true,
-    search_text : 'Search',
-    level: null,
-    loading: true,
-    loading_message: 'Loading Locations...',
-    multiple: false,
-    multiple_key: 'none', // can be control or shift
-    placeholder: 'Select Location'
-  };
-
-  @ViewChild(PeriodFilterComponent)
-  public periodComponent: PeriodFilterComponent;
 
   constructor(private store: Store<ApplicationState>) {
     store.dispatch(new LoadForms());
@@ -47,29 +40,19 @@ export class DataEntryComponent implements OnInit {
     this.dataElements$ = store.select( formSelectors.getDataelementsList );
     this.categories$ = store.select( formSelectors.getCategoriesList );
     this.selectedForm$ = store.select( formSelectors.getSelectedForm );
+    this.selectedFormId$ = store.select( formSelectors.getSelectedFormID );
     this.orgunit$ = store.select( formSelectors.getOrgunit );
     this.period$ = store.select( formSelectors.getPeriod );
     this.periodType$ = store.select( formSelectors.getPeriodType );
+    this.form_data$ = store.select( dataelectors.getFormData );
+    this.form_ready$ = store.select( formSelectors.getFormReady );
+    this.data_loaded$ = store.select( dataelectors.getDataLoaded );
+    this.data_loading = store.select( dataelectors.getDataLoading );
   }
 
   ngOnInit() {
   }
 
-  updateSelectedForm(formId) {
-    this.store.dispatch(new formActions.SetActiveForm(formId));
-    if (formId !== '') {
-      setTimeout(() => {
-        this.periodComponent.loadPeriods();
-      })
-    }
-  }
 
-  updatePeriod(period) {
-    this.store.dispatch(new formActions.SetPeriod(period));
-  }
-
-  changeOrgUnit(orgunit) {
-    this.store.dispatch(new formActions.SetOrgUnit(orgunit));
-  }
 
 }

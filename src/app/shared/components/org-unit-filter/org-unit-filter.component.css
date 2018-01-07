@@ -41,7 +41,7 @@
   position: relative;
   float: left;
   display: inline-block;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   border: 1px solid #c6c6c6;
   padding: 8px 8px;
@@ -229,7 +229,7 @@
 }
 span.selected-item {
   background: inherit;
-  border: 1px solid #ececec;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 1px;
   padding: 3px 5px 3px 5px;
   margin-right: 2px;
@@ -377,7 +377,7 @@ table * {
 }
 .removeorgunit{
   cursor:pointer;
-  border: 1px solid rgba(95, 158, 160, 0.26);
+  border: 1px solid rgba(95, 158, 160, 0.1);
   padding-left: 2px;
   padding-right: 2px;
 }

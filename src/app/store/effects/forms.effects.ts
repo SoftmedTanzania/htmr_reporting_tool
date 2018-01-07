@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 import * as formsActions from '../actions/forms.actions';
+import * as dataActions from '../actions/ui.actions';
 import {HttpClientService} from '../../shared/services/http-client.service';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import {LoadFormsFail, LoadFormsSuccess} from '../actions/forms.actions';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
@@ -16,9 +16,21 @@ export class FormsEffects {
   loadForms$ = this.actions$.ofType(formsActions.LOAD_FORMS).pipe(
     switchMap(() => {
       return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
-        map((forms) => new LoadFormsSuccess(forms)),
-        catchError((error) => of(new LoadFormsFail(error)))
+        map((forms) => new formsActions.LoadFormsSuccess(forms)),
+        catchError((error) => of(new formsActions.LoadFormsFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  loadFormData$ = this.actions$.ofType(dataActions.LOAD_FORM_DATA).pipe(
+    map((action: dataActions.LoadFormData) => action.payload),
+    switchMap((payload) => {
+      return this.httpClient.get(`dataValueSets.json?dataSet=${payload.ds}&period=${payload.pe}&orgUnit=${payload.ou}`)
+        .pipe(
+          map((data) => new dataActions.LoadFormDataSuccess(data)),
+          catchError(error => of(new dataActions.LoadFormDataFail(error)))
+        );
     })
   );
 }

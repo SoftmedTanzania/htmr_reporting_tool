@@ -19,6 +19,7 @@ export interface FormSection {
   id: string;
   name: string;
   categories: string[];
+  categoryItems?: FormCategory[];
   items: {
     id: string,
     name: string,
@@ -29,6 +30,7 @@ export interface FormSection {
 export interface Forms {
   id: string;
   name: string;
+  datasetId: string;
   periodType: string;
   sections: FormSection[];
 }
@@ -42,6 +44,7 @@ export interface FormsState {
   current_form: string;
   period: any;
   orgunit: any;
+  form_ready: boolean;
 }
 
 export const InitialFormState: FormsState  = {
@@ -51,8 +54,20 @@ export const InitialFormState: FormsState  = {
   loaded: false,
   loading: false,
   current_form: null,
-  period: null,
-  orgunit: null
+  form_ready: false,
+  period: {
+    items: [],
+    type: 'Quarterly',
+    starting_year: '2017',
+    name: 'pe',
+    value: '',
+  },
+  orgunit: {
+    starting_name: '',
+    items: [],
+    name: 'ou',
+    value: ''
+  },
 };
 
 export function formReducer(
@@ -101,6 +116,10 @@ export function formReducer(
       return {...state, period: action.payload };
     }
 
+    case(formAction.SET_FORM_READY): {
+      return {...state, form_ready: action.payload };
+    }
+
   }
   return state;
 }
@@ -126,5 +145,8 @@ export const getFormsLoading = (state: FormsState) => state.loading;
 export const getSelectedForm = (state: FormsState) => state.current_form;
 export const getCategories = (state: FormsState) => state.categories;
 export const getDataelements = (state: FormsState) => state.dataElelments;
-export const getOrgunit = (state: FormsState) => state.period;
-export const getPeriod = (state: FormsState) => state.orgunit;
+export const getOrgunit = (state: FormsState) => state.orgunit;
+export const getPeriod = (state: FormsState) => state.period;
+export const getFormReady = (state: FormsState) => state.form_ready;
+
+

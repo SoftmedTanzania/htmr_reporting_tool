@@ -284,50 +284,33 @@ export class OrgUnitFilterComponent implements OnInit {
       this.orgunit_model.selection_mode = 'orgUnit';
       // this.period_selector.reset();
     }
-    this.selected_orgunits = [$event.node.data];
     if (!this.checkOrgunitAvailabilty($event.node.data, this.orgunit_model.selected_orgunits)) {
-      this.orgunit_model.selected_orgunits.push($event.node.data);
+      this.orgunit_model.selected_orgunits.push(
+        {
+          id: $event.node.data.id,
+          name: $event.node.data.name,
+          level: $event.node.data.level
+        });
     }
     this.orgUnit = $event.node.data;
     this.emit(false);
   }
 
   emit(showUpdate: boolean) {
-    const mapper = {};
-    this.orgunit_model.selected_orgunits.forEach(function(orgUnit) {
-      if (!mapper[orgUnit.level]) {
-        mapper[orgUnit.level] = [];
-      }
-      mapper[orgUnit.level].push(orgUnit);
-    });
-    const arrayed_org_units = [];
-    Object.keys(mapper).forEach(function(orgUnits) {
-      arrayed_org_units.push(mapper[orgUnits]);
-    });
-    console.log(this.orgunit_model);
     if (showUpdate) {
       this.onOrgUnitUpdate.emit({
-        orgunit_model: this.orgunit_model,
         starting_name: this.getProperPreOrgunitName(),
-        arrayed_org_units: arrayed_org_units,
         items: this.orgunit_model.selected_orgunits,
         name: 'ou',
-        orgtree: this.orgtree,
         value: this.getOrgUnitsForAnalytics(this.orgunit_model, this.pickChildren)
       });
-
-      this.onOrgUnitModelUpdate.emit(this.orgunit_model);
     }else {
       this.onOrgUnitChange.emit({
-        orgunit_model: this.orgunit_model,
         starting_name: this.getProperPreOrgunitName(),
-        arrayed_org_units: arrayed_org_units,
         items: this.orgunit_model.selected_orgunits,
         name: 'ou',
-        orgtree: this.orgtree,
         value: this.getOrgUnitsForAnalytics(this.orgunit_model,  this.pickChildren)
       });
-      this.onOrgUnitModelUpdate.emit(this.orgunit_model);
     }
   }
 

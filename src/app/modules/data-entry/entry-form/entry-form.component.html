@@ -1,3 +1,35 @@
-<h1>
-  {{ form.name }}
-</h1>
+<div class="container-fluid">
+  <div *ngFor="let section of form.sections">
+    <h4>{{ section.name }}</h4>
+    <table class="table table-bordered table-condensed">
+      <ng-container *ngFor="let category of section.categoryItems; let i =index">
+        <tr *ngIf="i === 0">
+          <th [attr.rowspan]="section.categories.length"></th>
+          <th *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">{{item.name}}</th>
+        </tr>
+        <tr *ngIf="i === 1">
+          <ng-container *ngFor="let topitem of section.categoryItems[0].items">
+            <th *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">{{item.name}}</th>
+          </ng-container>
+        </tr>
+        <tr *ngIf="i === 2">
+          <ng-container *ngFor="let topitem of section.categoryItems[0].items">
+            <ng-container *ngFor="let topitem1 of section.categoryItems[1].items">
+              <th *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">{{item.name}}</th>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </ng-container>
+
+      <tr *ngFor="let item of section.items">
+        <td>{{ item.name }}</td>
+        <td *ngFor="let cat of getItems(section.categoryItems)">
+          <input type="text" [(ngModel)]="data[item.id+cat]" class="form-control entryinput" (change)="saveData(item, cat)">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+</div>
+{{ data | json }}

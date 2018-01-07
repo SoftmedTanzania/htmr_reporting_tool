@@ -1,0 +1,38 @@
+<div class="row">
+  <small>
+    <i class="fa fa-question-circle"></i>
+    Select form first then, location and period.
+  </small>
+</div>
+<div class="row">
+  <div class="col-sm-5" style="padding-left: 0px">
+    <select class="form-control tree-view" #f (change)="updateSelectedForm(f.value)">
+      <option value="">--Select Form</option>
+      <option *ngFor="let form of forms" [value]="form.id">{{ form.name }}</option>
+    </select>
+  </div>
+  <div class="col-sm-5">
+    <app-org-unit-filter
+      (onOrgUnitChange)= "changeOrgUnit($event)"
+      [orgunit_tree_config]="orgunit_tree_config">
+    </app-org-unit-filter>
+  </div>
+</div>
+<div class="row" style="margin-top: 8px">
+  <div class="col-sm-5" style="padding-left: 0px">
+    <app-period-filter
+      #periodComponent
+      [hide_types]="true"
+      [period_type]="periodType"
+      (onPeriodChange) = "updatePeriod($event)">
+    </app-period-filter>
+  </div>
+  <div class="col-sm-5" style="padding-right: 0px">
+    <button
+      class="btn btn-outline-secondary tree-view1 cursor"
+      *ngIf="selectedForm != '' && period.value != '' && orgunit.value != ''"
+      (click)="enterData()"
+    >
+      <i class="fa fa-edit"></i> Enter Data</button>
+  </div>
+</div>

@@ -158,8 +158,10 @@ export class PeriodFilterComponent implements OnInit {
   }
 
   loadPeriods() {
-    console.log(this.period_type)
     this.periods = this.getPeriodArray(this.period_type, this.year);
+    this.selected_periods = [];
+    this.emitPeriod(false);
+
   }
 
   changePeriodType() {
@@ -185,10 +187,14 @@ export class PeriodFilterComponent implements OnInit {
 
   // add item to array of selected items when item is selected
   activatePer($event) {
-    if (!this.checkPeriodAvailabilty($event, this.selected_periods)) {
-      this.selected_periods.push($event);
-      this.emitPeriod(false);
+    if (this.period_tree_config.multiple) {
+      if (!this.checkPeriodAvailabilty($event, this.selected_periods)) {
+        this.selected_periods.push($event);
+      }
+    }else {
+      this.selected_periods = [$event];
     }
+    this.emitPeriod(false);
   }
 
   emitPeriod(showUpdate: boolean) {

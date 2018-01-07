@@ -47,6 +47,7 @@ import {Ng2HighchartsModule} from 'ng2-highcharts';
 import {TreeModule} from 'angular-tree-component';
 import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
 import { EntryFormComponent } from './modules/data-entry/entry-form/entry-form.component';
+import { FormSelectionComponent } from './modules/data-entry/form-selection/form-selection.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { EntryFormComponent } from './modules/data-entry/entry-form/entry-form.c
     PeriodFilterComponent,
     MultiselectComponent,
     ClickOutsideDirective,
-    EntryFormComponent
+    EntryFormComponent,
+    FormSelectionComponent
   ],
   imports: [
     BrowserModule,
