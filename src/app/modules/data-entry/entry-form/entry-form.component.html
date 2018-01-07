@@ -23,13 +23,11 @@
 
       <tr *ngFor="let item of section.items">
         <td>{{ item.name }}</td>
-        <td *ngFor="let cat of getItems(section.categoryItems)">
-          <input type="text" [(ngModel)]="data[item.id+cat]" class="form-control entryinput" (change)="saveData(item, cat)">
+        <td *ngFor="let cat of item.dataElements">
+          <input type="text" [(ngModel)]="dataObject[cat+'_'+period.value+'_'+orgunit.value]" class="form-control entryinput" (change)="saveData(item, cat)">
         </td>
       </tr>
     </table>
   </div>
 
-
 </div>
-{{ data | json }}

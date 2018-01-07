@@ -3,7 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import * as formsActions from '../actions/forms.actions';
 import * as dataActions from '../actions/ui.actions';
 import {HttpClientService} from '../../shared/services/http-client.service';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
@@ -30,6 +30,18 @@ export class FormsEffects {
         .pipe(
           map((data) => new dataActions.LoadFormDataSuccess(data)),
           catchError(error => of(new dataActions.LoadFormDataFail(error)))
+        );
+    })
+  );
+
+  @Effect()
+  saveFormData$ = this.actions$.ofType(dataActions.SAVE_FORM_DATA).pipe(
+    map((action: dataActions.LoadFormData) => action.payload),
+    switchMap((payload) => {
+      return this.httpClient.postDHIS(`dataValueSets`, payload)
+        .pipe(
+          map((data) => new dataActions.SaveFormDataSuccess(payload)),
+          catchError(error => of(new dataActions.SaveFormDataFail(error)))
         );
     })
   );
