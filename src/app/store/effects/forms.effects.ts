@@ -70,11 +70,17 @@ export class FormsEffects {
         yAxisType: 'dx',
         show_labels: false
       };
+      let columns = [];
+      if (action.payload.metaData.pe.length > 1){
+        columns = ['dx', 'pe'];
+      } else {
+        columns = ['dx'];
+      }
 
       const tableConfiguration = {
         title: '',
         rows: ['ou'],
-        columns: ['dx'],
+        columns: columns,
         displayList: false,
       };
 
