@@ -1,12 +1,16 @@
-
-<div class="container-fluid">
-  <div class="col-sm-12">
+<div class="container-fluid" style="padding: 0px; margin-top: 30px">
+  <div class="col-sm-12" style="padding: 0px">
     <div class="lead" *ngIf="loading">
       <h3 class="lead text-center"></h3>
       Loading data
     </div>
-    <div *ngIf="!loading && visualizerType == 'chart' && !error_loaded && chartTypes != null"
-         [ng2-highcharts]="chartObject"></div>
+      <h5 class="text-center text-muted">{{ orgunit.items[0].name }} - {{ period.items[0].name }}</h5>
+    <div *ngIf="!loading && visualizerType == 'chart' && !error_loaded && chartObject != null"
+        id="chart"
+        class="chart-block"
+        [ngStyle]="{'width': '100%', height: '400px'}">
+      <p>Chart</p>
+    </div>
     <div *ngIf="!loading && visualizerType == 'table' && !error_loaded && tableObject != null">
       <app-table-template [tableObject]="tableObject"></app-table-template>
     </div>
@@ -25,11 +29,31 @@
       <i class="fa fa-table"></i> Table
     </button>
     <button class="btn btn-sm cursor"
-            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart') }"
-            (click)="updateType('chart', indicator)">
-      Chart
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart' && charttype == 'bar') }"
+            (click)="updateChartType('bar', indicator)">
+      <i class="fa fa-bar-chart"></i> Bar
     </button>
-    <a class="btn btn-outline-success btn-sm cursor" (click)="getCSV(indicator)" >
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart' && charttype == 'column') }"
+            (click)="updateChartType('column', indicator)">
+      <i class="fa fa-bar-chart-o"></i> Column
+    </button>
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart' && charttype == 'line') }"
+            (click)="updateChartType('line', indicator)">
+      <i class="fa fa-line-chart"></i> line
+    </button>
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart' && charttype == 'pie') }"
+            (click)="updateChartType('pie', indicator)">
+      <i class="fa fa-pie-chart"></i> Pie
+    </button>
+    <button class="btn btn-sm cursor"
+            [ngClass]="{ 'btn-outline-secondary': (visualizerType != 'chart'),'btn-secondary':(visualizerType == 'chart' && charttype == 'donut') }"
+            (click)="updateChartType('donut', indicator)">
+      <i class="fa fa-save"></i> Save
+    </button>
+    <a class="btn btn-outline-secondary btn-sm cursor" (click)="getCSV(indicator)" >
       <i class="fa fa-file-excel-o"></i> Excel
     </a>
   </div>

@@ -76,3 +76,7 @@
 .btn-disabled{
   color: red;
 }
+
+.hiden {
+  display: none;
+}

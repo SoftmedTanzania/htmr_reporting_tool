@@ -25,8 +25,8 @@ export class ParameteSelectorComponent implements OnInit {
     level: null,
     loading: true,
     loading_message: 'Loading Locations...',
-    multiple: false,
-    multiple_key: 'none', // can be control or shift
+    multiple: true,
+    multiple_key: 'control', // can be control or shift
     placeholder: 'Select Location'
   };
 
