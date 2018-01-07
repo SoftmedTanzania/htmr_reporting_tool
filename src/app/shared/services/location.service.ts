@@ -17,14 +17,18 @@ export class LocationService {
 
     return Observable.create(observer => {
 
-      this.http.getOpenMRS(`location`)
+      this.http.getOpenMRS(`location?v=full`)
         .subscribe((locationResponse: any) => {
 
             this.locations = locationResponse.results.map((location) => {
               return {
                 uuid: location.uuid,
+                name: location.name,
                 display: location.display,
                 links: location.links,
+                tags: location.tags,
+                parentLocation: location.parentLocation,
+                childLocations: location.childLocations,
                 confirmDelete: false
               };
             });
