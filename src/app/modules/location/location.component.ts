@@ -22,7 +22,8 @@ export class LocationComponent implements OnInit {
     tagOne: '15d11935-e183-43da-9c42-d0ced1efd872',
     tagTwo: '8d4626ca-7abd-42ad-be48-56767bbcf272'
   }
-
+  showEditForm = false;
+  showAddForm = false;
   locationForm: FormGroup;
 
   constructor(private locationService: LocationService,
@@ -51,11 +52,13 @@ export class LocationComponent implements OnInit {
       this.notify = true;
       this.loadingIsError = false;
       this.loadingMessage = this.locationService.loadingMessage;
+      this.clearVariables();
     }, (error) => {
       this.loadingMessage = this.locationService.loadingMessage;
       this.loading = true;
       this.notify = true;
       this.loadingIsError = true;
+      this.clearVariables();
     });
   }
 
@@ -69,7 +72,8 @@ export class LocationComponent implements OnInit {
   /**
    * Listening to form submission Event
    * */
-  onSubmit() {
+  onSubmit($event) {
+    const locationForm = $event;
     const dataObject = {
       name: '',
       display: '',
@@ -79,15 +83,15 @@ export class LocationComponent implements OnInit {
 
     };
 
-    if (this.locationForm.valid && this.locationForm.touched) {
+    if (locationForm.valid && locationForm.touched) {
       this.updating = true;
-      dataObject.name = this.locationForm.value['name'];
-      dataObject.display = this.locationForm.value['name'];
-      dataObject.parentLocation = this.locationForm.value['parentLocation'];
-      dataObject.description = this.locationForm.value['description'];
+      dataObject.name = locationForm.value['name'];
+      dataObject.display = locationForm.value['name'];
+      dataObject.parentLocation = locationForm.value['parentLocation'];
+      dataObject.description = locationForm.value['description'];
 
-      !this.locationForm.value['tagOne'] ? dataObject.tags.push({uuid: this.tags['tagTwo']}) :
-        !this.locationForm.value['tagTwo'] ? dataObject.tags.push({uuid: this.tags['tagOne']}) :
+      !locationForm.value['tagOne'] ? dataObject.tags.push({uuid: this.tags['tagTwo']}) :
+        !locationForm.value['tagTwo'] ? dataObject.tags.push({uuid: this.tags['tagOne']}) :
           dataObject.tags = [{uuid: this.tags['tagOne']}, {uuid: this.tags['tagTwo']}];
 
       this.updatingIsError = false;
@@ -98,6 +102,7 @@ export class LocationComponent implements OnInit {
         this.notify = true;
         this.loadingMessage = this.locationService.loadingMessage;
         this.resetForm();
+        this.clearVariables();
         this.locationService.loadLocations().subscribe((locations) => {
           this.locations = locations;
         });
@@ -105,9 +110,18 @@ export class LocationComponent implements OnInit {
         this.updatingIsError = true;
         this.notify = true;
         this.loadingMessage = this.locationService.loadingMessage;
+        this.clearVariables();
       });
     }
 
+  }
+
+  /**
+   * Draw location Edit form
+   * */
+
+  editLocation(location) {
+    this.showEditForm = true;
   }
 
   /**
@@ -122,6 +136,7 @@ export class LocationComponent implements OnInit {
       this.deleting = false;
       this.deletingIsError = false;
       this.notify = true;
+      this.clearVariables();
       this.locationService.loadLocations().subscribe((locations) => {
         this.locations = locations;
       });
@@ -130,6 +145,7 @@ export class LocationComponent implements OnInit {
       this.deleting = false;
       this.notify = true;
       this.deletingIsError = true;
+      this.clearVariables();
     });
   }
 
@@ -138,6 +154,8 @@ export class LocationComponent implements OnInit {
    * */
   closeForm() {
     this.notify = false;
+    this.showAddForm = false;
+    this.showEditForm = false;
     this.resetForm();
   }
 
@@ -145,4 +163,38 @@ export class LocationComponent implements OnInit {
     this.locationForm.reset();
   }
 
+  clearVariables() {
+
+    setTimeout(() => {
+      this.updatingIsError = false;
+      this.updating = false;
+      this.notify = false;
+    }, 3000);
+
+  }
+
+  showAddFormTemplate() {
+    this.showAddForm = true;
+    this.showEditForm = false;
+  }
+
+  renderTags(tags) {
+    let tagString = '';
+    tags.forEach((tag) => {
+      tagString += ',' + tag.display;
+    });
+    tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
+    return tagString;
+  }
+
+
+  showEditFormTemplate(editedLocation) {
+    this.showEditForm = true;
+    this.showAddForm = false;
+    this.locationForm.value['name'] = editedLocation['name'];
+    this.locationForm.value['display'] = editedLocation['display'];
+    this.locationForm.value['parentLocation'] = editedLocation['parentLocation'];
+    this.locationForm.value['description'] = editedLocation['description'];
+
+  }
 }

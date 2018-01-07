@@ -17,7 +17,7 @@
         <p class="page-header">Location Manager</p>
       </div>
       <div class="col-md-6">
-        <div title="Create Location" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+        <div title="Create Location" class="btn btn-primary" (click)="showAddFormTemplate()" data-toggle="modal" data-target="#exampleModal"
              class="btn  round-button pull-right">
           <i class="fa fa-plus"></i>
         </div>
@@ -36,6 +36,8 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Location Name</th>
+        <th scope="col">Tags</th>
+        <th scope="col">Parent Location</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
@@ -43,11 +45,13 @@
       <tr *ngFor="let location of locations; let counter = index">
         <th scope="row">{{counter+1}}</th>
         <td>{{location.display}}</td>
+        <td>{{renderTags(location.tags)}}</td>
+        <td>{{location.parentLocation?.name}}</td>
         <td>
           <div class="pull-right">
             <a class="btn custom-btn-primary btn-sm" title="Add Children">Add Children</a>
             <a class="btn custom-btn-primary btn-sm" title="Add to Parent">Add to Parent</a>
-            <a class="btn btn-warning btn-sm" title="Edit">
+            <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(location)" title="Edit">
               <i class="fa fa-pencil"></i>
             </a>
             <a class="btn btn-danger btn-sm"
@@ -78,7 +82,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
+          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!showEditForm">New Location</h5>
+          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="showEditForm">Update Location</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -90,61 +95,26 @@
             *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
             [message]="loadingMessage">
           </app-notification>
-          <form [formGroup]="locationForm" (ngSubmit)="onSubmit()" validate>
-            <div class="form-group">
-              <label for="name">Name <span class="important-field">*</span></label>
-              <input type="text" class="form-control form-control-sm" id="name" formControlName="name"
-                     placeholder="Name">
-              <small *ngIf="locationForm.invalid&&locationForm.touched" class="form-text  important-field">Location Name
-                is important
-              </small>
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea type="text" class="form-control form-control-sm" formControlName="description" id="description"
-                        placeholder="Description">
-              </textarea>
-            </div>
-            <div class="form-group">
-              <label for="parent_location">Parent Location</label>
-              <select type="text" class="form-control form-control-sm" formControlName="parentLocation"
-                      id="parent_location"
-              >
-                <option *ngFor="let location of locations" value="{{location.uuid}}">
-                  {{location.display}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Tags</label>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" formControlName="tagOne" type="checkbox"
-                             value="15d11935-e183-43da-9c42-d0ced1efd872">
-                      CHW locations
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input class="form-check-input" formControlName="tagTwo" type="checkbox"
-                             value="8d4626ca-7abd-42ad-be48-56767bbcf272">
-                      Transfer Location
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button type="submit" style="display: none" id="locationFormButton">Create</button>
-          </form>
+          <app-add-location
+            *ngIf="showAddForm"
+            [locationForm]="locationForm"
+            [locations]="locations"
+            (formSubmissionEvent)="onSubmit($event)">
+
+          </app-add-location>
+          <app-update-location
+            *ngIf="showEditForm"
+            [locationForm]="locationForm"
+            [locations]="locations"
+            (formSubmissionEvent)="onSubmit($event)">
+
+          </app-update-location>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
           </button>
-          <button type="button" class="btn btn-primary btn-sm" (click)="submit()">Create</button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
         </div>
       </div>
     </div>

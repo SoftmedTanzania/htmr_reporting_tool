@@ -1,0 +1,50 @@
+<form [formGroup]="locationFormUpdate" (ngSubmit)="onSubmit()" validate>
+  <div class="form-group">
+    <label for="name">Name <span class="important-field">*</span></label>
+    <input type="text" class="form-control form-control-sm" id="name" formControlName="name"
+           placeholder="Name">
+    <small *ngIf="locationFormUpdate.invalid&&locationFormUpdate.touched" class="form-text  important-field">Location Name
+      is important
+    </small>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea type="text" class="form-control form-control-sm" formControlName="description" id="description"
+              placeholder="Description">
+              </textarea>
+  </div>
+  <div class="form-group">
+    <label for="parent_location">Parent Location</label>
+    <select type="text" class="form-control form-control-sm" formControlName="parentLocation"
+            id="parent_location"
+    >
+      <option *ngFor="let location of locations" value="{{location.uuid}}">
+        {{location.display}}
+      </option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Tags</label>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" formControlName="tagOne" type="checkbox"
+                   value="15d11935-e183-43da-9c42-d0ced1efd872">
+            CHW locations
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" formControlName="tagTwo" type="checkbox"
+                   value="8d4626ca-7abd-42ad-be48-56767bbcf272">
+            Transfer Location
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" style="display: none" id="locationFormButton">Create</button>
+</form>
