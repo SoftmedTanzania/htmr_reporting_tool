@@ -1,8 +1,13 @@
 export interface Team {
-  teamName: string;
-  voidReason: string;
-  voided: string;
+  identifier: string;
+  name: string;
+  voiced: string;
   location: string;
-  teamIdentifier: string;
   supervisor: string;
+  owns_team: string;
+  reported_to: string;
+  reported_by: string;
+  members: string;
+  confirmDelete: boolean;
 }
+

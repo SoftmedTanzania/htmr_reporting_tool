@@ -4,16 +4,32 @@ import {HttpClientService} from './http-client.service';
 
 @Injectable()
 export class TeamService {
-
+  loadingMessage: string = 'Loading Teams';
   constructor(private http: HttpClientService) {
   }
 
 
+  listTeams() {
+    return Observable.create(observer => {
+
+      this.http.getOpenMRS(`team/team?v=full`)
+        .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
+            observer.next(teamResponse);
+            observer.complete();
+          },
+          error => {
+            observer.error('some error occur');
+          });
+    });
+  }
+
   createTeam(team) {
     return Observable.create(observer => {
 
-      this.http.postOpenMRS(`team`, team)
+      this.http.postOpenMRS(`team/team`, team)
         .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamResponse);
             observer.complete();
           },
@@ -25,12 +41,14 @@ export class TeamService {
 
   updateTeam(team, uuid) {
     return Observable.create(observer => {
-      this.http.putOpenMRS(`team/` + uuid, team)
+      this.http.putOpenMRS(`team/team/` + uuid, team)
         .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamResponse);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'loading failed';
             observer.error('some error occur');
           });
     });
@@ -39,8 +57,27 @@ export class TeamService {
   deleteTeam(team) {
     return Observable.create(observer => {
 
-      this.http.deleteOpenMRS(`team/` + team.uuid)
+      this.http.deleteOpenMRS(`team/team/` + team.uuid)
         .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
+            observer.next(teamResponse);
+            observer.complete();
+          },
+          error => {
+            this.loadingMessage = 'loading failed';
+            observer.error('some error occur');
+          });
+    });
+  }
+
+
+
+  listTeamMembers() {
+    return Observable.create(observer => {
+
+      this.http.getOpenMRS(`team/teammember?v=full`)
+        .subscribe((teamResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamResponse);
             observer.complete();
           },
@@ -54,12 +91,14 @@ export class TeamService {
   createTeamMember(teamMember) {
     return Observable.create(observer => {
 
-      this.http.postOpenMRS(`/team/teammember`, teamMember)
+      this.http.postOpenMRS(`team/teammember`, teamMember)
         .subscribe((teamMemberResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamMemberResponse);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'loading failed';
             observer.error('some error occur');
           });
     });
@@ -69,10 +108,12 @@ export class TeamService {
     return Observable.create(observer => {
       this.http.putOpenMRS(`/team/teammember/` + uuid, teamMember)
         .subscribe((teamMemberResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamMemberResponse);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'loading failed';
             observer.error('some error occur');
           });
     });
@@ -83,10 +124,12 @@ export class TeamService {
 
       this.http.deleteOpenMRS(`/team/teammember/` + teamMember.uuid)
         .subscribe((teamMemberResponse: any) => {
+            this.loadingMessage = 'loaded successfully';
             observer.next(teamMemberResponse);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'loading failed';
             observer.error('some error occur');
           });
     });
