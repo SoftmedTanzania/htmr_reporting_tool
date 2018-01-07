@@ -16,23 +16,48 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">System Id</th>
-        <th scope="col">User Name</th>
-        <th scope="col">Give</th>
-        <th scope="col">Family Name</th>
-        <th scope="col">Roles</th>
+        <th scope="col">Identifier</th>
+        <th scope="col">Name</th>
+        <th scope="col">Owns Team</th>
+        <th scope="col">Report To</th>
+        <th scope="col">Reported by</th>
+        <th scope="col">Voiced</th>
+        <th scope="col">Members</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+      <tr *ngFor="let team of teams; let teamCounter = index">
+        <th scope="row">{{teamCounter+1}}</th>
+        <td>{{team.identifier}}</td>
+        <td>{{team.name}}</td>
+        <td>{{team.owns_team}}</td>
+        <td>{{team.reported_to}}</td>
+        <td>{{team.reported_by}}</td>
+        <td>{{team.voiced}}</td>
+        <td>{{team.members}}</td>
+        <td>
+          <div class="pull-right">
+            <a class="btn custom-btn-primary btn-sm"   title="View History">
+              <i class="fa fa-reply-all"></i>
+            </a>
+            <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(team)" title="Edit">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a class="btn btn-danger btn-sm"
+               *ngIf="!team.confirmDelete"
+               (click)="team.confirmDelete = !team.confirmDelete" title="Delete">
+              <i class="fa fa-trash"></i>
+            </a>
+
+            <a class="btn btn-danger btn-sm" *ngIf="team.confirmDelete" (click)="deleteUser(team)"
+               title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
+            <a class="btn btn-success btn-sm" *ngIf="team.confirmDelete"
+               (click)="team.confirmDelete = !team.confirmDelete" title="Cancel Delete"><i
+              class="fa fa-check"></i> Cancel</a>
+
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>

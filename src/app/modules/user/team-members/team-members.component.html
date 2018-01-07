@@ -16,23 +16,29 @@
       <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">System Id</th>
-        <th scope="col">User Name</th>
-        <th scope="col">Give</th>
-        <th scope="col">Family Name</th>
-        <th scope="col">Roles</th>
+        <th scope="col">Identifier</th>
+        <th scope="col">Role</th>
+        <th scope="col">Team</th>
+        <th scope="col">Locations</th>
+        <th scope="col">Sub Teams</th>
+        <th scope="col">Is Data Provider</th>
+        <th scope="col">Voiced</th>
+        <th scope="col">Patients</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+      <tr *ngFor="let teamMember of teamMembers; let teamCounter = index">
+        <th scope="row">{{teamCounter+1}}</th>
+        <td>{{teamMember.identifier}}</td>
+        <td>{{teamMember.role}}</td>
+        <td>{{teamMember.team}}</td>
+        <td>{{teamMember.locations}}</td>
+        <td>{{teamMember.sub_teams}}</td>
+        <td>{{teamMember.is_data_provider}}</td>
+        <td>{{teamMember.voiced}}</td>
+        <td>{{teamMember.patients}}</td>
+        <td></td>
       </tr>
       </tbody>
     </table>

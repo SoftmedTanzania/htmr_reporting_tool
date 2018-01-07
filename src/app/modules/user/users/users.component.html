@@ -84,13 +84,14 @@
             *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
             [message]="loadingMessage">
           </app-notification>
-          <!--<app-add-location-->
-            <!--*ngIf="showAddForm"-->
-            <!--[locationForm]="locationForm"-->
-            <!--[locations]="locations"-->
-            <!--(formSubmissionEvent)="onSubmit($event)">-->
+          <app-add-user
+            *ngIf="showAddForm"
+            [userForm]="userForm"
+            [users]="users"
+            [roles]="roles"
+            (formSubmissionEvent)="onSubmit($event)">
 
-          <!--</app-add-location>-->
+          </app-add-user>
           <!--<app-update-location-->
             <!--*ngIf="showEditForm"-->
             <!--[locationForm]="locationForm"-->

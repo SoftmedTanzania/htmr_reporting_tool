@@ -10,6 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class UsersComponent implements OnInit {
   users: User[];
+  roles: any = [];
   loading = false;
   updating = false;
   deleting = false;
@@ -30,13 +31,14 @@ export class UsersComponent implements OnInit {
     this.userForm = this.formBuilder.group(
       {
         firstName: ['', Validators.required],
-        middleName: ['', Validators.required],
+        familyName: ['', Validators.required],
         gender: ['', Validators.required],
         age: '',
         dateOfBirth: '',
-        password: '',
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
         username: '',
-        roles:[]
+        roles: []
       });
 
   }
@@ -61,6 +63,12 @@ export class UsersComponent implements OnInit {
       this.loadingMessage = this.userService.loadingMessage;
       this.clearVariables();
     });
+
+
+    this.userService.listRoles().subscribe((response) => {
+      this.roles = this._prepareUserRoles(response);
+    }, (error) => {
+    });
   }
 
   private _prepareUsers(response): User[] {
@@ -81,6 +89,30 @@ export class UsersComponent implements OnInit {
       });
     }
     return users;
+  }
+
+
+  private _prepareUserRoles(response): Array<any> {
+    const roles: any[] = [];
+    let items: any[] = [];
+    if (response.results.length > 0) {
+      const results = response.results;
+      results.forEach((role, index) => {
+        if (index % 2 === 1) {
+          items.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+          roles.push({roleItems: items});
+          items = [];
+        } else {
+          items.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+        }
+
+      });
+    }
+    return roles;
   }
 
 

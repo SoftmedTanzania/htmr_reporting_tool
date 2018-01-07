@@ -26,6 +26,20 @@ export class UserService {
     });
   }
 
+  listRoles() {
+    return Observable.create(observer => {
+
+      this.http.getOpenMRS(`role?v=full`)
+        .subscribe((personResponse: any) => {
+            observer.next(personResponse);
+            observer.complete();
+          },
+          error => {
+            observer.error('some error occur');
+          });
+    });
+  }
+
   createPerson(person) {
     return Observable.create(observer => {
 
