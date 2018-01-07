@@ -1,7 +1,14 @@
 export interface Person {
-  uuid: string;
-  display: string;
-  gender: string;
-  age: string;
+  birthdateEstimated: string;
+  deathdateEstimated: string;
+  addresses: string;
+  names: string;
   birthdate: string;
+  gender: string;
+  deathDate: string;
+  dead: string;
+  attributes: string;
+  birthtime: string;
+  causeOfDeath: string;
+  age: string
 }
