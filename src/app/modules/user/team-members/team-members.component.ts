@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TeamService} from '../../../shared/services/team.service';
 
 @Component({
   selector: 'app-team-members',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeamMembersComponent implements OnInit {
 
-  constructor() { }
+  constructor(private teamService: TeamService) { }
 
   ngOnInit() {
   }
