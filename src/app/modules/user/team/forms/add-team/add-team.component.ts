@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TeamMember} from '../../../../../shared/models/team-member';
+import {Team} from '../../../../../shared/models/team';
 
 @Component({
   selector: 'app-add-team',
@@ -7,8 +8,8 @@ import {TeamMember} from '../../../../../shared/models/team-member';
   styleUrls: ['./add-team.component.css']
 })
 export class AddTeamComponent implements OnInit {
-  @Input() teamMemberForm;
-  @Input() teamMembers: TeamMember[];
+  @Input() teamForm;
+  @Input() teams: Team[];
   @Output() formSubmissionEvent = new EventEmitter();
   showNewPersonForm: boolean = false;
   @Input() roles: Array<any>;
@@ -17,11 +18,11 @@ export class AddTeamComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.roles);
+
   }
 
   onSubmit() {
-    this.formSubmissionEvent.emit(this.teamMemberForm);
+    this.formSubmissionEvent.emit(this.teamForm);
   }
 
   showNewPersonFrom() {

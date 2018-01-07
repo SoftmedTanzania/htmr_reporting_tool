@@ -83,20 +83,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
-        <app-notification
-          [error]="updatingIsError"
-          *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
-          [message]="loadingMessage">
-        </app-notification>
-        <app-add-user
+        <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
+        <!--<app-notification-->
+          <!--[error]="updatingIsError"-->
+          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
+          <!--[message]="loadingMessage">-->
+        <!--</app-notification>-->
+        <app-add-team
           *ngIf="showAddForm"
-          [userForm]="userForm"
-          [users]="users"
-          [roles]="roles"
+          [teamForm]="teamForm"
+          [teams]="teams"
           (formSubmissionEvent)="onSubmit($event)">
 
-        </app-add-user>
+        </app-add-team>
         <!--<app-update-location-->
         <!--*ngIf="showEditForm"-->
         <!--[locationForm]="locationForm"-->

@@ -47,7 +47,6 @@ export class TeamMembersComponent implements OnInit {
 
   private _prepareTeamMembers(results): any {
     const teamMembers = [];
-    console.log(results.results);
     if (results.results && results.results.length > 0) {
       results.results.forEach((teamMember) => {
         teamMembers.push(
@@ -90,6 +89,10 @@ export class TeamMembersComponent implements OnInit {
       this.updating = false;
       this.notify = false;
     }, 3000);
+
+  }
+
+  onSubmit($event) {
 
   }
 

@@ -22,7 +22,7 @@ export class TeamComponent implements OnInit {
   loadingMessage = '';
   showEditForm = false;
   showAddForm = false;
-  teamMemberForm: FormGroup;
+  teamForm: FormGroup;
 
   constructor(private teamService: TeamService) {
   }
@@ -108,6 +108,10 @@ export class TeamComponent implements OnInit {
 
   submit() {
     this.formReference.click();
+  }
+
+  onSubmit($event){
+
   }
 
   renderRoles(roles) {

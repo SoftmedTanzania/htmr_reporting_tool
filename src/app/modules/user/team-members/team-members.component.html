@@ -34,12 +34,13 @@
       </tr>
       </thead>
       <tbody>
+      <!--teamMember.locations-->
       <tr *ngFor="let teamMember of teamMembers; let teamCounter = index">
         <th scope="row">{{teamCounter+1}}</th>
         <td>{{teamMember.identifier}}</td>
         <td>{{teamMember.role}}</td>
         <td>{{teamMember.team}}</td>
-        <td>{{teamMember.locations}}</td>
+        <td>{{''}}</td>
         <td>{{teamMember.sub_teams}}</td>
         <td>{{teamMember.is_data_provider}}</td>
         <td>{{teamMember.voiced}}</td>
@@ -84,20 +85,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
-        <app-notification
-          [error]="updatingIsError"
-          *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
-          [message]="loadingMessage">
-        </app-notification>
-        <app-add-user
+        <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
+        <!--<app-notification-->
+          <!--[error]="updatingIsError"-->
+          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
+          <!--[message]="loadingMessage">-->
+        <!--</app-notification>-->
+        <app-add-team-member
           *ngIf="showAddForm"
-          [userForm]="userForm"
-          [users]="users"
-          [roles]="roles"
+          [teamMemberForm]="teamMemberForm"
+          [teamMembers]="teamMembers"
           (formSubmissionEvent)="onSubmit($event)">
 
-        </app-add-user>
+        </app-add-team-member>
         <!--<app-update-location-->
         <!--*ngIf="showEditForm"-->
         <!--[locationForm]="locationForm"-->
