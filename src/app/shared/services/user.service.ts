@@ -146,7 +146,7 @@ export class UserService {
   deleteUser(user) {
     return Observable.create(observer => {
 
-      this.http.deleteOpenMRS(`user/` + user.uuid)
+      this.http.deleteOpenMRS(`user/` + user.uuid + '?purge=true')
         .subscribe((personResponse: any) => {
             this.loadingMessage = 'loaded successfully';
             observer.next(personResponse);

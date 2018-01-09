@@ -10,7 +10,8 @@ import {Person} from '../../../shared/models/person';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  users: User[];
+  users: User[] = [];
+  usersPage: User[] = [];
   persons: Person[];
   roles: any = [];
   loading = false;
@@ -25,6 +26,10 @@ export class UsersComponent implements OnInit {
   showEditForm = false;
   showAddForm = false;
   userForm: FormGroup;
+
+  personObject: any;
+  userObject: any;
+  teamMemberObject: any;
 
   constructor(private userService: UserService,
               private elementRef: ElementRef,
@@ -167,7 +172,7 @@ export class UsersComponent implements OnInit {
 
   onSubmit($event) {
     const formData = $event.value;
-    const person: any = {
+    const person = {
       names: [{givenName: formData.firstName, familyName: formData.familyName}],
       gender: formData.gender,
       age: formData.age
@@ -176,17 +181,58 @@ export class UsersComponent implements OnInit {
     this.updatingIsError = false;
     this.notify = false;
     this.loadingMessage = 'Creating person';
-    this.userService.createPerson(person).subscribe((response) => {
-      console.log(response);
-      this.updating = false;
-      this.updatingIsError = false;
-      // this.notify = true;
-      this.loadingMessage = this.userService.loadingMessage;
-      this.clearVariables();
+    this.userService.createPerson(person).subscribe((personResponse) => {
+      this.personObject = personResponse;
+
+      const userObject =
+        {
+          password: formData.password,
+          person: this.personObject.uuid,
+          roles: formData.roles,
+          username: formData.username
+        }
+
+      this.userService.createUser(userObject).subscribe((userResponse) => {
+        this.userObject = userResponse;
+        this.updating = false;
+        this.updatingIsError = false;
+        this.notify = true;
+        this.loadingMessage = this.userService.loadingMessage;
+      }, (userError) => {
+      });
     }, (error) => {
       this.updating = false;
       this.updatingIsError = true;
-      // this.notify = true;
+      this.notify = true;
+      this.loadingMessage = this.userService.loadingMessage;
+      this.clearVariables();
+    });
+  }
+
+  deleteUser(user) {
+
+    this.deleting = true;
+    this.deletingIsError = false;
+    this.notify = false;
+    this.loadingMessage = 'Deleting user';
+    this.userService.deleteUser(user).subscribe((response) => {
+
+      this.userService.listUsers().subscribe((responseUsers) => {
+        this.users = this._prepareUsers(responseUsers);
+      }, (error) => {
+
+      });
+
+      this.deleting = false;
+      this.deletingIsError = false;
+      this.notify = true;
+      this.loadingMessage = this.userService.loadingMessage;
+      this.clearVariables();
+    }, (error) => {
+
+      this.deleting = false;
+      this.deletingIsError = true;
+      this.notify = true;
       this.loadingMessage = this.userService.loadingMessage;
       this.clearVariables();
     });
@@ -199,6 +245,10 @@ export class UsersComponent implements OnInit {
     });
     tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
     return tagString;
+  }
+
+  setCurrentPage(event) {
+    this.usersPage = event;
   }
 
 }

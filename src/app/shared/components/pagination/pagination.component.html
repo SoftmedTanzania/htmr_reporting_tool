@@ -1,0 +1,21 @@
+<div class="col-12" style="font-size: 13px!important;">
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li>
+        <a style="cursor: pointer" (click)="getPrevPage()">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li *ngFor="let page of pagesNumbers" >
+        <a (click)="setCurrentPage(page)" *ngIf="page!=='...'" [ngClass]="{current:(page==currentPage)}" style="cursor: pointer;">{{page+1}}</a>
+        <a *ngIf="page=='...'">{{page}}</a>
+      </li>
+      <li>
+        <a style="cursor: pointer" (click)="getNextPage()">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <a></a>&nbsp;&nbsp;page <span>{{currentPage+1}}/{{numberOfPages}}</span>
+</div>

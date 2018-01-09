@@ -16,7 +16,7 @@ export class AddUserComponent implements OnInit {
   @Input() roles: Array<any>;
   formReference: any;
   searchText: any;
-  searchTextError:boolean = false;
+  searchTextError: boolean = false;
   private selectedRoles = [];
 
   constructor(private elementRef: ElementRef) {
@@ -50,7 +50,6 @@ export class AddUserComponent implements OnInit {
 
     if (this.searchText === '') {
       this.searchTextError = true;
-      console.log(this.searchText);
     } else {
       this.searchTextError = false;
     }

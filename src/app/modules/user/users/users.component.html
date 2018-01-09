@@ -63,7 +63,13 @@
       </tr>
       </tbody>
     </table>
-
+    <!--<app-pagination-->
+      <!--[paginationMapFavourites]="users"-->
+      <!--[pageSize]="5"-->
+      <!--[currentPage]="0"-->
+      <!--(returnCurrentPage)="setCurrentPage($event)"-->
+    <!--&gt;-->
+    <!--</app-pagination>-->
   </div>
 
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -92,13 +98,14 @@
             (formSubmissionEvent)="onSubmit($event)">
 
           </app-add-user>
-          <!--<app-update-location-->
-            <!--*ngIf="showEditForm"-->
-            <!--[locationForm]="locationForm"-->
-            <!--[locations]="locations"-->
-            <!--(formSubmissionEvent)="onSubmit($event)">-->
+          <app-update-user
+            *ngIf="showEditForm"
+            [userForm]="userForm"
+            [users]="users"
+            [roles]="roles"
+            (formSubmissionEvent)="onSubmit($event)">
 
-          <!--</app-update-location>-->
+          </app-update-user>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close

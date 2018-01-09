@@ -64,6 +64,7 @@ import {IndicatordisplayComponent} from './shared/components/indicatordisplay/in
 import {TableTemplateComponent} from './shared/components/table-template/table-template.component';
 import {TeamService} from "./shared/services/team.service";
 import {UserService} from "./shared/services/user.service";
+import {PaginationComponent} from "./shared/components/pagination/pagination.component";
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import {UserService} from "./shared/services/user.service";
     ReportTempleteComponent,
     ParameteSelectorComponent,
     IndicatordisplayComponent,
-    TableTemplateComponent
+    TableTemplateComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
