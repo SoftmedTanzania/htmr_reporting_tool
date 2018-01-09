@@ -3,6 +3,8 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/reducers';
 import {LoadForms} from '../../store/actions/forms.actions';
 import * as formSelectors from '../../store/selectors/forms.selectors';
+import {Observable} from 'rxjs/Observable';
+import {Forms} from '../../store/reducers/forms.reducer';
 
 @Component({
   selector: 'app-forms-management',
@@ -11,11 +13,12 @@ import * as formSelectors from '../../store/selectors/forms.selectors';
 })
 export class FormsManagementComponent implements OnInit {
 
+  forms$: Observable<Forms[]>;
+  loading$: Observable<boolean>;
   constructor(private store: Store<ApplicationState>) {
     store.dispatch(new LoadForms());
-    store.select(formSelectors.getDataelementsList).subscribe((item) => {
-      console.log(item);
-    });
+    this.forms$ = store.select( formSelectors.getFormsList );
+    this.loading$ = store.select( formSelectors.getFormsLoading );
   }
 
   ngOnInit() {

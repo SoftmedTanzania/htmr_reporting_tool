@@ -7,6 +7,7 @@ export const SET_ACTIVE_FORM = '[forms] Set Active Form';
 export const SET_ORGUNIT = '[forms] Set Orgunit';
 export const SET_PERIOD = '[forms] Set Period';
 export const SET_FORM_READY = '[forms] Set Form Ready';
+export const RESET_STATE = '[forms] Reset State';
 
 export class LoadForms implements Action {
   readonly type = LOAD_FORMS;
@@ -42,6 +43,10 @@ export class SetFormReady implements Action {
   constructor(public payload: boolean) {}
 }
 
+export class ResetState implements Action {
+  readonly type = RESET_STATE;
+}
+
 
 export type FormsActions =
   LoadForms
@@ -50,4 +55,5 @@ export type FormsActions =
   | SetActiveForm
   | SetOrgUnit
   | SetPeriod
-  | SetFormReady;
+  | SetFormReady
+  | ResetState;

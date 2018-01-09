@@ -1,9 +1,14 @@
 <div class="container-fluid" style="padding: 0px; margin-top: 30px">
-
+  <div class="no-print">
+    <button class="btn btn-sm btn-outline-secondary no-print" title="print" (click)="browserPrint()"><i class="fa fa-print"></i> Print </button>
+  </div>
   <h5 class="text-center text-muted">{{ form.name}}</h5>
   <h5 class="text-center text-muted">{{ orgunit.items[0].name }} - {{ period.items[0].name }}</h5>
   <div *ngFor="let section of form.sections">
-    <h6>{{ section.name }}</h6>
+    <h6>
+      {{ section.name }}
+      <button (click)="downloadCSV(section)" class="pull-right btn btn-sm btn-outline-secondary no-print" title="download as excel"><i class="fa fa-file-excel-o"></i> Excel </button>
+    </h6>
     <table class="table table-bordered table-condensed">
       <ng-container *ngFor="let category of section.categoryItems; let i =index">
         <tr *ngIf="i === 0">
@@ -26,8 +31,8 @@
 
       <tr *ngFor="let item of section.items">
         <td>{{ item.name }}</td>
-        <td *ngFor="let cat of item.dataElements">
-          <input type="text" [(ngModel)]="dataObject[cat+'_'+period.value+'_'+orgunit.value]" class="form-control entryinput" (change)="saveData(item, cat)">
+        <td *ngFor="let cat of item.dataElements" class="text-center">
+          {{ dataObject[cat+'_'+period.value+'_'+orgunit.value] }}
         </td>
       </tr>
     </table>

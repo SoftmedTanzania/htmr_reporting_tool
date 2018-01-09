@@ -1,5 +1,5 @@
 <div class="container-fluid" style="margin-top: 0px; padding: 0px">
-  <div class="row topbanner" style="border-bottom: 1px solid rgba(0,0,0,0.3)">
+  <div class="row topbanner no-print" style="border-bottom: 1px solid rgba(0,0,0,0.3)">
     <div class="col-md-4">
       <div style="float: left" class="cursor" (click)="goTo({path: ['']})"> <img src="assets/img/logo.png" style="height: 70px"></div>
       <div style="margin-top: 2px;float: left" class="cursor" (click)="goTo({path: ['']})"> &nbsp; &nbsp; <b style="font-size: 40px;" class="text-muted">HTMR</b></div>
@@ -24,7 +24,7 @@
   </div>
 
   <div class="row" >
-    <div class="col-sm-2 menu" style="padding: 0px">
+    <div class="col-sm-2 menu no-print" style="padding: 0px">
       <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'dashboard']" >
         <div class="text-center"><i class="fa fa-dashboard"></i></div>
         <h3>Dashboard</h3>
@@ -33,9 +33,13 @@
         <div class="text-center"><i class="fa fa-edit"></i></div>
         <h3>Data Entry</h3>
       </div>
+      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'basic_reports']">
+        <div class="text-center"><i class="fa fa-bar-chart"></i></div>
+        <h3>Basic Reports</h3>
+      </div>
       <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'reports']">
         <div class="text-center"><i class="fa fa-bar-chart"></i></div>
-        <h3>Reports</h3>
+        <h3>Custom Reports</h3>
       </div>
       <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'settings']">
         <div class="text-center"><i class="fa fa-cogs"></i></div>

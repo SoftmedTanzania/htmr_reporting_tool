@@ -1,3 +1,54 @@
-<p>
-  reports works!
-</p>
+<div class="inner-menu">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item " routerLinkActive="active-item">
+          <a class="nav-link" [routerLink]="['']"> <i class="fa fa-home"></i> <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item " routerLinkActive="active-item">
+          <a class="nav-link" routerLink="../data_entry">Custom Reports<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid" style="margin-top: 15px">
+  <!--Loading message-->
+  <div class="row" *ngIf="formloading$ | async">
+    <div class="col-sm-12" style="padding: 0px">
+      <app-loader [message]="'Loading please wait...'"></app-loader>
+    </div>
+  </div>
+  <!--Error message in case something doesnt load-->
+  <div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">
+    <div class="col-sm-12 text-center text-danger">
+      Loading Failed
+    </div>
+  </div>
+  <!--data selections-->
+  <div *ngIf="!(formloading$ | async)">
+    <app-paramete-selector
+      [forms]="forms$ | async"
+      [periodType]="periodType$ | async"
+      [period]="period$ | async"
+      [orgunit]="orgunit$ | async"
+      [selectedFormID]="selectedFormId$ | async"
+      [selectedForm]="selectedForm$ | async"
+      [dataElements]="dataElementsList$ | async"
+    >
+      ></app-paramete-selector>
+    <!--data entry-->
+    <div class="row" *ngIf="loading$ | async">
+      <app-indicatordisplay
+       [indicator]="indicator"
+       [orgunit]="orgunit$ | async"
+       [period]="period$ | async"
+       [chartObject]="chartObject$ | async"
+       [tableObject]="tableObject$ | async"
+       [analytics]="analytics$ | async"
+       [visualizerType]="visualizationType$ | async"
+      ></app-indicatordisplay>
+    </div>
+  </div>
+</div>

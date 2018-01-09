@@ -1,3 +1,60 @@
-<p>
-  forms-management works!
-</p>
+<div class="inner-menu">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item " routerLinkActive="active-item">
+          <a class="nav-link" routerLink="../forms">Forms Management Manager<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="row" *ngIf="loading$ | async">
+  <div class="col-sm-12" style="padding: 0px">
+    <app-loader [message]="'Loading please wait...'"></app-loader>
+  </div>
+</div>
+
+<div class="users-manager-bar" *ngIf="!(loading$ | async)">
+  <div class="row">
+    <div class="col-md-6">
+      <p class="page-header">Form Management</p>
+    </div>
+    <div class="col-md-6">
+      <div title="Create Location" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+           class="btn  round-button pull-right">
+        <i class="fa fa-plus"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-bordered  table-condensed" *ngIf="!(loading$ | async)">
+  <thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Name</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let form of (forms$ | async); let i = index">
+    <td>{{ i+1 }}</td>
+    <td> {{ form.name }}</td>
+    <td>
+      <div class="pull-right">
+        <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" title="Edit">
+          <i class="fa fa-pencil"></i>
+        </a>
+        <a class="btn btn-danger btn-sm"
+           title="Delete">
+          <i class="fa fa-trash"></i>
+        </a>
+
+
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</table>

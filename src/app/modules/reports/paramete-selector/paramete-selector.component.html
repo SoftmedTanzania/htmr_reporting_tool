@@ -1,0 +1,40 @@
+<div class="row no-print">
+  <small>
+    <i class="fa fa-question-circle"></i>
+    Select data, location and period to view the report.
+  </small>
+</div>
+<div class="row no-print">
+  <div class="col-sm-5" style="padding-left: 0px">
+   <app-multiselect
+    [items]="dataElements"
+    [placeholder]="'Select data items to see in the report'"
+    (onSelected)="setSelectedData($event)"
+   ></app-multiselect>
+  </div>
+  <div class="col-sm-5">
+    <app-org-unit-filter
+      (onOrgUnitChange)= "changeOrgUnit($event)"
+      [orgunit_tree_config]="orgunit_tree_config">
+    </app-org-unit-filter>
+  </div>
+</div>
+<div class="row no-print" style="margin-top: 8px">
+  <div class="col-sm-5" style="padding-left: 0px">
+    <app-period-filter
+      #periodComponent
+      [hide_types]="false"
+      [period_type]="periodType"
+      [period_tree_config]="period_tree_config"
+      (onPeriodChange) = "updatePeriod($event)">
+    </app-period-filter>
+  </div>
+  <div class="col-sm-5" style="padding-right: 0px">
+    <button
+      class="btn btn-outline-secondary tree-view1 cursor"
+      *ngIf="selectedData.length != 0 && period.value != '' && orgunit.value != ''"
+      (click)="enterData()"
+    >
+      <i class="fa fa-table"></i> Get Report</button>
+  </div>
+</div>

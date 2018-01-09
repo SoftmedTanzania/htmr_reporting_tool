@@ -1,20 +1,18 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {LoadForms, ResetState} from '../../store/actions/forms.actions';
-import * as formSelectors from '../../store/selectors/forms.selectors';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {FormCategory, Forms} from '../../store/reducers/forms.reducer';
 import * as dataelectors from '../../store/selectors/ui.selectors';
-import * as formActions from '../../store/actions/forms.actions';
+import * as formSelectors from '../../store/selectors/forms.selectors';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/reducers';
-import {Observable} from 'rxjs/Observable';
-import {DataElement, FormCategory, Forms} from '../../store/reducers/forms.reducer';
-import {PeriodFilterComponent} from '../../shared/components/period-filter/period-filter.component';
+import {ResetState} from '../../store/actions/forms.actions';
 
 @Component({
-  selector: 'app-data-entry',
-  templateUrl: './data-entry.component.html',
-  styleUrls: ['./data-entry.component.css']
+  selector: 'app-basic-reports',
+  templateUrl: './basic-reports.component.html',
+  styleUrls: ['./basic-reports.component.css']
 })
-export class DataEntryComponent implements OnInit, OnDestroy {
+export class BasicReportsComponent implements OnInit, OnDestroy {
 
   forms$: Observable<Forms[]>;
   loading$: Observable<boolean>;
@@ -31,8 +29,6 @@ export class DataEntryComponent implements OnInit, OnDestroy {
   data_loaded$: Observable<boolean>;
   data_loading: Observable<boolean>;
   data_object$: Observable<any>;
-
-
   constructor(private store: Store<ApplicationState>) {
     this.forms$ = store.select( formSelectors.getFormsList );
     this.loading$ = store.select( formSelectors.getFormsLoading );

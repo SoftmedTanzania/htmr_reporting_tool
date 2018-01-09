@@ -25,7 +25,10 @@
   display: none;
 }
 
-
+select{
+  background-color: #d7e3f7;
+  border-radius: 0px;
+}
 .tree-view {
   text-align: left;
   background-color: #d7e3f7;

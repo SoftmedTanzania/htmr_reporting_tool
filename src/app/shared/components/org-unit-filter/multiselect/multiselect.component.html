@@ -1,24 +1,11 @@
 <div class="tree-input" appClickOutside (clickOutside)="hideOptions = true">
-  <div class="show_items" (click)="displayPerTree()">
+  <div class="show_items text-left" (click)="displayPerTree()">
     <span *ngIf="selected_items.length == 1">{{ prefix }}</span>
     <span *ngIf="selected_items.length > 1">{{ prefix_multiple }}</span>
-    <span *ngIf="selected_items.length > 3">
-      <span class="selected-item">
-        {{ selected_items[0].name }}
-        <a (click)="deActivateNode(selected_items[0],$event)" class="removeitem" >x</a>
-      </span>
-      <span class="selected-item">
-        {{ selected_items[1].name }}
-        <a (click)="deActivateNode(selected_items[1],$event)" class="removeitem">x</a>
-      </span>
-      <span class="selected-item">
-        &nbsp; and {{ selected_items.length - 2 }} more
-      </span>
-    </span>
-    <span *ngIf="selected_items.length <= 3">
-       <span *ngFor="let item of selected_items" class="selected-item ng-binding ng-scope">
-        {{ item.name }}
-         <a (click)="deActivateNode(item,$event)" class="removeitem">x</a>
+    <span *ngIf="selected_items.length !== 0">
+       <span  class="selected-item ng-binding ng-scope">
+        {{ selected_items.length}} Items selected
+         <a (click)="deActivateNode($event)" title="clear all" class="removeitem">x</a>
       </span>
     </span>
     <span *ngIf="selected_items.length == 0">
@@ -32,6 +19,7 @@
           class="period" (click)="selectItem(item)"
           [ngClass]="{'selected': checkItemAvailabilty(item,selected_items)}"
           title="Click to select"
+          style="font-size: 11px; border-bottom: 1px solid rgba(0,0,0,0.1)"
       >
         {{ item.name }}
       </li>

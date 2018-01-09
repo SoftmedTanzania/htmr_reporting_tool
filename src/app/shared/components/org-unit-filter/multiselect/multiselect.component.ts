@@ -58,9 +58,8 @@ export class MultiselectComponent implements OnInit {
     this.onSelected.emit(this.selected_items);
   }
 
-  deActivateNode(item, event) {
-    this.selected_items.splice(this.selected_items.indexOf(item), 1);
-    this.onSelected.emit(this.selected_items);
+  deActivateNode( event) {
+    this.selected_items = [];
     event.stopPropagation();
   }
 

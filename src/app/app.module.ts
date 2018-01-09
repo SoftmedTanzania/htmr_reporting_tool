@@ -56,6 +56,12 @@ import { AddTeamComponent } from './modules/user/team/forms/add-team/add-team.co
 import { UpdateTeamComponent } from './modules/user/team/forms/update-team/update-team.component';
 import { UpdateTeamMemberComponent } from './modules/user/team-members/forms/update-team-member/update-team-member.component';
 import { AddTeamMemberComponent } from './modules/user/team-members/forms/add-team-member/add-team-member.component';
+import { BasicReportsComponent } from './modules/basic-reports/basic-reports.component';
+import { ReportSelectionComponent } from './modules/basic-reports/report-selection/report-selection.component';
+import { ReportTempleteComponent } from './modules/basic-reports/report-templete/report-templete.component';
+import { ParameteSelectorComponent } from './modules/reports/paramete-selector/paramete-selector.component';
+import {IndicatordisplayComponent} from './shared/components/indicatordisplay/indicatordisplay.component';
+import {TableTemplateComponent} from './shared/components/table-template/table-template.component';
 import {TeamService} from "./shared/services/team.service";
 import {UserService} from "./shared/services/user.service";
 
@@ -91,7 +97,13 @@ import {UserService} from "./shared/services/user.service";
     AddTeamComponent,
     UpdateTeamComponent,
     UpdateTeamMemberComponent,
-    AddTeamMemberComponent
+    AddTeamMemberComponent,
+    BasicReportsComponent,
+    ReportSelectionComponent,
+    ReportTempleteComponent,
+    ParameteSelectorComponent,
+    IndicatordisplayComponent,
+    TableTemplateComponent
   ],
   imports: [
     BrowserModule,

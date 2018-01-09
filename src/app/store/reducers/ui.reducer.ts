@@ -1,5 +1,6 @@
 import * as fromuiaction from '../actions/ui.actions';
 import * as _ from 'lodash';
+import {RESET_STATE} from '../actions/forms.actions';
 
 export interface UiState {
   current_hovered_scorecard: string;
@@ -10,6 +11,10 @@ export interface UiState {
   data_loading: boolean;
   data_loaded: boolean;
   saved_data: any;
+  analytics: any;
+  visualizerType: any;
+  chartObject: any;
+  tableObject: any;
 }
 
 export const initialUiState: UiState = {
@@ -20,7 +25,11 @@ export const initialUiState: UiState = {
   form_data: {},
   data_loaded : false,
   data_loading: false,
-  saved_data: {}
+  saved_data: {},
+  analytics: null,
+  visualizerType: null,
+  chartObject: null,
+  tableObject: null
 };
 
 
@@ -55,6 +64,25 @@ export function uiReducer(
       return {...state, data_loading: true };
     }
 
+    case(fromuiaction.LOAD_REPORT_DATA): {
+      return {...state, data_loading: true };
+    }
+
+    case(fromuiaction.LOAD_FLEXIBLE_REPORT_DATA): {
+      return {...state, data_loading: true };
+    }
+
+    case(fromuiaction.LOAD_FLEXIBLE_REPORT_DATA_SUCCESS): {
+      return {...state,
+        data_loaded: true,
+        analytics: action.payload.analytics,
+        visualizerType: action.payload.visualizerType,
+        chartObject: action.payload.chartObject,
+        tableObject: action.payload.tableObject
+      };
+    }
+
+
     case(fromuiaction.LOAD_FORM_DATA_SUCCESS): {
       const form_data = {
         dataSet: action.payload.dataSet,
@@ -67,6 +95,13 @@ export function uiReducer(
 
     case(fromuiaction.LOAD_FORM_DATA_FAIL): {
       return {...state, data_loaded: false, data_loading: false };
+    }
+
+    case(RESET_STATE): {
+      return {
+        ...state,
+        ...initialUiState
+      };
     }
 
     case(fromuiaction.SAVE_FORM_DATA): {
@@ -122,6 +157,28 @@ export function uiReducer(
         form_data
       };
     }
+
+    case(fromuiaction.LOAD_REPORT_DATA_SUCCESS): {
+      console.log(action.payload)
+      const form_data = {
+        dataSet: null,
+        period: action.payload.metaData.pe[0],
+        orgUnit: action.payload.metaData.ou[0],
+        dataValues: action.payload.rows.map((row) => {
+          return {
+            dataElement: row[0],
+            period: row[2],
+            orgUnit: row[1],
+            value: row[3]
+          };
+        })
+      };
+      return {
+        ...state,
+        form_data,
+        analytics: action.payload
+      };
+    }
   }
 
   return state;
@@ -134,3 +191,7 @@ export const getFormData = (state: UiState) => state.form_data;
 export const getDataLoading = (state: UiState) => state.data_loading;
 export const getDataLoaded = (state: UiState) => state.data_loaded;
 export const getSavedData = (state: UiState) => state.saved_data;
+export const getvisualizerType = (state: UiState) => state.visualizerType;
+export const getchartObject = (state: UiState) => state.chartObject;
+export const gettableObject = (state: UiState) => state.tableObject;
+export const getanalytics = (state: UiState) => state.analytics;

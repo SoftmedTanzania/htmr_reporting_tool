@@ -67,7 +67,7 @@ export const InitialFormState: FormsState  = {
     items: [],
     name: 'ou',
     value: ''
-  },
+  }
 };
 
 export function formReducer(
@@ -114,6 +114,26 @@ export function formReducer(
 
     case(formAction.SET_PERIOD): {
       return {...state, period: action.payload };
+    }
+
+    case(formAction.RESET_STATE): {
+      return {
+        ...state,
+        form_ready: false,
+        period: {
+          items: [],
+          type: 'Quarterly',
+          starting_year: '2017',
+          name: 'pe',
+          value: '',
+        },
+        orgunit: {
+          starting_name: '',
+            items: [],
+            name: 'ou',
+            value: ''
+        }
+      };
     }
 
     case(formAction.SET_FORM_READY): {
