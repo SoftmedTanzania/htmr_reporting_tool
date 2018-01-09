@@ -45,7 +45,7 @@ export class TeamComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.teamService.loadingMessage;
       this.clearVariables();
-    })
+    });
   }
 
   private _prepareTeams(results): Array<Team> {
@@ -65,8 +65,8 @@ export class TeamComponent implements OnInit {
             members: team.members,
             confirmDelete: false
           }
-        )
-      })
+        );
+      });
     }
     return teams;
   }

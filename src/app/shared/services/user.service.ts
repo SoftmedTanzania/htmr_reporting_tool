@@ -1,14 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClientService} from './http-client.service';
 import {Observable} from 'rxjs/Observable';
-import {User} from "../models/user";
+import {User} from '../models/user';
 
 @Injectable()
 export class UserService {
   loadingMessage: string = 'Loading Users';
+
   constructor(private http: HttpClientService) {
   }
 
+  login() {
+
+  }
+
+  sessionCheck() {
+
+  }
 
   listPersons() {
     return Observable.create(observer => {

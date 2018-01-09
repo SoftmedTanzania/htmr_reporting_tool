@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TeamMember} from '../../../../../shared/models/team-member';
 import {Team} from '../../../../../shared/models/team';
 
 @Component({

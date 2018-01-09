@@ -17,7 +17,7 @@ export class AddUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.roles);
+
   }
 
   onSubmit() {
