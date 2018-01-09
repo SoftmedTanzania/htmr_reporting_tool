@@ -2,8 +2,8 @@
   <div class="no-print">
     <button class="btn btn-sm btn-outline-secondary no-print" title="print" (click)="browserPrint()"><i class="fa fa-print"></i> Print </button>
   </div>
-  <h5 class="text-center text-muted">{{ form.name}}</h5>
-  <h5 class="text-center text-muted">{{ orgunit.items[0].name }} - {{ period.items[0].name }}</h5>
+  <h5 class="text-center text-muted">{{ form?.name}}</h5>
+  <h5 class="text-center text-muted">{{ getOrgUnitName() }} - {{ getPeriodName() }}</h5>
   <div *ngFor="let section of form.sections">
     <h6>
       {{ section.name }}

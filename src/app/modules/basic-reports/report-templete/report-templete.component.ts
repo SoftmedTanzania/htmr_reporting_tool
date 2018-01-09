@@ -26,6 +26,13 @@ export class ReportTempleteComponent implements OnInit {
   ngOnInit() {
   }
 
+  getOrgUnitName() {
+    return this.orgunit.items.map((ou) => ou.name).join(', ');
+  }
+
+  getPeriodName() {
+    return this.period.items.map((ou) => ou.name).join(', ');
+  }
   getColSpan(n, categories) {
     if ( categories.length === n ) {
       return 1;

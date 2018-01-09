@@ -24,7 +24,7 @@ export class DataService {
       if ( this.user === null) {
         this.http.get('me.json?fields=id,name,userGroups,userCredentials[userRoles[authorities]],dataViewOrganisationUnits[id,name,level],organisationUnits[id,name,level]')
           .subscribe(
-          (data) => {
+          (data: any) => {
             this.user = data;
             this.store.dispatch(new LoadUsersDone(this.user));
             observ.next(data);
@@ -51,7 +51,7 @@ export class DataService {
       if ( this.user_groups.length === 0) {
         this.http.get('userGroups.json?fields=id,name&paging=false')
           .subscribe(
-          (data) => {
+          (data: any) => {
             this.user_groups.push({
               id: 'all',
               name: 'Public',

@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class HttpClientService {
-  public DHISAPIURL = '../../../api/';
+  // public DHISAPIURL = '../../../api/';
+  public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
   public OPENMRSURL = 'http://45.56.90.103:8080/openmrs/ws/rest/v1/';
 
   constructor(private http: HttpClient) {
@@ -34,8 +35,10 @@ export class HttpClientService {
   }
 
   get(url) {
-    const headers = new HttpHeaders();
-    return this.http.get<any>(this.DHISAPIURL + url);
+    const headers: HttpHeaders = this.createDHISAuthorizationHeader();
+    return this.http.get<any>(this.DHISAPIURL + url, {
+      headers: headers
+    });
   }
 
   getOpenMRS(url) {

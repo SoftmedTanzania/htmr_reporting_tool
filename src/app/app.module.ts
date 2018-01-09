@@ -66,6 +66,8 @@ import {TeamService} from './shared/services/team.service';
 import {UserService} from './shared/services/user.service';
 import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashboard-item.component';
 import {PaginationComponent} from './shared/components/pagination/pagination.component';
+import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
+import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +110,9 @@ import {PaginationComponent} from './shared/components/pagination/pagination.com
     TableTemplateComponent,
     PaginationComponent,
     TableTemplateComponent,
-    DashboardItemComponent
+    DashboardItemComponent,
+    FilterByNamePipe,
+    PlaceholderComponent
   ],
   imports: [
     BrowserModule,

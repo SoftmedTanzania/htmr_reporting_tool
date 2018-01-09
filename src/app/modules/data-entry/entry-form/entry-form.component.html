@@ -1,7 +1,7 @@
 <div class="container-fluid" style="padding: 0px; margin-top: 30px">
 
-  <h5 class="text-center text-muted">{{ form.name}}</h5>
-  <h5 class="text-center text-muted">{{ orgunit.items[0].name }} - {{ period.items[0].name }}</h5>
+  <h5 class="text-center text-muted">{{ form?.name}}</h5>
+  <h5 class="text-center text-muted">{{ getOrgUnitName() }} - {{ getPeriodName() }}</h5>
   <div *ngFor="let section of form.sections">
     <h6>{{ section.name }}</h6>
     <table class="table table-bordered table-condensed">
