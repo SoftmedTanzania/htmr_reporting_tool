@@ -926,7 +926,7 @@ export class VisualizerService {
         xAxis: {
           categories: [],
           labels: {
-            rotation: -45,
+            rotation: 0,
             style: {'color': '#000000', 'fontWeight': 'normal'}
           }
         },

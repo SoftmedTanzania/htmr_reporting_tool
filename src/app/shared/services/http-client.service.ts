@@ -71,6 +71,13 @@ export class HttpClientService {
     });
   }
 
+  deleteDHIS(url, options?) {
+    const headers: HttpHeaders = this.createDHISAuthorizationHeader();
+    return this.http.delete(this.DHISAPIURL + url, {
+      headers: headers
+    });
+  }
+
 
   putOpenMRS(url, data, options?) {
     const headers: string = this.createOpenMRSAuthorizationHeader();

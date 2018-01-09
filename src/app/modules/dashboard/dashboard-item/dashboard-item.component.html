@@ -1,0 +1,45 @@
+<div class="container-fluid" style="margin-top: 20px" [@hiddenItem] = "!deleting[indicator.id]?'notHidden':'hidden'">
+  <div class="row">
+    <div class="card" style="width: 100%">
+      <div class="card-header" style="background-color: transparent; padding-top: 3px; padding-bottom: 3px">
+        <button
+          [@hiddenItem] = "!show_confirmation?'notHidden':'hidden'"
+          (click)="show_confirmation = true"
+          title="delete this dashboard"
+          class="btn btn-sm btn-outline-danger pull-right">
+          <i class="fa fa-trash-o"></i>
+        </button>
+        <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_confirmation?'notHidden':'hidden'">
+          <div style="font-size: 11px; text-align: right">Are You Sure?</div>
+          <button
+            style="border-radius: 0px"
+            class="btn btn-sm btn-outline-warning pull-right"
+            (click)="show_confirmation = false">
+            <i class="fa fa-times"></i>
+            No
+          </button>
+          <button
+            style="border-radius: 0px"
+            class="btn btn-sm btn-outline-secondary pull-right"
+            (click)="saveToDashboard(indicator.id)">
+            <i class="fa fa-check"></i>
+            Yes
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <h6 class="text-center text-muted">{{ getOrgUnitName() }} - {{ getPeriodName() }}</h6>
+        <div [ngClass]="{ 'hiden':!(indicator.visualizerType == 'chart' && indicator.chartObject != null) }"
+             #chartTarget
+             id="chart"
+             class="chart-block"
+             [ngStyle]="{'width': '100%', height: '400px'}">
+          <p>chart target</p>
+        </div>
+        <div *ngIf="indicator.visualizerType == 'table' && indicator.tableObject != null">
+          <app-table-template [tableObject]="indicator.tableObject"></app-table-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

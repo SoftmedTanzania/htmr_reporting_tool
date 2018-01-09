@@ -119,6 +119,7 @@ export function formReducer(
     case(formAction.RESET_STATE): {
       return {
         ...state,
+        current_form: null,
         form_ready: false,
         period: {
           items: [],

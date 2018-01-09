@@ -16,6 +16,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.store.dispatch(new Go({path: ['']}));
+    this.store.dispatch(new Go({path: ['/home','dashboard']}));
   }
 }

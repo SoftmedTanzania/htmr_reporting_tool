@@ -62,8 +62,9 @@ import { ReportTempleteComponent } from './modules/basic-reports/report-templete
 import { ParameteSelectorComponent } from './modules/reports/paramete-selector/paramete-selector.component';
 import {IndicatordisplayComponent} from './shared/components/indicatordisplay/indicatordisplay.component';
 import {TableTemplateComponent} from './shared/components/table-template/table-template.component';
-import {TeamService} from "./shared/services/team.service";
-import {UserService} from "./shared/services/user.service";
+import {TeamService} from './shared/services/team.service';
+import {UserService} from './shared/services/user.service';
+import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashboard-item.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import {UserService} from "./shared/services/user.service";
     ReportTempleteComponent,
     ParameteSelectorComponent,
     IndicatordisplayComponent,
-    TableTemplateComponent
+    TableTemplateComponent,
+    DashboardItemComponent
   ],
   imports: [
     BrowserModule,

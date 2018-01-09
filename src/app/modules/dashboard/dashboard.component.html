@@ -1,3 +1,39 @@
-<p>
-  dashboard works!
-</p>
+<div class="inner-menu no-print" >
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item " routerLinkActive="active-item">
+          <a class="nav-link" [routerLink]="['']"> <i class="fa fa-home"></i> <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item " routerLinkActive="active-item">
+          <a class="nav-link" routerLink="../dashboard">Dashboard<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid" style="margin-top: 15px">
+  <!--Loading message-->
+  <div class="row no-print" *ngIf="loading">
+    <div class="col-sm-12" style="padding: 0px">
+      <app-loader [message]="'Loading please wait...'"></app-loader>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="dashboards.length != 0">
+    <div class="col-sm-12" style="padding: 0px" *ngFor="let dashboard of dashboards">
+      <app-dashboard-item
+        [indicator]="dashboard"
+        [orgunit]="dashboard.orgunit"
+        [period]="dashboard.period"
+        [chartObject]="dashboard.chartObject"
+        [tableObject]="dashboard.tableObject"
+        [analytics]="dashboard.analytics"
+        [visualizerType]="dashboard.visualizationType"
+      ></app-dashboard-item>
+    </div>
+  </div>
+</div>
+
+
