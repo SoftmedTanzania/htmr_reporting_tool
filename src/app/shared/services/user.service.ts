@@ -53,12 +53,12 @@ export class UserService {
 
       this.http.postOpenMRS(`person`, person)
         .subscribe((personResponse: any) => {
-            this.loadingMessage = 'loaded successfully';
+            this.loadingMessage = 'person created successfully';
             observer.next(personResponse);
             observer.complete();
           },
           error => {
-            this.loadingMessage = 'loading failed';
+            this.loadingMessage = 'person creation  failed';
             observer.error('some error occur');
           });
     });

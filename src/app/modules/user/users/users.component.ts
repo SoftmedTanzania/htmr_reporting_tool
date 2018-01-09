@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {UserService} from '../../../shared/services/user.service';
 import {User} from '../../../shared/models/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Person} from '../../../shared/models/person';
 
 @Component({
   selector: 'app-users',
@@ -10,6 +11,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class UsersComponent implements OnInit {
   users: User[];
+  persons: Person[];
   roles: any = [];
   loading = false;
   updating = false;
@@ -44,7 +46,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formReference = this.elementRef.nativeElement.querySelector('#userFormButton');
+
     this.loading = true;
     this.loadingIsError = false;
     this.notify = false;
@@ -95,10 +97,15 @@ export class UsersComponent implements OnInit {
   private _prepareUserRoles(response): Array<any> {
     const roles: any[] = [];
     let items: any[] = [];
+    const trailingItems = [];
     if (response.results.length > 0) {
       const results = response.results;
       results.forEach((role, index) => {
-        if (index % 2 === 1) {
+        if (index < 2) {
+          trailingItems.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+        } else if (index % 4 === 1) {
           items.push(
             {name: role.name, uuid: role.uuid, selected: false}
           );
@@ -112,6 +119,7 @@ export class UsersComponent implements OnInit {
 
       });
     }
+    roles.push({roleItems: trailingItems});
     return roles;
   }
 
@@ -152,7 +160,36 @@ export class UsersComponent implements OnInit {
   }
 
   submit() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#userFormButton');
     this.formReference.click();
+  }
+
+
+  onSubmit($event) {
+    const formData = $event.value;
+    const person: any = {
+      names: [{givenName: formData.firstName, familyName: formData.familyName}],
+      gender: formData.gender,
+      age: formData.age
+    }
+    this.updating = true;
+    this.updatingIsError = false;
+    this.notify = false;
+    this.loadingMessage = 'Creating person';
+    this.userService.createPerson(person).subscribe((response) => {
+      console.log(response);
+      this.updating = false;
+      this.updatingIsError = false;
+      // this.notify = true;
+      this.loadingMessage = this.userService.loadingMessage;
+      this.clearVariables();
+    }, (error) => {
+      this.updating = false;
+      this.updatingIsError = true;
+      // this.notify = true;
+      this.loadingMessage = this.userService.loadingMessage;
+      this.clearVariables();
+    });
   }
 
   renderRoles(roles) {

@@ -1,6 +1,7 @@
 export interface Team {
+  uuid: string;
   identifier: string;
-  name: string;
+  teamName: string;
   voiced: string;
   location: string;
   supervisor: string;

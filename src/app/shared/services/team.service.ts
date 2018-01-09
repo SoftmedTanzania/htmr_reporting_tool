@@ -29,11 +29,12 @@ export class TeamService {
 
       this.http.postOpenMRS(`team/team`, team)
         .subscribe((teamResponse: any) => {
-            this.loadingMessage = 'loaded successfully';
+            this.loadingMessage = 'Team created successfully';
             observer.next(teamResponse);
             observer.complete();
           },
           error => {
+            this.loadingMessage = 'Team creation failed';
             observer.error('some error occur');
           });
     });
@@ -41,7 +42,7 @@ export class TeamService {
 
   updateTeam(team, uuid) {
     return Observable.create(observer => {
-      this.http.putOpenMRS(`team/team/` + uuid, team)
+      this.http.postOpenMRS(`team/team/` + uuid, team)
         .subscribe((teamResponse: any) => {
             this.loadingMessage = 'loaded successfully';
             observer.next(teamResponse);
@@ -59,12 +60,12 @@ export class TeamService {
 
       this.http.deleteOpenMRS(`team/team/` + team.uuid)
         .subscribe((teamResponse: any) => {
-            this.loadingMessage = 'loaded successfully';
+            this.loadingMessage = 'Deleted successfully';
             observer.next(teamResponse);
             observer.complete();
           },
           error => {
-            this.loadingMessage = 'loading failed';
+            this.loadingMessage = 'Deleting failed';
             observer.error('some error occur');
           });
     });

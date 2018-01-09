@@ -1,116 +1,122 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" validate>
 
   <div class="row">
-    <div class="col-md-4">
-      <button type="button" class="btn btn-success btn-sm" (click)="showNewPersonFrom()">Create New Person</button>
-    </div>
-    <div class="col-md-8">
-      <button  type="button"  class="btn custom-btn-primary form-control">Search Person</button>
-      <input class="form-control" id="searchPerson" style="margin-top: 10px" placeholder="Enter person name or Id">
-    </div>
-  </div>
-  <br/>
-  <div *ngIf="showNewPersonForm" class="bordered-form">
-    <div class="form-group">
+    <div class="col-md-6">
+      <!--<div *ngIf="showNewPersonForm" class="bordered-form">-->
+      <div  class="bordered-form">
+        <div class="form-group">
 
 
-      <label for="name">Given Name <span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
-             placeholder="First Name">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">Given Name
-        is important
-      </small>
-    </div>
-    <div class="form-group">
+          <label for="name">Given Name <span class="important-field">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
+                 placeholder="Given Name">
+          <small *ngIf="userForm.controls.firstName.untouched||userForm.controls.firstName.value==''" class="form-text  important-field">Given Name
+            is important
+          </small>
+        </div>
+        <div class="form-group">
 
 
-      <label for="name">Family Name <span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="name" formControlName="familyName"
-             placeholder="First Name">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">Family Name
-        is important
-      </small>
-    </div>
-    <div class="form-group">
-      <label>Gender</label>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" formControlName="gender" type="radio"
-                     value="15d11935-e183-43da-9c42-d0ced1efd872">
-              Male
-            </label>
+          <label for="name">Family Name <span class="important-field">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="name" formControlName="familyName"
+                 placeholder="Family Name ">
+          <small *ngIf="userForm.controls.familyName.untouched||userForm.controls.familyName.value==''"
+                 class="form-text  important-field">Family Name
+            is important
+          </small>
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" formControlName="gender" type="radio"
+                         value="15d11935-e183-43da-9c42-d0ced1efd872">
+                  Male
+                </label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input class="form-check-input" formControlName="gender" type="radio"
+                         value="8d4626ca-7abd-42ad-be48-56767bbcf272">
+                  Female
+                </label>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-check">
-            <label class="form-check-label">
-              <input class="form-check-input" formControlName="gender" type="radio"
-                     value="8d4626ca-7abd-42ad-be48-56767bbcf272">
-              Female
-            </label>
-          </div>
+        <div class="form-group">
+          <label for="name">Age</label>
+          <input type="text" class="form-control form-control-sm" id="age" formControlName="age"
+                 placeholder="Age">
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="name">Age <span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="age" formControlName="age"
-             placeholder="Age">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">Age
-        is important
-      </small>
+    <div class="col-md-6">
+      <div class="bordered-form">
+        <div class="form-group">
+
+          <label for="username">User Name <span class="important-field">*</span></label>
+          <input type="text" class="form-control form-control-sm" id="username" formControlName="username"
+                 placeholder="Username">
+          <small *ngIf="userForm.controls.username.untouched||userForm.controls.username.value==''" class="form-text  important-field">User Name
+            is important
+          </small>
+        </div>
+        <div class="form-group">
+
+          <label for="password">Password <span class="important-field">*</span></label>
+          <input type="password" class="form-control form-control-sm" id="password" formControlName="password"
+                 placeholder="password">
+          <small *ngIf="userForm.controls.password.untouched||userForm.controls.password.value==''" class="form-text  important-field">Password
+            is important
+          </small>
+        </div>
+        <div class="form-group">
+
+          <label for="confirm_password">Confirm Password <span class="important-field">*</span></label>
+          <input type="password" class="form-control form-control-sm" id="confirm_password"
+                 formControlName="confirmPassword"
+                 placeholder="Confirm Password">
+          <small *ngIf="userForm.controls.confirmPassword.untouched||userForm.controls.confirmPassword.value==''" class="form-text  important-field">Confirm Password
+            is important
+          </small>
+        </div>
+
+      </div>
     </div>
   </div>
-<br/>
-  <div  class="bordered-form">
-    <div class="form-group">
-
-      <label for="username">User Name <span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="username" formControlName="username"
-             placeholder="Username">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">User Name
-        is important
-      </small>
-    </div>
-    <div class="form-group">
-
-      <label for="password">Password <span class="important-field">*</span></label>
-      <input type="password" class="form-control form-control-sm" id="password" formControlName="password"
-             placeholder="password">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">Password
-        is important
-      </small>
-    </div>
-    <div class="form-group">
-
-      <label for="confirm_password">Confirm Password <span class="important-field">*</span></label>
-      <input type="password" class="form-control form-control-sm" id="confirm_password" formControlName="confirmPassword"
-             placeholder="Confirm Password">
-      <small *ngIf="userForm.invalid&&userForm.touched" class="form-text  important-field">Confirm Password
-        is important
-      </small>
-    </div>
-    <div class="form-group">
-      <label>Roles</label>
-      <div class="col-md-12">
-        <app-loader *ngIf="!roles"  [message]="'Loading roles'" ]></app-loader>
-        <table class="table table-bordered">
-          <tbody>
-          <tr *ngFor="let role of roles; let roleCounter = index">
-            <td *ngFor="let roleItem of role.roleItems; let itemcounter = index" [ngClass]="{'color-cell':roleItem.selected}">
-              <div class="form-check" >
-                <label class="form-check-label" style="cursor: pointer!important;">
-                  <input class="form-check-input" style="cursor: pointer!important;" name=""  (change)="changeRole(roleCounter, itemcounter)" id="{{roleItem.uuid}}" type="checkbox"
-                         value="{{roleItem.uuid}}">
-                  {{roleItem.name}}
-                </label>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+  <br/>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="bordered-form">
+        <div class="form-group">
+          <label>Roles</label>
+          <div class="col-md-12">
+            <app-loader *ngIf="!roles" [message]="'Loading roles'" ></app-loader>
+            <table class="table table-bordered">
+              <tbody>
+              <tr *ngFor="let role of roles; let roleCounter = index">
+                <td *ngFor="let roleItem of role.roleItems; let itemcounter = index"
+                    [ngClass]="{'color-cell':roleItem.selected}" (click)="changeRole($event,roleCounter, itemcounter)">
+                  <div class="form-check">
+                    <label class="form-check-label" style="cursor: pointer!important;">
+                      <input class="form-check-input" style="cursor: pointer!important;" name="" formControlName="roles"
+                             [checked]="roleItem.selected" (change)="changeRole($event,roleCounter, itemcounter)"
+                             id="{{roleItem.uuid}}" type="checkbox"
+                             value="{{roleItem.uuid}}">
+                      {{roleItem.name}}
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
