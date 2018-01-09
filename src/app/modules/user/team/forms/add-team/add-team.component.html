@@ -1,33 +1,33 @@
 <form [formGroup]="teamForm" (ngSubmit)="onSubmit()" validate>
 
-  <div class="row">
-    <div class="col-md-4">
-      <button type="button" class="btn btn-success btn-sm" (click)="showNewPersonFrom()">Create New Person</button>
-    </div>
-    <div class="col-md-8">
-      <button  type="button"  class="btn custom-btn-primary form-control">Search Person</button>
-      <input class="form-control" id="searchPerson" style="margin-top: 10px" placeholder="Enter person name or Id">
-    </div>
-  </div>
-  <br/>
-  <div *ngIf="showNewPersonForm" class="bordered-form">
+  <div class="bordered-form">
     <div class="form-group">
-
-
-      <label for="name">Name <span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
+      <label for="team_name">Name <span class="important-field">*</span></label>
+      <input type="text" class="form-control form-control-sm" id="team_name" formControlName="teamName"
              placeholder="First Name">
-      <small *ngIf="teamForm.invalid&&teamForm.touched" class="form-text  important-field">Given Name
+      <small *ngIf="teamForm.controls.teamName.invalid&&teamForm.controls.teamName.touched"
+             class="form-text  important-field">
+        Team Name
         is important
       </small>
     </div>
     <div class="form-group">
-      <label for="name">Identifier<span class="important-field">*</span></label>
-      <input type="text" class="form-control form-control-sm" id="name" formControlName="familyName"
-             placeholder="First Name">
-      <small *ngIf="teamForm.invalid&&teamForm.touched" class="form-text  important-field">Family Name
+      <label for="location">Location <span class="important-field">*</span></label>
+      <select type="text" class="form-control form-control-sm" id="location" formControlName="location"
+      >
+        <option *ngFor="let location of locations" value="{{location.uuid}}">
+          {{location.name}}
+        </option>
+      </select>
+      <small *ngIf="teamForm.controls.location.invalid&&teamForm.controls.location.touched"
+             class="form-text  important-field">Location
         is important
       </small>
+    </div>
+    <div class="form-group">
+      <label for="name">Supervisor</label>
+      <input type="text" class="form-control form-control-sm" id="name" formControlName="supervisor"
+             placeholder="Supervisor">
     </div>
   </div>
   <button type="submit" style="display: none" id="teamFormButton">Create</button>

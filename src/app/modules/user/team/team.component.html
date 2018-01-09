@@ -5,14 +5,14 @@
         <p class="page-header">Team Manager</p>
       </div>
       <div class="col-md-6">
-        <div title="Create Team" class="btn  round-button pull-right"  data-toggle="modal" data-target="#exampleModal">
+        <div title="Create Team" class="btn  round-button pull-right" (click)="showAddFormTemplate()"  data-toggle="modal" data-target="#exampleModal">
           <i class="fa fa-plus"></i>
         </div>
       </div>
     </div>
   </div>
   <div class="users-list">
-    <app-loader *ngIf="loading||deleting" [message]="loadingMessage"></app-loader>
+    <app-loader *ngIf="loading||deleting||updating" [message]="loadingMessage"></app-loader>
     <app-notification
       [error]="loadingIsError||deletingIsError"
       *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
@@ -36,7 +36,7 @@
       <tr *ngFor="let team of teams; let teamCounter = index">
         <th scope="row">{{teamCounter+1}}</th>
         <td>{{team.identifier}}</td>
-        <td>{{team.name}}</td>
+        <td>{{team.teamName}}</td>
         <td>{{team.owns_team}}</td>
         <td>{{team.reported_to}}</td>
         <td>{{team.reported_by}}</td>
@@ -56,11 +56,11 @@
               <i class="fa fa-trash"></i>
             </a>
 
-            <a class="btn btn-danger btn-sm" *ngIf="team.confirmDelete" (click)="deleteUser(team)"
+            <a class="btn btn-danger btn-sm" *ngIf="team.confirmDelete" (click)="deleteTeam(team)"
                title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
             <a class="btn btn-success btn-sm" *ngIf="team.confirmDelete"
                (click)="team.confirmDelete = !team.confirmDelete" title="Cancel Delete"><i
-              class="fa fa-check"></i> Cancel</a>
+              class="fa fa-close"></i> Cancel</a>
 
           </div>
         </td>
@@ -83,29 +83,30 @@
         </button>
       </div>
       <div class="modal-body">
-        <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
-        <!--<app-notification-->
-          <!--[error]="updatingIsError"-->
-          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
-          <!--[message]="loadingMessage">-->
-        <!--</app-notification>-->
+        <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
+        <app-notification
+          [error]="updatingIsError"
+          *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
+          [message]="loadingMessage">
+        </app-notification>
         <app-add-team
           *ngIf="showAddForm"
-          [teamForm]="teamForm"
-          [teams]="teams"
+          [locations]="locations"
+          [addTeamForm]="teamForm"
           (formSubmissionEvent)="onSubmit($event)">
 
         </app-add-team>
-        <!--<app-update-location-->
-        <!--*ngIf="showEditForm"-->
-        <!--[locationForm]="locationForm"-->
-        <!--[locations]="locations"-->
-        <!--(formSubmissionEvent)="onSubmit($event)">-->
+        <app-update-team
+        *ngIf="showEditForm"
+        [team]="team"
+        [locations]="locations"
+        [teams]="teams"
+        (formSubmissionEvent)="onSubmitUpdate($event)">
 
-        <!--</app-update-location>-->
+        </app-update-team>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
+        <button type="button" class="btn btn-secondary btn-sm" id="closeForm" (click)="closeForm()" data-dismiss="modal">Close
         </button>
         <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
         <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>

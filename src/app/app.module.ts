@@ -65,6 +65,7 @@ import {TableTemplateComponent} from './shared/components/table-template/table-t
 import {TeamService} from './shared/services/team.service';
 import {UserService} from './shared/services/user.service';
 import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashboard-item.component';
+import {PaginationComponent} from './shared/components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,8 @@ import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashb
     ReportTempleteComponent,
     ParameteSelectorComponent,
     IndicatordisplayComponent,
+    TableTemplateComponent,
+    PaginationComponent,
     TableTemplateComponent,
     DashboardItemComponent
   ],

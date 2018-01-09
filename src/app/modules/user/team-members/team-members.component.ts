@@ -1,6 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {TeamService} from '../../../shared/services/team.service';
 import {FormGroup} from "@angular/forms";
+import {UserService} from "../../../shared/services/user.service";
+import {LocationService} from "../../../shared/services/location.service";
+import {Location} from "../../../shared/models/location";
+import {Team} from "../../../shared/models/team";
+import {Person} from "../../../shared/models/person";
 
 @Component({
   selector: 'app-team-members',
@@ -21,9 +26,18 @@ export class TeamMembersComponent implements OnInit {
   loadingMessage = '';
   showEditForm = false;
   showAddForm = false;
-  teamMemberForm: FormGroup;
+  roles: Array<any>;
+  teams: Array<Team>;
+  locations: Array<Location>;
 
-  constructor(private teamService: TeamService) {
+  personObject: any;
+  userObject: any;
+  teamMemberObject: any;
+
+
+  constructor(private teamService: TeamService,
+              private userService: UserService,
+              private locationService: LocationService, private elementRef: ElementRef) {
   }
 
   ngOnInit() {
@@ -43,7 +57,53 @@ export class TeamMembersComponent implements OnInit {
       this.loadingMessage = this.teamService.loadingMessage;
       this.clearVariables();
     });
+
+    this.teamService.listTeams().subscribe((response) => {
+      this.teams = this._prepareTeams(response);
+    })
+
+    this.userService.listRoles().subscribe((response) => {
+      this.roles = this._prepareUserRoles(response);
+    }, (error) => {
+    });
+
+    this.locationService.loadLocations().subscribe((locations) => {
+      this.locations = locations;
+    }, (error) => {
+
+    });
   }
+
+
+  private _prepareUserRoles(response): Array<any> {
+    const roles: any[] = [];
+    let items: any[] = [];
+    const trailingItems = [];
+    if (response.results.length > 0) {
+      const results = response.results;
+      results.forEach((role, index) => {
+        if (index < 2) {
+          trailingItems.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+        } else if (index % 4 === 1) {
+          items.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+          roles.push({roleItems: items});
+          items = [];
+        } else {
+          items.push(
+            {name: role.name, uuid: role.uuid, selected: false}
+          );
+        }
+
+      });
+    }
+    roles.push({roleItems: trailingItems});
+    return roles;
+  }
+
 
   private _prepareTeamMembers(results): any {
     const teamMembers = [];
@@ -65,6 +125,16 @@ export class TeamMembersComponent implements OnInit {
       });
     }
     return teamMembers;
+  }
+
+  private _prepareTeams(results): any {
+    const teams = [];
+    if (results.results && results.results.length > 0) {
+      results.results.forEach((team) => {
+        teams.push(team);
+      });
+    }
+    return teams;
   }
 
 
@@ -93,7 +163,101 @@ export class TeamMembersComponent implements OnInit {
   }
 
   onSubmit($event) {
+    const formData = $event.value;
+    const person = {
+      names: [{givenName: formData.firstName, familyName: formData.familyName}],
+      gender: formData.gender,
+      age: formData.age
+    }
+    this.updating = true;
+    this.updatingIsError = false;
+    this.notify = false;
+    this.loadingMessage = 'Creating person';
+    this.userService.createPerson(person).subscribe((personResponse) => {
+      this.personObject = personResponse;
 
+      const userObject =
+        {
+          password: formData.password,
+          person: this.personObject.uuid,
+          roles: null,
+          username: formData.username
+        }
+
+      this.userService.createUser(userObject).subscribe((userResponse) => {
+        this.userObject = userResponse;
+
+        const teamMember =
+          {
+            person: this.personObject.uuid,
+            teamRole: '',
+            locations: [{uuid: formData.assignedLocation}],
+            team: formData.team
+          };
+
+        this.teamService.createTeamMember(teamMember).subscribe((teamMemberResponse) => {
+          console.log(teamMemberResponse);
+        }, (teamMemberError) => {
+
+        });
+      }, (userError) => {
+      });
+    }, (error) => {
+      this.updating = false;
+      this.updatingIsError = true;
+      // this.notify = true;
+      this.loadingMessage = this.userService.loadingMessage;
+      this.clearVariables();
+    });
+  }
+
+  onSubmitUpdate($event) {
+    // const formData = $event.value;
+    // const person = {
+    //   names: [{givenName: formData.firstName, familyName: formData.familyName}],
+    //   gender: formData.gender,
+    //   age: formData.age
+    // }
+    // this.updating = true;
+    // this.updatingIsError = false;
+    // this.notify = false;
+    // this.loadingMessage = 'Creating person';
+    // this.userService.createPerson(person).subscribe((personResponse) => {
+    //   this.personObject = personResponse;
+    //
+    //   const userObject =
+    //     {
+    //       password: formData.password,
+    //       person: this.personObject.uuid,
+    //       roles: null,
+    //       username: formData.username
+    //     }
+    //
+    //   this.userService.createUser(userObject).subscribe((userResponse) => {
+    //     this.userObject = userResponse;
+    //
+    //     const teamMember =
+    //       {
+    //         person: this.personObject.uuid,
+    //         teamRole: '',
+    //         locations: [{uuid: formData.assignedLocation}],
+    //         team: formData.team
+    //       };
+    //
+    //     this.teamService.createTeamMember(teamMember).subscribe((teamMemberResponse) => {
+    //       console.log(teamMemberResponse);
+    //     }, (teamMemberError) => {
+    //
+    //     });
+    //   }, (userError) => {
+    //   });
+    // }, (error) => {
+    //   this.updating = false;
+    //   this.updatingIsError = true;
+    //   // this.notify = true;
+    //   this.loadingMessage = this.userService.loadingMessage;
+    //   this.clearVariables();
+    // });
   }
 
   showAddFormTemplate() {
@@ -108,6 +272,7 @@ export class TeamMembersComponent implements OnInit {
   }
 
   submit() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#teamMemberFormButton');
     this.formReference.click();
   }
 

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TeamMember} from '../../../../../shared/models/team-member';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-add-team-member',
@@ -7,15 +8,34 @@ import {TeamMember} from '../../../../../shared/models/team-member';
   styleUrls: ['./add-team-member.component.css']
 })
 export class AddTeamMemberComponent implements OnInit {
-  @Input() teamMemberForm;
+
+  teamMemberForm: FormGroup;
+  @Input() roles: Array<any>;
+  @Input() teams: Array<any>;
+  @Input() locations: Array<any>;
   @Input() teamMembers: TeamMember[];
   @Output() formSubmissionEvent = new EventEmitter();
   showNewPersonForm: boolean = false;
-  @Input() roles: Array<any>;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
+    this.teamMemberForm = this.formBuilder.group({
+      firstName: [''],
+      familyName: [''],
+      gender: [''],
+      age: [''],
+      username: [''],
+      password: [''],
+      confirmPassword: [''],
+      roles: [''],
+      team: [''],
+      teamRole: [''],
+      assignedLocation: [''],
+      isProvider: ['']
+    });
   }
 
 
@@ -27,7 +47,9 @@ export class AddTeamMemberComponent implements OnInit {
     this.showNewPersonForm = true;
   }
 
-  changeRole(roleCounter, itemcounter) {
+  changeRole($event, roleCounter, itemcounter) {
+    $event.preventDefault();
+    console.log(roleCounter, this.roles[roleCounter]);
     this.roles[roleCounter].roleItems[itemcounter].selected = !this.roles[roleCounter].roleItems[itemcounter].selected;
   }
 

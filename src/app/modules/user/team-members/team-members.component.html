@@ -5,7 +5,8 @@
         <p class="page-header">Team Member Manager</p>
       </div>
       <div class="col-md-6">
-        <div title="Create Team Member" class="btn  round-button pull-right"  data-toggle="modal" data-target="#exampleModal" >
+        <div title="Create Team Member" class="btn  round-button pull-right"  (click)="showAddFormTemplate()"  data-toggle="modal"
+             data-target="#exampleModal">
           <i class="fa fa-plus"></i>
         </div>
       </div>
@@ -47,10 +48,11 @@
         <td>{{teamMember.patients}}</td>
         <td>
           <div class="pull-right">
-            <a class="btn custom-btn-primary btn-sm"   title="View History">
+            <a class="btn custom-btn-primary btn-sm" title="View History">
               <i class="fa fa-reply-all"></i>
             </a>
-            <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(teamMember)" title="Edit">
+            <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal"
+               (click)="showEditFormTemplate(teamMember)" title="Edit">
               <i class="fa fa-pencil"></i>
             </a>
             <a class="btn btn-danger btn-sm"
@@ -63,7 +65,7 @@
                title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
             <a class="btn btn-success btn-sm" *ngIf="teamMember.confirmDelete"
                (click)="teamMember.confirmDelete = !teamMember.confirmDelete" title="Cancel Delete"><i
-              class="fa fa-check"></i> Cancel</a>
+              class="fa fa-close"></i> Cancel</a>
 
           </div>
       </tr>
@@ -75,36 +77,40 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" style="max-width: 1000px!important;" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"   *ngIf="!showEditForm">New Team Members</h5>
-        <h5 class="modal-title"   *ngIf="showEditForm">Update Team Members</h5>
+        <h5 class="modal-title" *ngIf="!showEditForm">New Team Member</h5>
+        <h5 class="modal-title" *ngIf="showEditForm">Update Team Member</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
-        <!--<app-notification-->
-          <!--[error]="updatingIsError"-->
-          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
-          <!--[message]="loadingMessage">-->
-        <!--</app-notification>-->
+        <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
+        <app-notification
+        [error]="updatingIsError"
+        *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
+        [message]="loadingMessage">
+        </app-notification>
         <app-add-team-member
           *ngIf="showAddForm"
-          [teamMemberForm]="teamMemberForm"
+          [roles]="roles"
+          [teams]="teams"
+          [locations]="locations"
           [teamMembers]="teamMembers"
           (formSubmissionEvent)="onSubmit($event)">
 
         </app-add-team-member>
-        <!--<app-update-location-->
-        <!--*ngIf="showEditForm"-->
-        <!--[locationForm]="locationForm"-->
-        <!--[locations]="locations"-->
-        <!--(formSubmissionEvent)="onSubmit($event)">-->
+        <app-update-team-member
+        *ngIf="showEditForm"
+        [roles]="roles"
+        [teams]="teams"
+        [locations]="locations"
+        [teamMembers]="teamMembers"
+        (formSubmissionEvent)="onSubmitUpdate($event)">
 
-        <!--</app-update-location>-->
+        </app-update-team-member>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close

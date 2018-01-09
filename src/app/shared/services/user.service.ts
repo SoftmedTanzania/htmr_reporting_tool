@@ -1,14 +1,22 @@
 import {Injectable} from '@angular/core';
 import {HttpClientService} from './http-client.service';
 import {Observable} from 'rxjs/Observable';
-import {User} from "../models/user";
+import {User} from '../models/user';
 
 @Injectable()
 export class UserService {
   loadingMessage: string = 'Loading Users';
+
   constructor(private http: HttpClientService) {
   }
 
+  login() {
+
+  }
+
+  sessionCheck() {
+
+  }
 
   listPersons() {
     return Observable.create(observer => {
@@ -45,12 +53,12 @@ export class UserService {
 
       this.http.postOpenMRS(`person`, person)
         .subscribe((personResponse: any) => {
-            this.loadingMessage = 'loaded successfully';
+            this.loadingMessage = 'person created successfully';
             observer.next(personResponse);
             observer.complete();
           },
           error => {
-            this.loadingMessage = 'loading failed';
+            this.loadingMessage = 'person creation  failed';
             observer.error('some error occur');
           });
     });
@@ -138,7 +146,7 @@ export class UserService {
   deleteUser(user) {
     return Observable.create(observer => {
 
-      this.http.deleteOpenMRS(`user/` + user.uuid)
+      this.http.deleteOpenMRS(`user/` + user.uuid + '?purge=true')
         .subscribe((personResponse: any) => {
             this.loadingMessage = 'loaded successfully';
             observer.next(personResponse);
