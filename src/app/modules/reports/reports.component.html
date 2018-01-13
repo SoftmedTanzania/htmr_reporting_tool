@@ -13,6 +13,8 @@
   </nav>
 </div>
 
+{{ dataElementsList$ | async | json }}
+
 <div class="container-fluid" style="margin-top: 15px">
   <!--Loading message-->
   <div class="row" *ngIf="formloading$ | async">

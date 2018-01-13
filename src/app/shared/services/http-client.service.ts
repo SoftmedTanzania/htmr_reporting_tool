@@ -3,8 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class HttpClientService {
-  // public DHISAPIURL = '../../../api/';
-  public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
+  public DHISAPIURL = '../../../api/';
+  // public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
   public OPENMRSURL = 'http://45.56.90.103:8080/openmrs/ws/rest/v1/';
 
   constructor(private http: HttpClient) {
