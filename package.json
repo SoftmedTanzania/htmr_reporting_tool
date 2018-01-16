@@ -31,7 +31,7 @@
     "@types/lodash": "^4.14.78",
     "angular-tree-component": "^5.2.1",
     "angular2-csv": "^0.2.5",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "4.0.0-beta",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.0.4",

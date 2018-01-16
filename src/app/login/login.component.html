@@ -35,16 +35,32 @@
     <p class="lead" style="margin: 0px">Enter Username and Password</p>
 
     <div class="loginform">
-      <form>
+      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)" validate>
         <div class="form-group">
-          <!--<label for="exampleInputEmail1">Email address</label>-->
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <input type="text" formControlName="username" class="form-control"  placeholder="Enter username">
+          <small *ngIf="loginForm.invalid&&loginForm.touched" class="form-text  important-field">Username
+            is important
+          </small>
         </div>
         <div class="form-group">
-          <!--<label for="exampleInputPassword1">Password</label>-->
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          <input type="password" formControlName="password" class="form-control" placeholder="Password">
+          <small *ngIf="loginForm.invalid&&loginForm.touched" class="form-text  important-field">Password
+            is important
+          </small>
         </div>
-        <button type="button" class="cursor btn btn-secondary btn-block" (click)="login()">Login</button>
+        <div *ngIf="!loginNotification.isError&&loginNotification.attempted" class="alert alert-success" role="alert">
+          {{loginNotification.message}}
+          <button type="button" class="close" style="padding-top: 0px!important;margin-top: 0px!important;" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="alert alert-danger" *ngIf="loginNotification.isError&&loginNotification.attempted" role="alert">
+          {{loginNotification.message}}
+          <button type="button" class="close"  style="padding-top: 0px!important;margin-top: 0px!important;"  data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <button type="submit" class="cursor btn btn-secondary btn-block" >Login</button>
       </form>
     </div>
   </div>

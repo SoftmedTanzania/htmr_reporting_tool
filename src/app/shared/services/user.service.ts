@@ -10,8 +10,9 @@ export class UserService {
   constructor(private http: HttpClientService) {
   }
 
-  login() {
-
+  login(loginCredentials) {
+    this.http.prepareToken(loginCredentials);
+    return this.http.getOpenMRS('user?v=full&username=' + loginCredentials.username);
   }
 
   sessionCheck() {
