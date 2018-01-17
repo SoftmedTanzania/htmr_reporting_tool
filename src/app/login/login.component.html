@@ -38,23 +38,26 @@
       <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)" validate>
         <div class="form-group">
           <input type="text" formControlName="username" class="form-control"  placeholder="Enter username">
-          <small *ngIf="loginForm.invalid&&loginForm.touched" class="form-text  important-field">Username
+          <small *ngIf="loginForm.controls.username.invalid&&customeUsernameNotifier" class="form-text  important-field">Username
             is important
           </small>
         </div>
         <div class="form-group">
           <input type="password" formControlName="password" class="form-control" placeholder="Password">
-          <small *ngIf="loginForm.invalid&&loginForm.touched" class="form-text  important-field">Password
+          <small *ngIf="loginForm.controls.password.invalid&&(customePasswordNotifier)" class="form-text  important-field">Password
             is important
           </small>
         </div>
-        <div *ngIf="!loginNotification.isError&&loginNotification.attempted" class="alert alert-success" role="alert">
+        <div *ngIf="!loginNotification.isError&&loginNotification.attempted"  style="padding:.35rem 0.25rem!important;" class="alert alert-success" role="alert">
           {{loginNotification.message}}
           <button type="button" class="close" style="padding-top: 0px!important;margin-top: 0px!important;" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="alert alert-danger" *ngIf="loginNotification.isError&&loginNotification.attempted" role="alert">
+        <div>
+          <img *ngIf="loginNotification.loading" src="assets/img/loading.gif">
+        </div>
+        <div class="alert alert-danger" style="padding:.35rem 0.25rem!important;" *ngIf="loginNotification.isError&&loginNotification.attempted" role="alert">
           {{loginNotification.message}}
           <button type="button" class="close"  style="padding-top: 0px!important;margin-top: 0px!important;"  data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
