@@ -19,6 +19,7 @@ import {TeamMembersComponent} from './modules/user/team-members/team-members.com
 import {UsersComponent} from './modules/user/users/users.component';
 import {FormsGuard} from './guards/forms.exist';
 import {BasicReportsComponent} from './modules/basic-reports/basic-reports.component';
+import {AuthGuard} from './guards/auth-guards.service';
 
 const routes: Routes = [
   {
@@ -28,6 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [AuthGuard],
     component: HomeComponent ,
     children: [{
       path: 'dashboard',
@@ -37,20 +39,23 @@ const routes: Routes = [
       component: PasswordComponent,
     }, {
       path: 'data_entry',
-      canActivate: [FormsGuard],
+      canActivate: [AuthGuard, FormsGuard],
       component: DataEntryComponent ,
     }, {
       path: 'forms',
-      canActivate: [FormsGuard],
+      canActivate: [AuthGuard, FormsGuard],
       component: FormsManagementComponent,
     }, {
       path: 'location',
+      canActivate: [AuthGuard],
       component: LocationComponent,
     }, {
       path: 'settings',
+      canActivate: [AuthGuard],
       component: SettingsComponent,
     }, {
       path: 'user',
+      canActivate: [AuthGuard],
       component: UserComponent,
       children: [
         {
@@ -66,11 +71,11 @@ const routes: Routes = [
 
     }, {
       path: 'reports',
-      canActivate: [FormsGuard],
+      canActivate: [AuthGuard, FormsGuard],
       component: ReportsComponent,
     }, {
       path: 'basic_reports',
-      canActivate: [FormsGuard],
+      canActivate: [AuthGuard, FormsGuard],
       component: BasicReportsComponent,
     } ]
   },

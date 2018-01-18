@@ -21,7 +21,6 @@ export class LoginComponent implements OnInit {
         username: ['', Validators.required],
         password: ['', Validators.required]
       });
-    console.log(this.loginForm);
   }
 
   ngOnInit() {
@@ -47,6 +46,7 @@ export class LoginComponent implements OnInit {
       this.loginNotification.message = 'Login successful';
       this.loginNotification.attempted = true;
       this.loginNotification.loading = false;
+      this.userService.loggedIn = true;
       setTimeout(() => {
         this.store.dispatch(new Go({path: ['/home', 'dashboard']}));
       }, 2000);
@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
       this.loginNotification.message = 'Login failure, wrong username or password';
       this.loginNotification.attempted = true;
       this.loginNotification.loading = false;
+      this.userService.loggedIn = false;
       this.store.dispatch(new Go({path: ['/login']}));
     });
   }

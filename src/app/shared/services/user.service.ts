@@ -2,12 +2,28 @@ import {Injectable} from '@angular/core';
 import {HttpClientService} from './http-client.service';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../models/user';
-
 @Injectable()
 export class UserService {
   loadingMessage: string = 'Loading Users';
+  loggedIn = false;
 
   constructor(private http: HttpClientService) {
+    if(this.http.getToken()){
+      this.loggedIn = true;
+    }
+  }
+
+  isAuthenticated() {
+    const promise = new Promise(
+      (resolve, reject) => {
+        setTimeout(
+          () => {
+            resolve(this.loggedIn);
+          }, 800
+        );
+      }
+    );
+    return promise;
   }
 
   login(loginCredentials) {

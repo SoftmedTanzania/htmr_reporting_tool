@@ -24,7 +24,7 @@ export class HttpClientService {
     return token;
   }
 
-  private _getToken() {
+  getToken() {
     const username = 'admin';
     const password = 'district';
     let webToken = null;
@@ -62,7 +62,7 @@ export class HttpClientService {
   }
 
   getOpenMRS(url) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this._getToken());
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.get(this.OPENMRSURL + url, {
       headers: new HttpHeaders()
         .set('Content-Type', 'application/json')
@@ -79,7 +79,7 @@ export class HttpClientService {
   }
 
   postOpenMRS(url, data, options?) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this._getToken());
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.post(this.OPENMRSURL + url, data, {
       headers: new HttpHeaders()
         .set('Authorization', headers)
@@ -103,7 +103,7 @@ export class HttpClientService {
 
 
   putOpenMRS(url, data, options?) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this._getToken());
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.put<any>(this.OPENMRSURL + url, data, {
       headers: new HttpHeaders()
         .set('Authorization', headers)
@@ -111,7 +111,7 @@ export class HttpClientService {
   }
 
   deleteOpenMRS(url, options?) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this._getToken());
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.delete(this.OPENMRSURL + url, {
       headers: new HttpHeaders()
         .set('Authorization', headers)
