@@ -42,7 +42,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let location of locations; let counter = index">
+      <tr *ngFor="let location of pagedLocations; let counter = index">
         <th scope="row">{{counter+1}}</th>
         <td>{{location.display}}</td>
         <td>{{renderTags(location.tags)}}</td>
@@ -73,6 +73,15 @@
       </tr>
       </tbody>
     </table>
+    <nav >
+      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link" (click)="setPage(1)">First</a></li>
+        <li class="page-item"  [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"  (click)="setPage(pager.currentPage - 1)">Previous</a></li>
+        <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a></li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link" (click)="setPage(pager.totalPages)">Last</a></li>
+      </ul>
+    </nav>
 
   </div>
 
@@ -82,8 +91,8 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="!showEditForm">New Location</h5>
-          <h5 class="modal-title" id="exampleModalLabel"  *ngIf="showEditForm">Update Location</h5>
+          <h5 class="modal-title"   *ngIf="!showEditForm">New Location</h5>
+          <h5 class="modal-title"   *ngIf="showEditForm">Update Location</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

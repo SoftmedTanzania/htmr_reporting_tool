@@ -68,6 +68,7 @@ import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashb
 import {PaginationComponent} from './shared/components/pagination/pagination.component';
 import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
 import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
+import {PagerService} from "./shared/services/pager.service";
 
 @NgModule({
   declarations: [
@@ -140,6 +141,7 @@ import {PlaceholderComponent} from './shared/components/placeholder/placeholder.
     LocationService,
     UserService,
     TeamService,
+    PagerService,
     ...fromGuards.guards
   ],
   bootstrap: [AppComponent]

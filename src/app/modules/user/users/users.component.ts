@@ -3,6 +3,7 @@ import {UserService} from '../../../shared/services/user.service';
 import {User} from '../../../shared/models/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Person} from '../../../shared/models/person';
+import {PagerService} from '../../../shared/services/pager.service';
 
 @Component({
   selector: 'app-users',
@@ -11,7 +12,13 @@ import {Person} from '../../../shared/models/person';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  usersPage: User[] = [];
+  pagedUsers: User[] = [];
+
+
+  // pager object
+  pager: any = {};
+
+
   persons: Person[];
   roles: any = [];
   loading = false;
@@ -32,6 +39,7 @@ export class UsersComponent implements OnInit {
   teamMemberObject: any;
 
   constructor(private userService: UserService,
+              private pagerService: PagerService,
               private elementRef: ElementRef,
               private formBuilder: FormBuilder) {
 
@@ -62,6 +70,7 @@ export class UsersComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.userService.loadingMessage;
       this.users = this._prepareUsers(response);
+      this.setPage(1);
       this.clearVariables();
     }, (error) => {
       this.loading = false;
@@ -77,6 +86,20 @@ export class UsersComponent implements OnInit {
     }, (error) => {
     });
   }
+
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.users.length, page);
+
+    // get current page of items
+    this.pagedUsers = this.users.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
 
   private _prepareUsers(response): User[] {
     const users: User[] = [];
@@ -176,7 +199,8 @@ export class UsersComponent implements OnInit {
       names: [{givenName: formData.firstName, familyName: formData.familyName}],
       gender: formData.gender,
       age: formData.age
-    }
+    };
+
     this.updating = true;
     this.updatingIsError = false;
     this.notify = false;
@@ -190,7 +214,7 @@ export class UsersComponent implements OnInit {
           person: this.personObject.uuid,
           roles: formData.roles,
           username: formData.username
-        }
+        };
 
       this.userService.createUser(userObject).subscribe((userResponse) => {
         this.userObject = userResponse;
@@ -247,8 +271,5 @@ export class UsersComponent implements OnInit {
     return tagString;
   }
 
-  setCurrentPage(event) {
-    this.usersPage = event;
-  }
 
 }

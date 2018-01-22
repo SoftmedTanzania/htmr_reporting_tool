@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {LocationService} from '../../shared/services/location.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PagerService} from "../../shared/services/pager.service";
 
 @Component({
   selector: 'app-location',
@@ -9,6 +10,13 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class LocationComponent implements OnInit {
   locations: any = [];
+
+  // pager object
+  pager: any = {};
+
+  // paged items
+  pagedLocations: any[];
+
   loading = false;
   updating = false;
   deleting = false;
@@ -27,6 +35,7 @@ export class LocationComponent implements OnInit {
   locationForm: FormGroup;
 
   constructor(private locationService: LocationService,
+              private pagerService: PagerService,
               private formBuilder: FormBuilder,
               private elementRef: ElementRef) {
 
@@ -53,6 +62,7 @@ export class LocationComponent implements OnInit {
       this.notify = true;
       this.loadingIsError = false;
       this.loadingMessage = this.locationService.loadingMessage;
+      this.setPage(1);
       this.clearVariables();
     }, (error) => {
       this.loadingMessage = this.locationService.loadingMessage;
@@ -62,6 +72,20 @@ export class LocationComponent implements OnInit {
       this.clearVariables();
     });
   }
+
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.locations.length, page);
+
+    // get current page of items
+    this.pagedLocations = this.locations.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
 
   /**
    * Trigger form submission
