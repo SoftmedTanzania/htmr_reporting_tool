@@ -1,11 +1,12 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {TeamService} from '../../../shared/services/team.service';
-import {FormGroup} from "@angular/forms";
-import {UserService} from "../../../shared/services/user.service";
-import {LocationService} from "../../../shared/services/location.service";
-import {Location} from "../../../shared/models/location";
-import {Team} from "../../../shared/models/team";
-import {Person} from "../../../shared/models/person";
+import {FormGroup} from '@angular/forms';
+import {UserService} from '../../../shared/services/user.service';
+import {LocationService} from '../../../shared/services/location.service';
+import {Location} from '../../../shared/models/location';
+import {Team} from '../../../shared/models/team';
+import {Person} from '../../../shared/models/person';
+import {PagerService} from '../../../shared/services/pager.service';
 
 @Component({
   selector: 'app-team-members',
@@ -14,6 +15,11 @@ import {Person} from "../../../shared/models/person";
 })
 export class TeamMembersComponent implements OnInit {
   teamMembers: Array<any>;
+  pagedTeamMembers: Array<any>;
+
+
+  // pager object
+  pager: any = {};
 
   loading = false;
   updating = false;
@@ -37,6 +43,7 @@ export class TeamMembersComponent implements OnInit {
 
   constructor(private teamService: TeamService,
               private userService: UserService,
+              private pagerService: PagerService,
               private locationService: LocationService, private elementRef: ElementRef) {
   }
 
@@ -50,6 +57,7 @@ export class TeamMembersComponent implements OnInit {
       this.loadingMessage = this.teamService.loadingMessage;
       this.teamMembers = this._prepareTeamMembers(results);
       this.clearVariables();
+      this.setPage(1);
     }, (error) => {
       this.loading = false;
       this.notify = true;
@@ -72,6 +80,19 @@ export class TeamMembersComponent implements OnInit {
     }, (error) => {
 
     });
+  }
+
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.teamMembers.length, page);
+
+    // get current page of items
+    this.pagedTeamMembers = this.teamMembers.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
 

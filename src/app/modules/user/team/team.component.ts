@@ -3,6 +3,7 @@ import {TeamService} from '../../../shared/services/team.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Team} from '../../../shared/models/team';
 import {LocationService} from '../../../shared/services/location.service';
+import {PagerService} from '../../../shared/services/pager.service';
 
 @Component({
   selector: 'app-team',
@@ -11,6 +12,10 @@ import {LocationService} from '../../../shared/services/location.service';
 })
 export class TeamComponent implements OnInit {
   teams: Array<any> = [];
+  pagedTeams: Array<any> = [];
+
+  // pager object
+  pager: any = {};
 
   loading = false;
   updating = false;
@@ -28,7 +33,11 @@ export class TeamComponent implements OnInit {
 
   locations: Array<any> = [];
 
-  constructor(private teamService: TeamService, private formBuilder: FormBuilder, private locationService: LocationService, private elementRef: ElementRef) {
+  constructor(private teamService: TeamService,
+              private formBuilder: FormBuilder,
+              private locationService: LocationService,
+              private pagerService: PagerService,
+              private elementRef: ElementRef) {
 
   }
 
@@ -43,6 +52,7 @@ export class TeamComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.teamService.loadingMessage;
       this.teams = this._prepareTeams(results);
+      this.setPage(1);
       this.clearVariables();
     }, (error) => {
       this.loading = false;
@@ -59,6 +69,19 @@ export class TeamComponent implements OnInit {
     });
 
   }
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.teams.length, page);
+
+    // get current page of items
+    this.pagedTeams = this.teams.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
 
   private _prepareTeams(results): Array<Team> {
     const teams: Array<Team> = [];
