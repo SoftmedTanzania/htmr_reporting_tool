@@ -45,6 +45,22 @@ export class LocationService {
 
   }
 
+  sendHRFDetails(data): Observable<any> {
+    return Observable.create(observer => {
+
+      this.http.postOpenSRP(data)
+        .subscribe((locationResponse: any) => {
+
+            observer.next(this.locations);
+            observer.complete();
+          },
+          error => {
+            observer.error('some error occur');
+          });
+
+    });
+  }
+
   createLocation(dataObject): Observable<any> {
     this.loadingMessage = 'Creating new  location';
     return Observable.create(observer => {

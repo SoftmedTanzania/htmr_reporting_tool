@@ -5,6 +5,7 @@ declare var window;
 export class HttpClientService {
   public DHISAPIURL = '../../../api/';
   // public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
+  public OPENSRPAPIURL = 'http://45.56.90.103:8080/opensrp/save-health-facilities';
   public OPENMRSURL = 'http://45.56.90.103:8080/openmrs/ws/rest/v1/';
 
   constructor(private http: HttpClient) {
@@ -90,6 +91,20 @@ export class HttpClientService {
   postDHIS(url, data, options?) {
     const headers: HttpHeaders = this.createDHISAuthorizationHeader();
     return this.http.post(this.DHISAPIURL + url, data, {
+      headers: headers
+    });
+  }
+
+  postOpenSRP(data, options?) {
+
+    const username = 'facility';
+    const password = 'Facility2017';
+
+    const token = btoa(username + ':' + password);
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Basic ' + token);
+
+    return this.http.post(this.OPENSRPAPIURL, data, {
       headers: headers
     });
   }

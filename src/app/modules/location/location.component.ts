@@ -35,13 +35,14 @@ export class LocationComponent implements OnInit {
         name: ['', Validators.required],
         description: '',
         parentLocation: '',
+        hfrCode: '',
         tagOne: '',
         tagTwo: ''
       });
   }
 
   ngOnInit() {
-    this.formReference = this.elementRef.nativeElement.querySelector('#locationFormButton');
+
     this.loading = true;
     this.loadingIsError = false;
     this.notify = false;
@@ -66,6 +67,7 @@ export class LocationComponent implements OnInit {
    * Trigger form submission
    * */
   submit() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#locationFormButton');
     this.formReference.click();
   }
 
@@ -106,6 +108,15 @@ export class LocationComponent implements OnInit {
         this.locationService.loadLocations().subscribe((locations) => {
           this.locations = locations;
         });
+        this.locationService.sendHRFDetails(
+          {
+            hfrCode: locationForm.value['hfrCode'],
+            openmrsUIID: success.uuid ? success.uuid : '',
+          }
+        ).subscribe((openSRPSuccess) => {
+          console.log(openSRPSuccess);
+        });
+
       }, (error) => {
         this.updatingIsError = true;
         this.notify = true;
@@ -140,6 +151,7 @@ export class LocationComponent implements OnInit {
       this.locationService.loadLocations().subscribe((locations) => {
         this.locations = locations;
       });
+
     }, (error) => {
       this.loadingMessage = this.locationService.loadingMessage;
       this.deleting = false;
@@ -148,7 +160,6 @@ export class LocationComponent implements OnInit {
       this.clearVariables();
     });
   }
-
 
 
   renderTags(tags) {
@@ -189,6 +200,7 @@ export class LocationComponent implements OnInit {
     this.showAddForm = true;
     this.showEditForm = false;
   }
+
   showEditFormTemplate(editedLocation) {
     this.showEditForm = true;
     this.showAddForm = false;
