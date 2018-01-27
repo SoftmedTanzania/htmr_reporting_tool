@@ -56,3 +56,8 @@
 .informational-field{
   color: #2D69A5;font-weight: bolder;
 }
+
+.color-cell{
+  background-color: #cccccc!important;
+}
+

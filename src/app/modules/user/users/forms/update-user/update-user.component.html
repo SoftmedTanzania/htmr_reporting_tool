@@ -6,7 +6,8 @@
       <div  class="bordered-form">
         <div class="form-group">
 
-
+          <input type="text" formControlName="personUUID" style="display: none">
+          <input type="text" formControlName="uuid"  style="display: none">
           <label for="name">Given Name <span class="important-field">*</span></label>
           <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
                  placeholder="Given Name">
@@ -60,7 +61,7 @@
         <div class="form-group">
 
           <label for="username">User Name <span class="important-field">*</span></label>
-          <input type="text" class="form-control form-control-sm" id="username" formControlName="username"
+          <input type="text" class="form-control form-control-sm" disabled="disabled" id="username" formControlName="username"
                  placeholder="Username">
           <small *ngIf="userForm.controls.username.invalid" class="form-text  important-field">User Name
             is important
@@ -74,9 +75,6 @@
           <label for="password">Password <span class="important-field">*</span></label>
           <input type="password" class="form-control form-control-sm" id="password" formControlName="password"
                  placeholder="password">
-          <small *ngIf="userForm.controls.password.invalid" class="form-text  important-field">Password
-            is important
-          </small>
         </div>
         <div class="form-group">
 
@@ -84,9 +82,6 @@
           <input type="password" class="form-control form-control-sm" id="confirm_password"
                  formControlName="confirmPassword"
                  placeholder="Confirm Password">
-          <small *ngIf="userForm.controls.confirmPassword.invalid" class="form-text  important-field">Confirm Password
-            is important
-          </small>
         </div>
 
       </div>

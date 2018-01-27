@@ -25,38 +25,44 @@
 
   <div class="row" >
     <div class="col-sm-2 menu no-print" style="padding: 0px">
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'dashboard']" >
-        <div class="text-center"><i class="fa fa-dashboard"></i></div>
-        <h3>Dashboard</h3>
+
+      <div class="col-sm-12 item" *ngFor="let linkItem of navigation"  [routerLinkActive]="'active-item'" [routerLink]="linkItem.links" >
+        <div class="text-center"><i class="{{linkItem.icon}}"></i></div>
+        <h3>{{linkItem.name}}</h3>
       </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'data_entry']">
-        <div class="text-center"><i class="fa fa-edit"></i></div>
-        <h3>Data Entry</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'basic_reports']">
-        <div class="text-center"><i class="fa fa-bar-chart"></i></div>
-        <h3>Basic Reports</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'reports']">
-        <div class="text-center"><i class="fa fa-bar-chart"></i></div>
-        <h3>Custom Reports</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'settings']">
-        <div class="text-center"><i class="fa fa-cogs"></i></div>
-        <h3>Settings</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'user','users']">
-        <div class="text-center"><i class="fa fa-user"></i></div>
-        <h3>User Management</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'forms']">
-        <div class="text-center"><i class="fa fa-file-text"></i></div>
-        <h3>Form Management</h3>
-      </div>
-      <div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'location']">
-        <div class="text-center"><i class="fa fa-map-signs"></i></div>
-        <h3>Location Management</h3>
-      </div>
+
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'dashboard']" >-->
+        <!--<div class="text-center"><i class="fa fa-dashboard"></i></div>-->
+        <!--<h3>Dashboard</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'data_entry']">-->
+        <!--<div class="text-center"><i class="fa fa-edit"></i></div>-->
+        <!--<h3>Data Entry</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'basic_reports']">-->
+        <!--<div class="text-center"><i class="fa fa-bar-chart"></i></div>-->
+        <!--<h3>Basic Reports</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'reports']">-->
+        <!--<div class="text-center"><i class="fa fa-bar-chart"></i></div>-->
+        <!--<h3>Custom Reports</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'settings']">-->
+        <!--<div class="text-center"><i class="fa fa-cogs"></i></div>-->
+        <!--<h3>Settings</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'user','users']">-->
+        <!--<div class="text-center"><i class="fa fa-user"></i></div>-->
+        <!--<h3>User Management</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'forms']">-->
+        <!--<div class="text-center"><i class="fa fa-file-text"></i></div>-->
+        <!--<h3>Form Management</h3>-->
+      <!--</div>-->
+      <!--<div class="col-sm-12 item" [routerLinkActive]="'active-item'" [routerLink]="['/home', 'location']">-->
+        <!--<div class="text-center"><i class="fa fa-map-signs"></i></div>-->
+        <!--<h3>Location Management</h3>-->
+      <!--</div>-->
     </div>
     <div class="col-sm-10">
       <router-outlet></router-outlet>

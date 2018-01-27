@@ -37,6 +37,10 @@ export class HttpClientService {
     return webToken;
   }
 
+  deleteToken() {
+    window.sessionStorage.removeItem('web-token');
+  }
+
   createDHISAuthorizationHeader() {
     const username = 'admin';
     const password = 'district';
@@ -119,7 +123,7 @@ export class HttpClientService {
 
   putOpenMRS(url, data, options?) {
     const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
-    return this.http.put<any>(this.OPENMRSURL + url, data, {
+    return this.http.post<any>(this.OPENMRSURL + url, data, {
       headers: new HttpHeaders()
         .set('Authorization', headers)
     });

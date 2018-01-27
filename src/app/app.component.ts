@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from './store/reducers';
 import {Go} from './store/actions/router.action';
+import {UserService} from './shared/services/user.service';
 
 @Component({
   selector: 'app-root',

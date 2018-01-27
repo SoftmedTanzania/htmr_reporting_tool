@@ -44,7 +44,7 @@
         <td>{{renderRoles(user.roles)}}</td>
         <td>
           <div class="pull-right">
-            <a class="btn custom-btn-primary btn-sm"  title="Add to Parent">Add to Team</a>
+            <!--<a class="btn custom-btn-primary btn-sm"  title="Add to Parent">Add to Team</a>-->
             <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(user)" title="Edit">
               <i class="fa fa-pencil"></i>
             </a>
@@ -106,10 +106,11 @@
           </app-add-user>
           <app-update-user
             *ngIf="showEditForm"
-            [userForm]="userForm"
+            [userForm]="updateUserForm"
             [users]="users"
-            [roles]="roles"
-            (formSubmissionEvent)="onSubmit($event)">
+            [user]="updatedUser"
+            [roles]="updatingRoles"
+            (formSubmissionEvent)="onUpdateSubmit($event)">
 
           </app-update-user>
         </div>
