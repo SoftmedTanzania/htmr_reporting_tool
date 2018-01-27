@@ -69,6 +69,7 @@ import {PaginationComponent} from './shared/components/pagination/pagination.com
 import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
 import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
 import {PagerService} from "./shared/services/pager.service";
+import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import {PagerService} from "./shared/services/pager.service";
     TableTemplateComponent,
     DashboardItemComponent,
     FilterByNamePipe,
-    PlaceholderComponent
+    PlaceholderComponent,
+    CollectionFilterPipe
   ],
   imports: [
     BrowserModule,

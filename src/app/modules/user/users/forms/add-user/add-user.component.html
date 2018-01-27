@@ -10,7 +10,7 @@
           <label for="name">Given Name <span class="important-field">*</span></label>
           <input type="text" class="form-control form-control-sm" id="first_name" formControlName="firstName"
                  placeholder="Given Name">
-          <small *ngIf="userForm.controls.firstName.untouched||userForm.controls.firstName.value==''" class="form-text  important-field">Given Name
+          <small *ngIf="userForm.controls.firstName.invalid" class="form-text  important-field">Given Name
             is important
           </small>
         </div>
@@ -20,7 +20,7 @@
           <label for="name">Family Name <span class="important-field">*</span></label>
           <input type="text" class="form-control form-control-sm" id="name" formControlName="familyName"
                  placeholder="Family Name ">
-          <small *ngIf="userForm.controls.familyName.untouched||userForm.controls.familyName.value==''"
+          <small *ngIf="userForm.controls.familyName.invalid"
                  class="form-text  important-field">Family Name
             is important
           </small>
@@ -62,18 +62,22 @@
           <label for="username">User Name <span class="important-field">*</span></label>
           <input type="text" class="form-control form-control-sm" id="username" formControlName="username"
                  placeholder="Username">
-          <small *ngIf="userForm.controls.username.untouched||userForm.controls.username.value==''" class="form-text  important-field">User Name
+          <small *ngIf="userForm.controls.username.invalid" class="form-text  important-field">User Name
             is important
           </small>
         </div>
+        <p class="informational-field">
+          <i class="fa fa-warning"></i>&nbsp;Please choose a password that contains both upper- and lower-case letters
+        </p>
         <div class="form-group">
 
           <label for="password">Password <span class="important-field">*</span></label>
           <input type="password" class="form-control form-control-sm" id="password" formControlName="password"
                  placeholder="password">
-          <small *ngIf="userForm.controls.password.untouched||userForm.controls.password.value==''" class="form-text  important-field">Password
+          <small *ngIf="userForm.controls.password.invalid" class="form-text  important-field">Password
             is important
           </small>
+
         </div>
         <div class="form-group">
 
@@ -81,7 +85,7 @@
           <input type="password" class="form-control form-control-sm" id="confirm_password"
                  formControlName="confirmPassword"
                  placeholder="Confirm Password">
-          <small *ngIf="userForm.controls.confirmPassword.untouched||userForm.controls.confirmPassword.value==''" class="form-text  important-field">Confirm Password
+          <small *ngIf="userForm.controls.confirmPassword.invalid" class="form-text  important-field">Confirm Password
             is important
           </small>
         </div>

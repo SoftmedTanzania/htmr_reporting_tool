@@ -98,7 +98,7 @@ export class HttpClientService {
   postOpenSRP(data, options?) {
 
     const username = 'facility';
-    const password = 'Facility2017';
+    const password = 'Facilityuser2017.';
 
     const token = btoa(username + ':' + password);
     const headers = new HttpHeaders();

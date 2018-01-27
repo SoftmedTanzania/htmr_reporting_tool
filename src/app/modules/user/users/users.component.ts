@@ -12,6 +12,7 @@ import {PagerService} from '../../../shared/services/pager.service';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  extraUsers: User[] = [];
   pagedUsers: User[] = [];
 
 
@@ -37,6 +38,7 @@ export class UsersComponent implements OnInit {
   personObject: any;
   userObject: any;
   teamMemberObject: any;
+  searchText: any;
 
   constructor(private userService: UserService,
               private pagerService: PagerService,
@@ -70,6 +72,7 @@ export class UsersComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.userService.loadingMessage;
       this.users = this._prepareUsers(response);
+      this.extraUsers = this._prepareUsers(response);
       this.setPage(1);
       this.clearVariables();
     }, (error) => {
@@ -243,6 +246,8 @@ export class UsersComponent implements OnInit {
 
       this.userService.listUsers().subscribe((responseUsers) => {
         this.users = this._prepareUsers(responseUsers);
+        this.extraUsers = this._prepareUsers(responseUsers);
+        this.setPage(1);
       }, (error) => {
 
       });
@@ -269,6 +274,15 @@ export class UsersComponent implements OnInit {
     });
     tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
     return tagString;
+  }
+
+
+  search(event) {
+    this.users = this.extraUsers;
+    if (this.searchText !== undefined){
+      this.users = this.pagerService.filterCollection(this.users, this.searchText, 'person.display');
+    }
+    this.setPage(1);
   }
 
 

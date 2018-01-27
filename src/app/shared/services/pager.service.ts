@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as _ from 'lodash';
 @Injectable()
 export class PagerService {
@@ -45,5 +45,32 @@ export class PagerService {
       endIndex: endIndex,
       pages: pages
     };
+  }
+
+  filterCollection(collection, searchText, fieldName) {
+    const newCollection = [];
+    if (searchText !== undefined) {
+      if (fieldName !== undefined) {
+        collection.forEach((valueItem, valueItemIndex) => {
+          if (this.getItemByFieldName(valueItem, fieldName).toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+            newCollection.push(valueItem);
+          }
+        });
+        return newCollection;
+      }
+    }
+
+    return collection;
+  }
+
+  getItemByFieldName(item, fieldName): any {
+    if (fieldName.indexOf('.') > 0) {
+      const fields = fieldName.split('.');
+      return item[fields[0]][fields[1]];
+      // TODO: Improve this hardcodig for fields , use automated loops instead
+    } else {
+      return item[fieldName];
+    }
+
   }
 }

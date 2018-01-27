@@ -10,6 +10,7 @@ import {PagerService} from "../../shared/services/pager.service";
 })
 export class LocationComponent implements OnInit {
   locations: any = [];
+  extraLocation: any = [];
 
   // pager object
   pager: any = {};
@@ -33,6 +34,8 @@ export class LocationComponent implements OnInit {
   showEditForm = false;
   showAddForm = false;
   locationForm: FormGroup;
+  searchText: any;
+
 
   constructor(private locationService: LocationService,
               private pagerService: PagerService,
@@ -58,6 +61,7 @@ export class LocationComponent implements OnInit {
     this.loadingMessage = this.locationService.loadingMessage;
     this.locationService.loadLocations().subscribe((locations) => {
       this.locations = locations;
+      this.extraLocation = locations;
       this.loading = false;
       this.notify = true;
       this.loadingIsError = false;
@@ -131,6 +135,8 @@ export class LocationComponent implements OnInit {
         this.clearVariables();
         this.locationService.loadLocations().subscribe((locations) => {
           this.locations = locations;
+          this.extraLocation = locations;
+          this.setPage(1);
         });
         this.locationService.sendHRFDetails(
           {
@@ -174,6 +180,8 @@ export class LocationComponent implements OnInit {
       this.clearVariables();
       this.locationService.loadLocations().subscribe((locations) => {
         this.locations = locations;
+        this.extraLocation = locations;
+        this.setPage(1);
       });
 
     }, (error) => {
@@ -234,4 +242,13 @@ export class LocationComponent implements OnInit {
     this.locationForm.value['description'] = editedLocation['description'];
 
   }
+
+  search(event) {
+    this.locations = this.extraLocation;
+    if (this.searchText !== undefined){
+      this.locations = this.pagerService.filterCollection(this.locations, this.searchText, 'name');
+    }
+    this.setPage(1);
+  }
+
 }

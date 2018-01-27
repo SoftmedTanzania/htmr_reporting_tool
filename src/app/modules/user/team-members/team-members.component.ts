@@ -15,6 +15,7 @@ import {PagerService} from '../../../shared/services/pager.service';
 })
 export class TeamMembersComponent implements OnInit {
   teamMembers: Array<any>;
+  extraTeamMembers: Array<any>;
   pagedTeamMembers: Array<any>;
 
 
@@ -38,6 +39,7 @@ export class TeamMembersComponent implements OnInit {
 
   personObject: any;
   userObject: any;
+  searchText: any;
   teamMemberObject: any;
 
 
@@ -56,6 +58,7 @@ export class TeamMembersComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.teamService.loadingMessage;
       this.teamMembers = this._prepareTeamMembers(results);
+      this.extraTeamMembers = this._prepareTeamMembers(results);
       this.clearVariables();
       this.setPage(1);
     }, (error) => {
@@ -304,6 +307,15 @@ export class TeamMembersComponent implements OnInit {
     });
     tagString = tagString.length > 0 ? tagString.substr(1, tagString.length) : '';
     return tagString;
+  }
+
+
+  search(event) {
+    this.teamMembers = this.extraTeamMembers;
+    if (this.searchText !== undefined){
+      this.teamMembers = this.pagerService.filterCollection(this.teamMembers, this.searchText, 'team');
+    }
+    this.setPage(1);
   }
 
 }

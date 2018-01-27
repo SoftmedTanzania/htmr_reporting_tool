@@ -31,6 +31,11 @@
       *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
       [message]="loadingMessage">
     </app-notification>
+    <div *ngIf="!loading">
+      <div class="input-group mb-3" style="width:300px!important;margin-bottom: 10px" class="pull-right">
+        <input type="text" class="form-control" [(ngModel)]="searchText" (input)="search()" placeholder="Search location" >
+      </div>
+    </div>
     <table class="table table-bordered  table-condensed" *ngIf="!loading">
       <thead>
       <tr>
@@ -42,7 +47,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let location of pagedLocations; let counter = index">
+      <tr *ngFor="let location of pagedLocations|collectionFilter:searchText:'name'; let counter = index">
         <th scope="row">{{counter+1}}</th>
         <td>{{location.display}}</td>
         <td>{{renderTags(location.tags)}}</td>
@@ -76,7 +81,7 @@
     <nav >
       <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link" (click)="setPage(1)">First</a></li>
-        <li class="page-item"  [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"  (click)="setPage(pager.currentPage - 1)">Previous</a></li>
+        <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"  (click)="setPage(pager.currentPage - 1)">Previous</a></li>
         <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"><a class="page-link" (click)="setPage(page)">{{page}}</a></li>
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a></li>
         <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link" (click)="setPage(pager.totalPages)">Last</a></li>

@@ -49,5 +49,10 @@
   border-radius: 4px!important;
 }
 
+.page-item{
+  cursor: pointer!important;
+}
 
-
+.informational-field{
+  color: #2D69A5;font-weight: bolder;
+}

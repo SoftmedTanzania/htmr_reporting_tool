@@ -19,6 +19,10 @@
       *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
       [message]="loadingMessage">
     </app-notification>
+    <div *ngIf="!loading">
+      <input  class="form-control pull-right" placeholder="Search "   [(ngModel)]="searchText" (input)="search()"   style="width:300px!important;margin-bottom: 10px" id="search">
+      <br/>
+    </div>
     <table class="table table-bordered  table-condensed" *ngIf="!loading">
       <thead>
       <tr>
