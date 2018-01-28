@@ -774,7 +774,8 @@ export class MappingComponent implements OnInit {
         {
           serviceId: service.referralServiceId,
           serviceName: service.referralServiceName,
-          indicators: []
+          indicators: [],
+          wasMapped: false
         }
 
       let catchedIndicators = [];
@@ -792,6 +793,7 @@ export class MappingComponent implements OnInit {
               referralIndicatorId: catchedSingleIndicator.referralIndicatorId,
               indicatorName: catchedSingleIndicator.indicatorName
             });
+          singleService.wasMapped = true;
         } else {
           singleService.indicators.push(
             {
@@ -823,14 +825,19 @@ export class MappingComponent implements OnInit {
    * Listening to form submission Event
    * */
   onSubmit(services) {
-    const data = this.prepareMergeData(services);
-    // this.settingService.createServiceIndicatorMerge(data).subscribe((response) => {
-    // }, (error) => {
-    //
-    // });
+    const data = this.prepareDataMapping(services);
+    console.log(data);
+    if (data) {
+      this.settingService.createServiceIndicatorMerge(data).subscribe((response) => {
+        console.log(response);
+      }, (error) => {
+
+      });
+    }
+
   }
 
-  prepareMergeData(services) {
+  prepareDataMapping(services) {
     const dataMappingArray = [];
     services.forEach(service => {
       const serviceModel = {
@@ -841,11 +848,12 @@ export class MappingComponent implements OnInit {
         if (indicator.isMapped) {
           serviceModel.referralIndicatorId.push(indicator.referralIndicatorId);
         }
-
       });
-      dataMappingArray.push(serviceModel);
-    })
-    console.log(dataMappingArray);
+      if (service.wasMapped || serviceModel.referralIndicatorId.length > 0) {
+        dataMappingArray.push(serviceModel);
+      }
+    });
+    return dataMappingArray;
   }
 
   /**

@@ -5,7 +5,7 @@ declare var window;
 export class HttpClientService {
   public DHISAPIURL = '../../../api/';
   // public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
-  public OPENSRPAPIURL = 'http://45.56.90.103:8080/opensrp/';
+  public OPENSRPAPIURL = 'https://45.56.90.103:8080/opensrp/';
   public OPENMRSURL = 'http://45.56.90.103:8080/openmrs/ws/rest/v1/';
 
   constructor(private http: HttpClient) {
@@ -62,14 +62,14 @@ export class HttpClientService {
 
   createOPENSRPAuthorizationHeader() {
 
-
     const username = 'facility';
     const password = 'Facilityuser2017.';
 
     const token = btoa(username + ':' + password);
+    const headers = new HttpHeaders();
+    headers.append('Authorization', 'Basic ' + token);
 
-    console.log(token);
-    return 'Basic ' + token;
+    return headers;
   }
 
   get(url) {
@@ -113,40 +113,34 @@ export class HttpClientService {
   }
 
   postOpenSRP(url, data, options?) {
-
-    const headers: string = this.createOPENSRPAuthorizationHeader();
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
     return this.http.post(this.OPENSRPAPIURL + url, data, {
-      headers: new HttpHeaders()
-        .set('Content-Type', 'application/json')
-        .set('Authorization', headers)
+      headers: headers
     });
   }
 
 
   getOpenSRP(url) {
-    const headers: string = this.createOPENSRPAuthorizationHeader();
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
     return this.http.get(this.OPENSRPAPIURL + url, {
-      headers: new HttpHeaders()
+      headers: headers
         .set('Content-Type', 'application/json')
-        .set('Authorization', headers)
     });
   }
 
   deleteOpenSRP(url, id) {
-    const headers: string = this.createOPENSRPAuthorizationHeader();
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
     return this.http.delete(this.OPENSRPAPIURL + url + '/' + id, {
-      headers: new HttpHeaders()
+      headers: headers
         .set('Content-Type', 'application/json')
-        .set('Authorization', headers)
     });
   }
 
   updateOpenSRP(url, data, id) {
-    const headers: string = this.createOPENSRPAuthorizationHeader();
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
     return this.http.put(this.OPENSRPAPIURL + url + '/' + id, data, {
-      headers: new HttpHeaders()
+      headers: headers
         .set('Content-Type', 'application/json')
-        .set('Authorization', headers)
     });
   }
 
