@@ -1,0 +1,140 @@
+<div>
+  <br/>
+  <div class="user-manager">
+    <div class="users-manager-bar">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="page-header">Mapping Manager</p>
+        </div>
+        <div class="col-md-6">
+          <div title="Create new mapping" class="btn btn-primary" (click)="showAddFormTemplate()" data-toggle="modal"
+               data-target="#exampleModal"
+               class="btn  round-button pull-right">
+            <i class="fa fa-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="users-list">
+      <app-loader *ngIf="loading||deleting" [message]="loadingMessage"></app-loader>
+      <app-notification
+        [error]="loadingIsError||deletingIsError"
+        *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
+        [message]="loadingMessage">
+      </app-notification>
+      <div *ngIf="!loading">
+        <div class="input-group mb-3" style="width:300px!important;margin-bottom: 10px" class="pull-right">
+          <input type="text" class="form-control" [(ngModel)]="searchText" (input)="search()"
+                 placeholder="Search service">
+        </div>
+      </div>
+      <table class="table table-bordered  table-condensed" *ngIf="!loading">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Service Name</th>
+          <th scope="col">Category</th>
+          <th scope="col">Indicators</th>
+          <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let service of pagedMappings | collectionFilter:searchText:'serviceName'; let counter = index">
+          <th scope="row">{{counter+1}}</th>
+          <td>{{service.serviceName}}</td>
+          <td>{{service.category}}</td>
+          <td>
+            <ul *ngFor="let indicator of service.indicators">
+              <li>{{indicator.indicatorName}}</li>
+            </ul>
+          </td>
+          <td>
+            <div class="pull-right">
+              <a class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal"
+                 (click)="showEditFormTemplate(location)" title="Edit">
+                <i class="fa fa-pencil"></i>
+              </a>
+              <a class="btn btn-danger btn-sm"
+                 *ngIf="!service.confirmDelete"
+                 (click)="service.confirmDelete = !service.confirmDelete" title="Delete">
+                <i class="fa fa-trash"></i>
+              </a>
+
+              <a class="btn btn-danger btn-sm" *ngIf="service.confirmDelete" (click)="deleteService(service)"
+                 title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
+              <a class="btn btn-success btn-sm" *ngIf="service.confirmDelete"
+                 (click)="service.confirmDelete = !service.confirmDelete" title="Cancel Delete"><i
+                class="fa fa-close"></i> Cancel</a>
+
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"
+                                                                                  (click)="setPage(1)">First</a></li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"
+                                                                                  (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"><a
+            class="page-link" (click)="setPage(page)">{{page}}</a></li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link"
+                                                                                                 (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link"
+                                                                                                 (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="!showEditForm">New Location</h5>
+          <h5 class="modal-title" *ngIf="showEditForm">Update Location</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
+          <!--<app-notification-->
+            <!--[error]="updatingIsError"-->
+            <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
+            <!--[message]="loadingMessage">-->
+          <!--</app-notification>-->
+          <!--<app-add-location-->
+            <!--*ngIf="showAddForm"-->
+            <!--[locationForm]="locationForm"-->
+            <!--[locations]="locations"-->
+            <!--(formSubmissionEvent)="onSubmit($event)">-->
+
+          <!--</app-add-location>-->
+          <!--<app-update-location-->
+            <!--*ngIf="showEditForm"-->
+            <!--[locationForm]="locationForm"-->
+            <!--[locations]="locations"-->
+            <!--(formSubmissionEvent)="onSubmit($event)">-->
+
+          <!--</app-update-location>-->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

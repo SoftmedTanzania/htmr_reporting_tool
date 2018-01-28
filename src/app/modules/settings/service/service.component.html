@@ -1,0 +1,91 @@
+<div>
+  <br/>
+  <div class="user-manager">
+    <div class="users-manager-bar">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="page-header">Service Manager</p>
+        </div>
+        <div class="col-md-6">
+          <div title="Create Location" class="btn btn-primary" (click)="showAddFormTemplate()" data-toggle="modal"
+               data-target="#exampleModal"
+               class="btn  round-button pull-right">
+            <i class="fa fa-plus"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="users-list">
+      <app-loader *ngIf="loading||deleting" [message]="loadingMessage"></app-loader>
+      <app-notification
+        [error]="loadingIsError||deletingIsError"
+        *ngIf="(loadingIsError&&!loading)||(deletingIsError&&!deleting)||notify"
+        [message]="loadingMessage">
+      </app-notification>
+      <div *ngIf="!loading">
+        <div class="input-group mb-3" style="width:300px!important;margin-bottom: 10px" class="pull-right">
+          <input type="text" class="form-control" [(ngModel)]="searchText" (input)="search()"
+                 placeholder="Search service">
+        </div>
+      </div>
+      <table class="table table-bordered  table-condensed" *ngIf="!loading">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Service Name</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          *ngFor="let service of pagedServices | collectionFilter:searchText:'referralIndicatorName'; let counter = index">
+          <th scope="row">{{counter+1}}</th>
+          <td>{{service.referralIndicatorName}}</td>
+          <td>
+            <span *ngIf="service.isActive" class="badge badge-success">Active</span>
+            <span *ngIf="!service.isActive" class="badge badge-danger">
+              Not Active
+            </span>
+          </td>
+          <td style="text-align: right">
+            <a class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#exampleModal" (click)="showEditFormTemplate(service)" title="Edit">
+              <i class="fa fa-pencil"></i>
+            </a>
+            <a class="btn btn-danger btn-sm"
+               *ngIf="!service.confirmDelete"
+               (click)="service.confirmDelete = !service.confirmDelete" title="Delete">
+              <i class="fa fa-trash"></i>
+            </a>
+
+            <a class="btn btn-danger btn-sm" *ngIf="service.confirmDelete" (click)="deleteLocation(service)"
+               title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
+            <a class="btn btn-success btn-sm" *ngIf="service.confirmDelete"
+               (click)="service.confirmDelete = !service.confirmDelete" title="Cancel Delete"><i
+              class="fa fa-close"></i> Cancel</a>
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <nav>
+        <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"
+                                                                                  (click)="setPage(1)">First</a></li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === 1}"><a class="page-link"
+                                                                                  (click)="setPage(pager.currentPage - 1)">Previous</a>
+          </li>
+          <li class="page-item" *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}"><a
+            class="page-link" (click)="setPage(page)">{{page}}</a></li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link"
+                                                                                                 (click)="setPage(pager.currentPage + 1)">Next</a>
+          </li>
+          <li class="page-item" [ngClass]="{disabled:pager.currentPage === pager.totalPages}"><a class="page-link"
+                                                                                                 (click)="setPage(pager.totalPages)">Last</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</div>

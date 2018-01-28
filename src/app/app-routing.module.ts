@@ -20,6 +20,9 @@ import {UsersComponent} from './modules/user/users/users.component';
 import {FormsGuard} from './guards/forms.exist';
 import {BasicReportsComponent} from './modules/basic-reports/basic-reports.component';
 import {AuthGuard} from './guards/auth-guards.service';
+import {MappingComponent} from './modules/settings/mapping/mapping.component';
+import {IndicatorComponent} from './modules/settings/indicator/indicator.component';
+import {ServiceComponent} from './modules/settings/service/service.component';
 
 const routes: Routes = [
   {
@@ -53,6 +56,17 @@ const routes: Routes = [
       path: 'settings',
       canActivate: [AuthGuard],
       component: SettingsComponent,
+      children: [
+        {
+          path: 'services',
+          component: ServiceComponent
+        }, {
+          path: 'indicators',
+          component: IndicatorComponent
+        }, {
+          path: 'indicator_service_mappings',
+          component: MappingComponent
+        }]
     }, {
       path: 'user',
       canActivate: [AuthGuard],

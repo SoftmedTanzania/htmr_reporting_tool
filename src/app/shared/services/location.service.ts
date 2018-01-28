@@ -48,7 +48,7 @@ export class LocationService {
   sendHRFDetails(data): Observable<any> {
     return Observable.create(observer => {
 
-      this.http.postOpenSRP(data)
+      this.http.postOpenSRP('save-health-facilities', data)
         .subscribe((locationResponse: any) => {
 
             observer.next(this.locations);

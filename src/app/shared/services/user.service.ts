@@ -39,7 +39,7 @@ export class UserService {
     },
     {
       name: 'Settings',
-      links: ['/home', 'settings'],
+      links: ['/home', 'settings', 'indicator_service_mappings'],
       icon: 'fa fa-cogs',
       roles: ['System Developer'],
       accessibility: false

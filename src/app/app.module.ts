@@ -70,6 +70,10 @@ import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
 import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
 import {PagerService} from "./shared/services/pager.service";
 import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
+import { ServiceComponent } from './modules/settings/service/service.component';
+import { IndicatorComponent } from './modules/settings/indicator/indicator.component';
+import { MappingComponent } from './modules/settings/mapping/mapping.component';
+import {SettingsService} from "./shared/services/settings.service";
 
 @NgModule({
   declarations: [
@@ -115,7 +119,10 @@ import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
     DashboardItemComponent,
     FilterByNamePipe,
     PlaceholderComponent,
-    CollectionFilterPipe
+    CollectionFilterPipe,
+    ServiceComponent,
+    IndicatorComponent,
+    MappingComponent
   ],
   imports: [
     BrowserModule,
@@ -137,6 +144,7 @@ import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     DataService,
     HttpClientService,
+    SettingsService,
     OrgUnitService,
     VisualizerService,
     FilterService,
