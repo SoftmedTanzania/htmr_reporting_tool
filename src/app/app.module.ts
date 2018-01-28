@@ -74,6 +74,11 @@ import { ServiceComponent } from './modules/settings/service/service.component';
 import { IndicatorComponent } from './modules/settings/indicator/indicator.component';
 import { MappingComponent } from './modules/settings/mapping/mapping.component';
 import {SettingsService} from "./shared/services/settings.service";
+import { AddMappingComponent } from './modules/settings/mapping/forms/add-mapping/add-mapping.component';
+import { AddIndicatorComponent } from './modules/settings/indicator/forms/add-indicator/add-indicator.component';
+import { EditIndicatorComponent } from './modules/settings/indicator/forms/edit-indicator/edit-indicator.component';
+import { AddServiceComponent } from './modules/settings/service/forms/add-service/add-service.component';
+import { EditServiceComponent } from './modules/settings/service/forms/edit-service/edit-service.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +127,12 @@ import {SettingsService} from "./shared/services/settings.service";
     CollectionFilterPipe,
     ServiceComponent,
     IndicatorComponent,
-    MappingComponent
+    MappingComponent,
+    AddMappingComponent,
+    AddIndicatorComponent,
+    EditIndicatorComponent,
+    AddServiceComponent,
+    EditServiceComponent
   ],
   imports: [
     BrowserModule,

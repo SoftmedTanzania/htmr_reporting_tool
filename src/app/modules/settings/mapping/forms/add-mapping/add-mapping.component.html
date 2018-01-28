@@ -1,0 +1,29 @@
+<div>
+  <form (submit)="onSubmit(services)">
+    <div class="form-group">
+      <label for="service">Select Service </label>
+      <select class="form-control" name="service" id="service" [(ngModel)]="selectedServiceId"
+              (change)="onChangeSelection($event)">
+        <option *ngFor="let service of services" value="{{service.serviceId}}">{{service.serviceName}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <p *ngIf="selectedService">(<b>{{selectedIndicatorsCount}}</b>) Indicators Selected for
+        mapping with service <b>{{selectedService?.serviceName}}</b></p>
+    </div>
+    <div class="form-group">
+      <label>Select Indicators to map.</label>
+      <div style="height: 400px!important;overflow: auto">
+        <table class="table table-condensed table-bordered table-responsive" style="position: relative!important;">
+          <tr *ngFor="let indicator of selectedService?.indicators" style="cursor: pointer;" (click)="selecteIndicator($event,indicator)" [ngClass]="{'color-cell':indicator.isMapped}">
+            <td><input type="checkbox" name="indicator" [checked]="indicator.isMapped"
+                       (click)="selecteIndicator($event,indicator)"></td>
+            <td>{{indicator.indicatorName}}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+    <button type="submit" style="display: none" id="addFormButton">Create</button>
+  </form>
+</div>

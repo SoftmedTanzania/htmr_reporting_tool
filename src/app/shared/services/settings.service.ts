@@ -129,7 +129,7 @@ export class SettingsService {
 
   createServiceIndicatorMerge(data) {
     return Observable.create(observer => {
-      this.http.getOpenSRP('')
+      this.http.postOpenSRP('add-referral-service-indicators', data)
         .subscribe((locationResponse: any) => {
             observer.next(locationResponse);
             observer.complete();
@@ -142,7 +142,7 @@ export class SettingsService {
 
   deleteServiceIndicatorMerge(id) {
     return Observable.create(observer => {
-      this.http.deleteOpenSRP('','')
+      this.http.deleteOpenSRP('', '')
         .subscribe((locationResponse: any) => {
             observer.next(locationResponse);
             observer.complete();
