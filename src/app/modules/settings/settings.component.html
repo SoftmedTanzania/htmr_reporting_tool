@@ -1,3 +1,18 @@
-<p>
-  settings works!
-</p>
+<div class="inner-menu">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item "  routerLinkActive="active-menu">
+          <a class="nav-link" routerLink="indicator_service_mappings">Mapping<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item " routerLinkActive="active-menu">
+          <a class="nav-link" routerLink="services">Services<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item "  routerLinkActive="active-menu">
+          <a class="nav-link" routerLink="indicators">Indicators <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<router-outlet></router-outlet>

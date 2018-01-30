@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {UserService} from '../../../shared/services/user.service';
 import {User} from '../../../shared/models/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Person} from '../../../shared/models/person';
+import {PagerService} from '../../../shared/services/pager.service';
 
 @Component({
   selector: 'app-users',
@@ -11,9 +12,17 @@ import {Person} from '../../../shared/models/person';
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-  usersPage: User[] = [];
+  extraUsers: User[] = [];
+  pagedUsers: User[] = [];
+
+
+  // pager object
+  pager: any = {};
+
+
   persons: Person[];
   roles: any = [];
+  updatingRoles: any = [];
   loading = false;
   updating = false;
   deleting = false;
@@ -26,12 +35,16 @@ export class UsersComponent implements OnInit {
   showEditForm = false;
   showAddForm = false;
   userForm: FormGroup;
+  updateUserForm: FormGroup;
 
   personObject: any;
   userObject: any;
+  updatedUser: any;
   teamMemberObject: any;
+  searchText: any;
 
   constructor(private userService: UserService,
+              private pagerService: PagerService,
               private elementRef: ElementRef,
               private formBuilder: FormBuilder) {
 
@@ -62,6 +75,8 @@ export class UsersComponent implements OnInit {
       this.loadingIsError = false;
       this.loadingMessage = this.userService.loadingMessage;
       this.users = this._prepareUsers(response);
+      this.extraUsers = this._prepareUsers(response);
+      this.setPage(1);
       this.clearVariables();
     }, (error) => {
       this.loading = false;
@@ -78,9 +93,23 @@ export class UsersComponent implements OnInit {
     });
   }
 
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.users.length, page);
+
+    // get current page of items
+    this.pagedUsers = this.users.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+
   private _prepareUsers(response): User[] {
     const users: User[] = [];
-    if (response.results.length > 0) {
+    if (response.results && response.results.length > 0) {
       const results = response.results;
       results.forEach((user) => {
         users.push(
@@ -158,10 +187,72 @@ export class UsersComponent implements OnInit {
     this.showEditForm = false;
   }
 
-  showEditFormTemplate(editedLocation) {
+  showEditFormTemplate(user) {
     this.showEditForm = true;
     this.showAddForm = false;
+    this.updatedUser = this.prepareUpdateUser(user);
+    this.updatingRoles = this.prepareRoles(this.updatedUser.roles, this.roles);
 
+    this.updateUserForm = this.formBuilder.group(
+      {
+        personUUID: [this.updatedUser.personUUID, Validators.required],
+        uuid: [user.uuid, Validators.required],
+        firstName: [this.updatedUser.firstName, Validators.required],
+        familyName: [this.updatedUser.familyName, Validators.required],
+        gender: [this.updatedUser.gender, Validators.required],
+        age: this.updatedUser.age,
+        dateOfBirth: '',
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+        username: this.updatedUser.username,
+        roles: ''
+      });
+
+  }
+
+  prepareRoles(rolesInput, rolesList): Array<any> {
+    let newRolesList: Array<any> = [];
+    const roles: Array<any> = [];
+    const rolesSource = rolesInput.split('_');
+    rolesSource.forEach((role) => {
+      if (role.length > 0) {
+        roles.push(role);
+      }
+    });
+
+    newRolesList = rolesList.map((role: any) => {
+      role.roleItems.forEach((item) => {
+        roles.forEach(roleUUID => {
+          if (item.uuid === roleUUID) {
+            item.selected = true;
+          }
+          return item;
+        });
+      });
+      return role;
+    });
+
+    return newRolesList;
+  }
+
+  prepareUpdateUser(user) {
+    const displayNames = user.person.display.split(' ');
+    const roles = user.roles;
+    let roleString = '';
+
+    roles.forEach((role) => {
+      roleString += role.uuid + '_';
+    })
+
+    return {
+      personUUID: user.person.uuid,
+      firstName: displayNames.length > 0 ? displayNames[0] : '',
+      familyName: displayNames.length > 1 ? displayNames[1] : '',
+      gender: user.person.gender,
+      age: user.person.age,
+      username: user.username,
+      roles: roleString
+    };
   }
 
   submit() {
@@ -176,7 +267,8 @@ export class UsersComponent implements OnInit {
       names: [{givenName: formData.firstName, familyName: formData.familyName}],
       gender: formData.gender,
       age: formData.age
-    }
+    };
+
     this.updating = true;
     this.updatingIsError = false;
     this.notify = false;
@@ -190,7 +282,7 @@ export class UsersComponent implements OnInit {
           person: this.personObject.uuid,
           roles: formData.roles,
           username: formData.username
-        }
+        };
 
       this.userService.createUser(userObject).subscribe((userResponse) => {
         this.userObject = userResponse;
@@ -198,6 +290,25 @@ export class UsersComponent implements OnInit {
         this.updatingIsError = false;
         this.notify = true;
         this.loadingMessage = this.userService.loadingMessage;
+
+        this.userService.listUsers().subscribe((users) => {
+          this.closeForm();
+          this.updating = false;
+          this.updatingIsError = false;
+          this.notify = true;
+          this.loadingMessage = this.userService.loadingMessage;
+          this.users = this._prepareUsers(users);
+          this.extraUsers = this._prepareUsers(users);
+          this.setPage(1);
+          this.clearVariables();
+        }, (error) => {
+          this.loading = false;
+          this.notify = true;
+          this.loadingIsError = true;
+          this.loadingMessage = this.userService.loadingMessage;
+          this.clearVariables();
+        });
+
       }, (userError) => {
       });
     }, (error) => {
@@ -207,6 +318,65 @@ export class UsersComponent implements OnInit {
       this.loadingMessage = this.userService.loadingMessage;
       this.clearVariables();
     });
+  }
+
+  onUpdateSubmit($event) {
+    const formData = $event.value;
+    const person = {
+      names: [{givenName: formData.firstName, familyName: formData.familyName}],
+      gender: formData.gender,
+      age: formData.age
+    };
+
+    this.updating = true;
+    this.updatingIsError = false;
+    this.notify = false;
+    this.loadingMessage = 'Updating User';
+    this.userService.updatePerson(person, formData.personUUID).subscribe((response) => {
+
+      const userObject = {};
+      if (formData.password && formData.password !== '') {
+        userObject['password'] = formData.password;
+        userObject['roles'] = formData.roles;
+      } else {
+        userObject['roles'] = formData.roles;
+      }
+
+      this.userService.updateUser(userObject, formData.uuid).subscribe((userResponse) => {
+        this.loadingMessage = 'Updating user successfully';
+
+        this.userService.listUsers().subscribe((users) => {
+          this.closeForm();
+          this.updating = false;
+          this.updatingIsError = false;
+          this.notify = true;
+          this.loadingMessage = this.userService.loadingMessage;
+          this.users = this._prepareUsers(users);
+          this.extraUsers = this._prepareUsers(users);
+          this.setPage(1);
+          this.clearVariables();
+        }, (error) => {
+          this.loading = false;
+          this.notify = true;
+          this.loadingIsError = true;
+          this.loadingMessage = this.userService.loadingMessage;
+          this.clearVariables();
+        });
+
+      }, (userError) => {
+        this.loading = false;
+        this.notify = true;
+        this.loadingIsError = true;
+        this.loadingMessage = this.userService.loadingMessage;
+      });
+
+    }, (error) => {
+      this.loading = false;
+      this.notify = true;
+      this.loadingIsError = true;
+      this.loadingMessage = this.userService.loadingMessage;
+    });
+
   }
 
   deleteUser(user) {
@@ -219,6 +389,8 @@ export class UsersComponent implements OnInit {
 
       this.userService.listUsers().subscribe((responseUsers) => {
         this.users = this._prepareUsers(responseUsers);
+        this.extraUsers = this._prepareUsers(responseUsers);
+        this.setPage(1);
       }, (error) => {
 
       });
@@ -247,8 +419,14 @@ export class UsersComponent implements OnInit {
     return tagString;
   }
 
-  setCurrentPage(event) {
-    this.usersPage = event;
+
+  search(event) {
+    this.users = this.extraUsers;
+    if (this.searchText !== undefined) {
+      this.users = this.pagerService.filterCollection(this.users, this.searchText, 'person.display');
+    }
+    this.setPage(1);
   }
+
 
 }

@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {LocationService} from '../../shared/services/location.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {PagerService} from "../../shared/services/pager.service";
 
 @Component({
   selector: 'app-location',
@@ -9,6 +10,14 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class LocationComponent implements OnInit {
   locations: any = [];
+  extraLocation: any = [];
+
+  // pager object
+  pager: any = {};
+
+  // paged items
+  pagedLocations: any[];
+
   loading = false;
   updating = false;
   deleting = false;
@@ -25,8 +34,11 @@ export class LocationComponent implements OnInit {
   showEditForm = false;
   showAddForm = false;
   locationForm: FormGroup;
+  searchText: any;
+
 
   constructor(private locationService: LocationService,
+              private pagerService: PagerService,
               private formBuilder: FormBuilder,
               private elementRef: ElementRef) {
 
@@ -35,23 +47,26 @@ export class LocationComponent implements OnInit {
         name: ['', Validators.required],
         description: '',
         parentLocation: '',
+        hfrCode: '',
         tagOne: '',
         tagTwo: ''
       });
   }
 
   ngOnInit() {
-    this.formReference = this.elementRef.nativeElement.querySelector('#locationFormButton');
+
     this.loading = true;
     this.loadingIsError = false;
     this.notify = false;
     this.loadingMessage = this.locationService.loadingMessage;
     this.locationService.loadLocations().subscribe((locations) => {
       this.locations = locations;
+      this.extraLocation = locations;
       this.loading = false;
       this.notify = true;
       this.loadingIsError = false;
       this.loadingMessage = this.locationService.loadingMessage;
+      this.setPage(1);
       this.clearVariables();
     }, (error) => {
       this.loadingMessage = this.locationService.loadingMessage;
@@ -62,10 +77,25 @@ export class LocationComponent implements OnInit {
     });
   }
 
+
+  setPage(page: number) {
+    if (page < 1 || page > this.pager.totalPages) {
+      return;
+    }
+
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.locations.length, page);
+
+    // get current page of items
+    this.pagedLocations = this.locations.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+
   /**
    * Trigger form submission
    * */
   submit() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#locationFormButton');
     this.formReference.click();
   }
 
@@ -105,7 +135,18 @@ export class LocationComponent implements OnInit {
         this.clearVariables();
         this.locationService.loadLocations().subscribe((locations) => {
           this.locations = locations;
+          this.extraLocation = locations;
+          this.setPage(1);
         });
+        this.locationService.sendHRFDetails(
+          {
+            hfrCode: locationForm.value['hfrCode'],
+            openmrsUIID: success.uuid ? success.uuid : '',
+          }
+        ).subscribe((openSRPSuccess) => {
+          console.log(openSRPSuccess);
+        });
+
       }, (error) => {
         this.updatingIsError = true;
         this.notify = true;
@@ -139,7 +180,10 @@ export class LocationComponent implements OnInit {
       this.clearVariables();
       this.locationService.loadLocations().subscribe((locations) => {
         this.locations = locations;
+        this.extraLocation = locations;
+        this.setPage(1);
       });
+
     }, (error) => {
       this.loadingMessage = this.locationService.loadingMessage;
       this.deleting = false;
@@ -148,7 +192,6 @@ export class LocationComponent implements OnInit {
       this.clearVariables();
     });
   }
-
 
 
   renderTags(tags) {
@@ -189,6 +232,7 @@ export class LocationComponent implements OnInit {
     this.showAddForm = true;
     this.showEditForm = false;
   }
+
   showEditFormTemplate(editedLocation) {
     this.showEditForm = true;
     this.showAddForm = false;
@@ -198,4 +242,13 @@ export class LocationComponent implements OnInit {
     this.locationForm.value['description'] = editedLocation['description'];
 
   }
+
+  search(event) {
+    this.locations = this.extraLocation;
+    if (this.searchText !== undefined){
+      this.locations = this.pagerService.filterCollection(this.locations, this.searchText, 'name');
+    }
+    this.setPage(1);
+  }
+
 }

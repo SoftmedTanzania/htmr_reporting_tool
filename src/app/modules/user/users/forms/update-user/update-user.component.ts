@@ -9,6 +9,7 @@ import {Person} from '../../../../../shared/models/person';
 })
 export class UpdateUserComponent implements OnInit {
   @Input() userForm;
+  @Input() user;
   @Input() users: User[];
   @Input() person: Person;
   @Output() formSubmissionEvent = new EventEmitter();
@@ -17,17 +18,27 @@ export class UpdateUserComponent implements OnInit {
   formReference: any;
   searchText: any;
   searchTextError: boolean = false;
+  updatedRoles: Array<any> = [];
   private selectedRoles = [];
 
   constructor(private elementRef: ElementRef) {
+
   }
 
   ngOnInit() {
-
   }
 
   onSubmit() {
+    this.selectedRoles = [];
+    this.roles.forEach((role) => {
+      role.roleItems.forEach(item => {
+        if (item.selected) {
+          this.selectedRoles.push(item.uuid);
+        }
+      });
+    });
     this.userForm.value.roles = this.selectedRoles;
+    console.log(this.userForm.value.roles)
     this.formSubmissionEvent.emit(this.userForm);
   }
 
@@ -38,9 +49,14 @@ export class UpdateUserComponent implements OnInit {
   changeRole($event, roleCounter, itemcounter) {
     $event.preventDefault();
     this.roles[roleCounter].roleItems[itemcounter].selected = !this.roles[roleCounter].roleItems[itemcounter].selected;
-    if (this.roles[roleCounter].roleItems[itemcounter]) {
-      this.selectedRoles.push(this.roles[roleCounter].roleItems[itemcounter].uuid);
-    }
+
+    this.roles.forEach((role) => {
+      role.roleItems.forEach(item => {
+        if (item.selected) {
+          this.selectedRoles.push(item.uuid);
+        }
+      });
+    });
   }
 
   searchPerson() {
@@ -54,4 +70,5 @@ export class UpdateUserComponent implements OnInit {
       this.searchTextError = false;
     }
   }
+
 }
