@@ -13,7 +13,6 @@ export class AddMappingComponent implements OnInit {
   @Input() services: any;
   @Output() onMappingService = new EventEmitter;
   selectedService: MappedService;
-  selectedIndicators: Array<any> = [];
   selectedServiceId: any;
   selectedIndicatorsCount = 0;
 
@@ -28,10 +27,10 @@ export class AddMappingComponent implements OnInit {
     this.selectedService = null;
     const serviceId = +($event.target.value);
     this.selectedService = _.find(this.services, ['serviceId', serviceId]);
-    this.selectedIndicatorsCount = this.getCurrentSelected(this.selectedService.indicators);
+    this.selectedIndicatorsCount = this.getNumberOfCurrentSelected(this.selectedService.indicators);
   }
 
-  getCurrentSelected(indicators) {
+  getNumberOfCurrentSelected(indicators) {
     return indicators.reduce((sum, indicator) => {
       if (indicator.isMapped) {
         sum += 1;
@@ -44,7 +43,7 @@ export class AddMappingComponent implements OnInit {
     $event.preventDefault();
     this.selectedService.indicators[_.findIndex(this.selectedService.indicators, ['referralIndicatorId', indicator.referralIndicatorId])].isMapped
       = !this.selectedService.indicators[_.findIndex(this.selectedService.indicators, ['referralIndicatorId', indicator.referralIndicatorId])].isMapped;
-    this.selectedIndicatorsCount = this.getCurrentSelected(this.selectedService.indicators);
+    this.selectedIndicatorsCount = this.getNumberOfCurrentSelected(this.selectedService.indicators);
   }
 
   onSubmit(services) {

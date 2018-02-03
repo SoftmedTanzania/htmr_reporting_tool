@@ -28,7 +28,17 @@ export class IndicatorComponent implements OnInit {
 
   ngOnInit() {
     this.settingService.listReferalIndicators().subscribe((indicators) => {
-      console.log(indicators);
+      this.indicators = indicators.results;
+      this.loading = false;
+      this.updating = false;
+      this.deleting = false;
+      this.updatingIsError = false;
+      this.deletingIsError = false;
+      this.loadingIsError = false;
+      this.notify = true;
+      this.loadingMessage = 'Indicators loaded successfully';
+      this.clearVariables();
+      this.setPage(1);
     }, (error) => {
       this.indicators = [{
         'referralIndicatorId': 1,
@@ -270,8 +280,7 @@ export class IndicatorComponent implements OnInit {
       this.deletingIsError = false;
       this.loadingIsError = false;
       this.notify = true;
-      this.loadingMessage = 'Services loaded successfully';
-
+      this.loadingMessage = 'Indicators loaded successfully';
       this.clearVariables();
       this.setPage(1);
     });

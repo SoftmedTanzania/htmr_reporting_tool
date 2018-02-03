@@ -27,6 +27,17 @@ export class ServiceComponent implements OnInit {
 
   ngOnInit() {
     this.settingService.listReferalServices().subscribe((services) => {
+      this.loading = false;
+      this.updating = false;
+      this.deleting = false;
+      this.updatingIsError = false;
+      this.deletingIsError = false;
+      this.loadingIsError = false;
+      this.notify = true;
+      this.loadingMessage = 'Services loaded successfully';
+      this.services = services.results;
+      this.setPage(1);
+      this.clearVariables();
     }, (error) => {
 
       this.loading = false;
