@@ -7,7 +7,7 @@
           <p class="page-header">Service Manager</p>
         </div>
         <div class="col-md-6">
-          <div title="Create Location" class="btn btn-primary" (click)="showAddFormTemplate()" data-toggle="modal"
+          <div title="Create Service" class="btn btn-primary" (click)="showAddFormTemplate()" data-toggle="modal"
                data-target="#exampleModal"
                class="btn  round-button pull-right">
             <i class="fa fa-plus"></i>
@@ -89,4 +89,44 @@
     </div>
 
   </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="!showEditForm">New Service</h5>
+          <h5 class="modal-title" *ngIf="showEditForm">Update Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
+          <app-notification
+          [error]="updatingIsError"
+          *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
+          [message]="loadingMessage">
+          </app-notification>
+          <app-add-service
+          *ngIf="showAddForm"
+          >
+          </app-add-service>
+          <app-add-service
+          *ngIf="showEditForm"
+          >
+
+          </app-add-service>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -88,7 +88,6 @@ export class UserService {
 
   getNavigation() {
     if (this._getLocalStorageNavigation()) {
-      console.log(this._getLocalStorageNavigation());
       return this._getLocalStorageNavigation();
     } else {
       return _.compact(this.navigations.map((nav) => {

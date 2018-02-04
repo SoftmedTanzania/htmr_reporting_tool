@@ -131,29 +131,27 @@ export class UsersComponent implements OnInit {
   private _prepareUserRoles(response): Array<any> {
     const roles: any[] = [];
     let items: any[] = [];
-    const trailingItems = [];
     if (response.results.length > 0) {
       const results = response.results;
+      let rowCounter = 0;
+      let itemCounter = 0;
       results.forEach((role, index) => {
-        if (index < 2) {
-          trailingItems.push(
-            {name: role.name, uuid: role.uuid, selected: false}
-          );
-        } else if (index % 4 === 1) {
-          items.push(
-            {name: role.name, uuid: role.uuid, selected: false}
-          );
-          roles.push({roleItems: items});
+        itemCounter++;
+        items.push(
+          {name: role.name, uuid: role.uuid, selected: false}
+        );
+
+        if (itemCounter === 4) {
+          itemCounter = 0;
+          rowCounter++;
+          roles.push({roleItems: items, rowNo: rowCounter});
           items = [];
-        } else {
-          items.push(
-            {name: role.name, uuid: role.uuid, selected: false}
-          );
+        } else if (index === results.length - 1) {
+          roles.push({roleItems: items});
         }
 
       });
     }
-    roles.push({roleItems: trailingItems});
     return roles;
   }
 
