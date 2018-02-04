@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {SettingsService} from '../../../shared/services/settings.service';
 import {PagerService} from '../../../shared/services/pager.service';
-import {FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-service',
@@ -27,7 +27,10 @@ export class ServiceComponent implements OnInit {
   formReference: any;
   updatedService: any;
 
-  constructor(private settingService: SettingsService, private pagerService: PagerService) {
+  constructor(private settingService: SettingsService,
+              private elementRef: ElementRef,
+              private pagerService: PagerService,
+              private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -181,13 +184,104 @@ export class ServiceComponent implements OnInit {
     this.showEditForm = false;
   }
 
+
   showEditFormTemplate(service) {
     this.showAddForm = false;
     this.showEditForm = true;
+    this.updatedService = service;
+    this.serviceForm = this.formBuilder.group(
+      {
+        referralServiceId: service.referralServiceId,
+        referralServiceName: [service.referralServiceName, Validators.required],
+        referralCategoryName: [service.referralCategoryName, Validators.required],
+        isActive: service.isActive,
+      }
+    );
   }
 
-  submit() {
 
+  submit() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#addServiceForm');
+    this.formReference.click();
+  }
+
+  submitUpdate() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#updateServiceForm');
+    this.formReference.click();
+  }
+
+
+  onSubmit($event) {
+    const data = $event.value;
+    this.settingService.addReferalServices({
+      referralServiceName: data.referralServiceName,
+      referralCategoryName: data.referralCategoryName,
+      isActive: data.isActive,
+    }).subscribe((success) => {
+      this.loading = false;
+      this.updating = false;
+      this.deleting = false;
+      this.updatingIsError = false;
+      this.deletingIsError = false;
+      this.loadingIsError = false;
+      this.notify = true;
+      this.loadingMessage = 'Services added successfully';
+
+      this.settingService.listReferalServices().subscribe((services) => {
+        this.services = services.results;
+        this.setPage(1);
+        this.clearVariables();
+      }, (error) => {
+      });
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+
+  onSubmitUpdate($event) {
+    const data = $event.value;
+
+    this.loading = false;
+    this.updating = true;
+    this.deleting = false;
+    this.updatingIsError = false;
+    this.deletingIsError = false;
+    this.loadingIsError = false;
+    this.notify = false;
+    this.loadingMessage = 'Updating service';
+
+    this.settingService.editReferalIndicators({
+      referralServiceName: data.referralServiceName,
+      referralCategoryName: data.referralCategoryName,
+      isActive: data.isActive,
+    }, data.referralServiceId).subscribe((success) => {
+      this.loading = false;
+      this.updating = false;
+      this.deleting = false;
+      this.updatingIsError = false;
+      this.deletingIsError = false;
+      this.loadingIsError = false;
+      this.notify = true;
+      this.loadingMessage = 'Services updated successfully';
+
+      this.settingService.listReferalServices().subscribe((services) => {
+        this.services = services.results;
+        this.setPage(1);
+        this.clearVariables();
+      }, (error) => {
+      });
+    }, (error) => {
+      this.loading = false;
+      this.updating = false;
+      this.deleting = false;
+      this.updatingIsError = true;
+      this.deletingIsError = false;
+      this.loadingIsError = false;
+      this.notify = false;
+      this.loadingMessage = 'Updating services failed';
+
+    });
   }
 
 

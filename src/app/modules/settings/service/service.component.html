@@ -105,25 +105,29 @@
         <div class="modal-body">
           <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
           <app-notification
-          [error]="updatingIsError"
-          *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
-          [message]="loadingMessage">
+            [error]="updatingIsError"
+            *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
+            [message]="loadingMessage">
           </app-notification>
           <app-add-service
-          *ngIf="showAddForm"
+            *ngIf="showAddForm"
+            [serviceForm]="serviceForm"
+            (formSubmissionEvent)="onSubmit($event)"
           >
           </app-add-service>
-          <app-add-service
-          *ngIf="showEditForm"
+          <app-edit-service
+            *ngIf="showEditForm"
+            [serviceForm]="serviceForm"
+            (formSubmissionEvent)="onSubmitUpdate($event)"
           >
 
-          </app-add-service>
+          </app-edit-service>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
           </button>
           <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
-          <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
+          <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submitUpdate()">Update</button>
         </div>
       </div>
     </div>

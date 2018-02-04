@@ -1,16 +1,20 @@
 <div class="">
-  <form>
+  <form  [formGroup]="serviceForm" (submit)="submit(serviceForm)">
     <div class="form-group">
       <label for="service_name">Service Name</label>
-      <input type="text" class="form-control" id="service_name"  placeholder="Service Name">
+      <input type="text" class="form-control" formControlName="referralServiceName" id="service_name"  placeholder="Service Name">
+    </div>
+    <div class="form-group">
+      <label for="service_name">Category Name</label>
+      <input type="text" class="form-control" formControlName="referralCategoryName" id="category_name"  placeholder="Category Name">
     </div>
     <div class="form-group">
       <label for="status">Status</label>
-      <select id="status" class="form-control">
-        <option>Active</option>
-        <option>Not Active</option>
+      <select id="status" formControlName="isActive" class="form-control">
+        <option [value]="true">Active</option>
+        <option [value]="false">Not Active</option>
       </select>
     </div>
-    <button type="submit" style="display: none" class="btn btn-primary">Submit</button>
+    <button type="submit" style="display: none" id="addServiceForm" class="btn btn-primary">Submit</button>
   </form>
 </div>

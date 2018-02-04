@@ -409,6 +409,10 @@ export class IndicatorComponent implements OnInit {
     this.formReference = this.elementRef.nativeElement.querySelector('#addIndicatorForm');
     this.formReference.click();
   }
+  submitUpdate() {
+    this.formReference = this.elementRef.nativeElement.querySelector('#updateIndicatorForm');
+    this.formReference.click();
+  }
 
   closeForm() {
 

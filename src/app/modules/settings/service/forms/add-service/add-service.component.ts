@@ -19,8 +19,9 @@ export class AddServiceComponent implements OnInit {
   ngOnInit() {
     this.serviceForm = this.formBuilder.group(
       {
-        referralIndicatorName: ['', Validators.required],
-        isActive: [true, Validators.required]
+        referralServiceName: ['', Validators.required],
+        referralCategoryName: ['', Validators.required],
+        isActive: true,
       }
     );
   }
