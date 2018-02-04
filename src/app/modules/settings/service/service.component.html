@@ -39,9 +39,9 @@
         </thead>
         <tbody>
         <tr
-          *ngFor="let service of pagedServices | collectionFilter:searchText:'referralIndicatorName'; let counter = index">
+          *ngFor="let service of pagedServices | collectionFilter:searchText:'referralServiceName'; let counter = index">
           <th scope="row">{{counter+1}}</th>
-          <td>{{service.referralIndicatorName}}</td>
+          <td>{{service.referralServiceName}}</td>
           <td>
             <span *ngIf="service.isActive" class="badge badge-success">Active</span>
             <span *ngIf="!service.isActive" class="badge badge-danger">

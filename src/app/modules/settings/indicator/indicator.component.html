@@ -49,7 +49,8 @@
           <td>
             <div class="pull-right">
               <a class="btn btn-warning btn-sm"
-                 title="Edit">
+                 title="Edit" (click)="showEditFormTemplate(indicator)"
+                 data-toggle="modal" data-target="#exampleModal">
                 <i class="fa fa-pencil"></i>
               </a>
               <a class="btn btn-danger btn-sm"
@@ -97,38 +98,37 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" *ngIf="!showEditForm">New Location</h5>
-          <h5 class="modal-title" *ngIf="showEditForm">Update Location</h5>
+          <h5 class="modal-title" *ngIf="!showEditForm">New Indicator</h5>
+          <h5 class="modal-title" *ngIf="showEditForm">Update Indicator</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <!--<app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>-->
-          <!--<app-notification-->
-          <!--[error]="updatingIsError"-->
-          <!--*ngIf="(updatingIsError&&!updating)||(notify&&!updating)"-->
-          <!--[message]="loadingMessage">-->
-          <!--</app-notification>-->
-          <!--<app-add-location-->
-          <!--*ngIf="showAddForm"-->
-          <!--[locationForm]="locationForm"-->
-          <!--[locations]="locations"-->
-          <!--(formSubmissionEvent)="onSubmit($event)">-->
-
-          <!--</app-add-location>-->
-          <!--<app-update-location-->
-          <!--*ngIf="showEditForm"-->
-          <!--[locationForm]="locationForm"-->
-          <!--[locations]="locations"-->
-          <!--(formSubmissionEvent)="onSubmit($event)">-->
-
-          <!--</app-update-location>-->
+          <app-loader *ngIf="updating&&!updatingIsError" [message]="loadingMessage"></app-loader>
+          <app-notification
+            [error]="updatingIsError"
+            *ngIf="(updatingIsError&&!updating)||(notify&&!updating)"
+            [message]="loadingMessage">
+          </app-notification>
+          <app-add-indicator
+            *ngIf="showAddForm"
+            [indicatorForm]="indicatorForm"
+            [indicators]="indicators"
+            (formSubmissionEvent)="onSubmit($event)">
+          </app-add-indicator>
+          <app-edit-indicator
+            *ngIf="showEditForm"
+            [indicator]="updatedIndicator"
+            [indicatorForm]="indicatorForm"
+            [indicators]="indicators"
+            (formSubmissionEvent)="onUpdate($event)">
+          </app-edit-indicator>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" (click)="closeForm()" data-dismiss="modal">Close
           </button>
-          <button type="button" class="btn btn-primary btn-sm" *ngIf="!showEditForm" (click)="submit()">Create</button>
+          <button type="button" class="btn btn-primary btn-sm" *ngIf="showAddForm" (click)="submit()">Create</button>
           <button type="button" class="btn btn-warning btn-sm" *ngIf="showEditForm" (click)="submit()">Update</button>
         </div>
       </div>

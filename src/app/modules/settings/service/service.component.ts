@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SettingsService} from '../../../shared/services/settings.service';
 import {PagerService} from '../../../shared/services/pager.service';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-service',
@@ -10,7 +11,6 @@ import {PagerService} from '../../../shared/services/pager.service';
 export class ServiceComponent implements OnInit {
   services = [];
   pagedServices = [];
-  // pager object
   pager: any = {};
   loading = true;
   updating = false;
@@ -23,6 +23,9 @@ export class ServiceComponent implements OnInit {
   searchText: any = '';
   showAddForm: boolean = false;
   showEditForm: boolean = false;
+  serviceForm: FormGroup;
+  formReference: any;
+  updatedService: any;
 
   constructor(private settingService: SettingsService, private pagerService: PagerService) {
   }
@@ -51,235 +54,108 @@ export class ServiceComponent implements OnInit {
       this.notify = true;
       this.loadingMessage = 'Services loaded successfully';
       this.services = [{
-        'referralIndicatorId': 1,
-        'referralIndicatorName': 'Homa za mara kwa mara',
+        'referralServiceId': 1,
+        'referralServiceName': 'Kifua kikuu',
+        'referralCategoryName': 'tb',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 2,
-        'referralIndicatorName': 'Kupungua uzito',
+        'referralServiceId': 2,
+        'referralServiceName': 'VVU/Ukimwi',
+        'referralCategoryName': 'hiv',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 3,
-        'referralIndicatorName': 'Anaishi na mwenza mwenye VVU',
+        'referralServiceId': 3,
+        'referralServiceName': 'Malaria',
+        'referralCategoryName': 'malaria',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 4,
-        'referralIndicatorName': 'Eneo hatarishi',
+        'referralServiceId': 4,
+        'referralServiceName': 'Uzazi wa mpango',
+        'referralCategoryName': 'fp',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 5,
-        'referralIndicatorName': 'Joto kupanda/homa',
+        'referralServiceId': 5,
+        'referralServiceName': 'Unyanyasaji wa kijinsia',
+        'referralCategoryName': 'gbv',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 6,
-        'referralIndicatorName': 'Anatapika',
+        'referralServiceId': 6,
+        'referralServiceName': 'Chakula na Lishe',
+        'referralCategoryName': 'nutrition',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 7,
-        'referralIndicatorName': 'Anaharisha',
+        'referralServiceId': 7,
+        'referralServiceName': 'Kujifungulia nyumbani',
+        'referralCategoryName': 'homeDelivery',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 8,
-        'referralIndicatorName': 'Maumivu ya viungo',
+        'referralServiceId': 8,
+        'referralServiceName': 'Mjamzito',
+        'referralCategoryName': 'homeDelivery',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 9,
-        'referralIndicatorName': 'Viungo kulegea',
+        'referralServiceId': 9,
+        'referralServiceName': 'Benki ya damu',
+        'referralCategoryName': 'other',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 10,
-        'referralIndicatorName': 'Kukohoa kwa Zaidi ya wiki mbili (kwa watu wasio na VVU)',
+        'referralServiceId': 10,
+        'referralServiceName': 'Radiology',
+        'referralCategoryName': 'other',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 11,
-        'referralIndicatorName': 'Kikohozi cha muda wowote (Kwa wagonjwa wa VVU)',
+        'referralServiceId': 11,
+        'referralServiceName': 'Maabara',
+        'referralCategoryName': 'other',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 12,
-        'referralIndicatorName': 'Homa',
+        'referralServiceId': 12,
+        'referralServiceName': 'RCH',
+        'referralCategoryName': 'other',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }, {
-        'referralIndicatorId': 13,
-        'referralIndicatorName': 'Kutoka jasho jingi wakati amelala',
+        'referralServiceId': 13,
+        'referralServiceName': 'Wodini',
+        'referralCategoryName': 'other',
         'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 14,
-        'referralIndicatorName': 'Hahitaji kupata mtoto siku za karibuni',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 15,
-        'referralIndicatorName': 'Yuko kwenye mahusiano ya kingono ila hatumii njia yoyote ya kisassa ya uzazi wa\nmpango',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 16,
-        'referralIndicatorName': 'Anataka kubadili njia ya uzazi anayoumia',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 17,
-        'referralIndicatorName': 'Hajaanza kiniki ya Mama na Mtoto',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 18,
-        'referralIndicatorName': 'Anatoka damu ukeni',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 19,
-        'referralIndicatorName': 'Amevimba miguu',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 20,
-        'referralIndicatorName': 'Ana maumivu makali tumbo la chini au mgongo',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 21,
-        'referralIndicatorName': 'Yeyote aliyejifungulia nyumbani',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 22,
-        'referralIndicatorName': 'Mwenye dalili za utapiamlo',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 23,
-        'referralIndicatorName': 'Mtoto chini ya miaka mitano mwenye uzito pungufu',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 24,
-        'referralIndicatorName': 'Mtoto chini ya Mwaka mmoja asiyeongezeka uzito',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 25,
-        'referralIndicatorName': 'Mwenza mlevi',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 26,
-        'referralIndicatorName': 'Amehama nyumbani',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 27,
-        'referralIndicatorName': 'Vidonda na makovu',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 28,
-        'referralIndicatorName': 'Amedhoofika',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 29,
-        'referralIndicatorName': 'Anahitaji huduma Zaidi',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 30,
-        'referralIndicatorName': 'Sonona (msongo wa mawazo)/ kuwa na woga mkuu',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 31,
-        'referralIndicatorName': 'Kutishiwa kuuawa',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 32,
-        'referralIndicatorName': 'Mtoto ana ulemavu /hawezi kukaa au anatembea kwa shida',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
-        'active': true
-      }, {
-        'referralIndicatorId': 33,
-        'referralIndicatorName': 'Mtoto hataki kurudi nyumbani/kwenda shuleni',
-        'isActive': true,
-        'createdAt': 1516784297000,
-        'updatedAt': '2018-01-24',
+        'createdAt': 1517647274000,
+        'updatedAt': '2018-02-03',
         'active': true
       }];
       this.setPage(1);
@@ -301,9 +177,23 @@ export class ServiceComponent implements OnInit {
   }
 
   showAddFormTemplate() {
+    this.showAddForm = true;
     this.showEditForm = false;
   }
 
+  showEditFormTemplate(service) {
+    this.showAddForm = false;
+    this.showEditForm = true;
+  }
+
+  submit() {
+
+  }
+
+
+  closeForm() {
+
+  }
 
   setPage(page: number) {
     if (page < 1 || page > this.pager.totalPages) {

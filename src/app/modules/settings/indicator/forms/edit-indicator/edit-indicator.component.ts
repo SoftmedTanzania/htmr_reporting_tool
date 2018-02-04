@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-indicator',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditIndicatorComponent implements OnInit {
 
-  constructor() { }
 
-  ngOnInit() {
+  @Input() indicator;
+  @Input() indicators;
+  @Input() indicatorForm;
+  @Output() formSubmissionEvent = new EventEmitter;
+
+  constructor(private formBuilder: FormBuilder) {
+
   }
 
+  ngOnInit() {
+
+  }
+
+  submit(indicatorForm) {
+    this.formSubmissionEvent.emit(indicatorForm);
+  }
 }

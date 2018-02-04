@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-indicator',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddIndicatorComponent implements OnInit {
 
-  constructor() { }
+  @Input() indicators;
+  @Input() indicatorForm;
+  @Output() formSubmissionEvent = new EventEmitter;
+
+  constructor(private formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit() {
+    this.indicatorForm = this.formBuilder.group(
+      {
+        referralIndicatorName: ['', Validators.required],
+        isActive: [true, Validators.required]
+      }
+    );
+  }
+
+  submit(indicatorForm) {
+    this.formSubmissionEvent.emit(indicatorForm);
   }
 
 }
