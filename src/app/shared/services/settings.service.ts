@@ -43,7 +43,7 @@ export class SettingsService {
             observer.complete();
           },
           error => {
-            observer.error('some error occur');
+            observer.error(`Some error occurred: ${error.statusText}`);
           });
     });
   }
@@ -64,7 +64,7 @@ export class SettingsService {
 
   editReferalIndicators(data, id) {
     return Observable.create(observer => {
-      this.http.postOpenSRP('', data)
+      this.http.postOpenSRP('edit-referral-services', data)
         .subscribe((locationResponse: any) => {
             observer.next(locationResponse);
             observer.complete();

@@ -1,3 +1,16 @@
-<p>
-  add-indicator works!
-</p>
+<div class="">
+  <form [formGroup]="indicatorForm" (submit)="submit(indicatorForm)">
+    <div class="form-group">
+      <label for="service_name">Indicator Name</label>
+      <input type="text" class="form-control" id="service_name" formControlName="referralIndicatorName"  placeholder="Indicator Name">
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" formControlName="isActive" class="form-control">
+        <option [selected]="indicatorForm.controls.isActive" [value]="true">Active</option>
+        <option [selected]="!indicatorForm.controls.isActive" [value]="false">Not Active</option>
+      </select>
+    </div>
+    <button type="submit" style="display: none" id="addIndicatorForm" class="btn btn-primary">Submit</button>
+  </form>
+</div>
