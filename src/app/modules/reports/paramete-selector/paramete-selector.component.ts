@@ -1,10 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import * as dataActions from '../../../store/actions/ui.actions';
 import * as formActions from '../../../store/actions/forms.actions';
 import {PeriodFilterComponent} from '../../../shared/components/period-filter/period-filter.component';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../../store/reducers';
 import {Forms} from '../../../store/reducers/forms.reducer';
+import {HttpClientService} from '../../../shared/services/http-client.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-paramete-selector',
@@ -47,10 +49,39 @@ export class ParameteSelectorComponent implements OnInit {
   selectedData: any[] = [];
   @ViewChild(PeriodFilterComponent)
   public periodComponent: PeriodFilterComponent;
+  viewsaved = false;
+  dashboard_ready = false;
+  saved_reports = [];
+  dashboard = null;
+  @Output() onViewSavedChange: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private store: Store<ApplicationState>) { }
+  constructor(
+    private store: Store<ApplicationState>,
+    private http: HttpClientService
+  ) { }
 
   ngOnInit() {
+    this.http.getDHIS('dataStore/dashboard').subscribe((data: any) => {
+      for ( const dashboardId of data) {
+        this.http.getDHIS('dataStore/dashboard/' + dashboardId).subscribe(
+          (dashbaord: any) => {
+            dashbaord.id = dashboardId;
+            this.saved_reports.push(dashbaord);
+          }
+        );
+      }
+    });
+  }
+
+  loadSavedReport(id) {
+    this.dashboard = _.find(this.saved_reports, {id});
+    this.dashboard_ready = true;
+  }
+
+  changeViewReport() {
+    this.viewsaved = !this.viewsaved;
+    this.dashboard_ready = false;
+    this.onViewSavedChange.emit(this.viewsaved);
   }
 
   updateSelectedForm(formId) {

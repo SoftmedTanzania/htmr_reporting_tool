@@ -87,10 +87,14 @@
                     (click)="show_confirmation = true">
               <i class="fa fa-save"></i> Save
             </button>
-            <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_confirmation?'notHidden':'hidden'">
-              <div style="font-size: 11px">Confirm</div>
-              <button class="btn btn-outline-warning btn-block" (click)="show_confirmation = false">Cancel</button>
-              <button class="btn btn-outline-secondary btn-block" (click)="saveToDashboard()">Submit</button>
+            <div class="container-fluid tree-view" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_confirmation?'notHidden':'hidden'">
+              <label>Report title</label>
+              <textarea class="form-control" rows="5" placeholder="report title" [(ngModel)]="report_title"></textarea>
+              <div style="margin-top: 10px">
+                <p *ngIf="saving_dashboard">Saving Information Please wait...</p>
+                <button class="btn btn-outline-secondary btn-sm pull-right" [disabled]="report_title == ''" (click)="saveToDashboard()">Submit</button>
+                <button class="btn btn-outline-warning btn-sm pull-right" (click)="show_confirmation = false">Cancel</button>
+              </div>
             </div>
             <!--<a class="btn btn-outline-secondary btn-sm cursor" (click)="getCSV()" >-->
             <!--<i class="fa fa-file-excel-o"></i> Excel-->

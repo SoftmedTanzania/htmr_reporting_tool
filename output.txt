@@ -1,0 +1,82 @@
+{
+      "id": "default",
+      "name": "Default",
+      "items": [
+        {
+          "id": "default1",
+          "name": "Default"
+        }
+      ]
+    }
+
+    {
+          "id": "df8b6fc0",
+          "name": "Gender",
+          "items": [
+            {
+              "id": "Male",
+              "name": "Male"
+            },
+            {
+              "id": "Female",
+              "name": "Female"
+            }
+          ]
+        }
+   {
+         "id": "hsgfosh79",
+         "name": "SILC Week",
+         "items": [
+           {
+             "id": "week1",
+             "name": "Wiki 1"
+           },{
+             "id": "week2",
+             "name": "Wiki 2"
+           },{
+             "id": "week3",
+             "name": "Wiki 3"
+           },{
+             "id": "week4",
+             "name": "Wiki 4"
+           }
+         ]
+       }
+,
+      "categories": [
+        "default"
+      ],
+      "categoriesItems": [
+        "default1"
+      ]
+      "categories": [
+          "hsgfosh79"
+        ],
+        "categoriesItems": [
+          "week1"
+        ]
+
+      "categories": [
+          "hsgfosh79"
+        ],
+        "categoriesItems": [
+          "week2"
+        ]
+
+
+      "categories": [
+          "hsgfosh79"
+        ],
+        "categoriesItems": [
+          "week3"
+        ]
+
+
+      "categories": [
+          "hsgfosh79"
+        ],
+        "categoriesItems": [
+          "week4"
+        ]
+
+

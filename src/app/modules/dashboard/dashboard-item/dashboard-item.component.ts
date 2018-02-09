@@ -39,6 +39,7 @@ export class DashboardItemComponent implements OnInit, OnDestroy {
   @Input() chartObject: any;
   @Input() visualizerType: any = 'table';
   @Input() analytics: any;
+  @Input() show_options: boolean = true;
   chartTypes = CHART_TYPES;
   chart: any = null;
   current_settings: string = 'ou_dx';
@@ -46,6 +47,8 @@ export class DashboardItemComponent implements OnInit, OnDestroy {
   third: string = 'Period';
   labels: boolean = false;
   show_confirmation: boolean = false;
+  show_save_confirmation: boolean = false;
+  show_hide_confirmation: boolean = false;
   deleting: any = {};
 
   @ViewChild('chartTarget') chartTarget: ElementRef;
@@ -82,7 +85,25 @@ export class DashboardItemComponent implements OnInit, OnDestroy {
 
   saveToDashboard(dashboardId) {
     this.http.deleteDHIS('dataStore/dashboard/' + dashboardId).subscribe(
-      (response) => { this.deleting[dashboardId] = true },
+      (response) => { this.deleting[dashboardId] = true; },
+      (error) => {});
+  }
+
+  addToDashboard(dashboard) {
+    dashboard.show_in_dashboard = true;
+    this.http.putDHIS('dataStore/dashboard/' + dashboard.id, dashboard).subscribe(
+      (response) => {
+        this.show_save_confirmation = false;
+      },
+      (error) => {});
+  }
+
+  removeToDashboard(dashboard) {
+    dashboard.show_in_dashboard = false;
+    this.http.putDHIS('dataStore/dashboard/' + dashboard.id, dashboard).subscribe(
+      (response) => {
+        this.show_hide_confirmation = false;
+      },
       (error) => {});
   }
 

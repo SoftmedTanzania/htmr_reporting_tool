@@ -27,7 +27,7 @@ import {ServiceComponent} from './modules/settings/service/service.component';
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: LoginComponent,
     pathMatch: 'full'
   },
   {
@@ -100,7 +100,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'HomeComponent' }
+    redirectTo: 'login' }
 ];
 
 @NgModule({

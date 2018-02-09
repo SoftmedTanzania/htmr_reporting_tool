@@ -6,6 +6,7 @@ import {ApplicationState} from '../../store/reducers';
 import {Observable} from 'rxjs/Observable';
 import {FormCategory, Forms} from '../../store/reducers/forms.reducer';
 import {ResetState} from '../../store/actions/forms.actions';
+import {LoadFormDataFail} from '../../store/actions/ui.actions';
 
 @Component({
   selector: 'app-reports',
@@ -35,6 +36,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   chartObject$: Observable<any>;
   tableObject$: Observable<any>;
   visualizationType$: Observable<any>;
+  view_saved: boolean = false;
 
 
   constructor(private store: Store<ApplicationState>) {
@@ -67,4 +69,12 @@ export class ReportsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.store.dispatch(new ResetState());
   }
+
+  viewSavedChange(view_saved) {
+    this.view_saved = view_saved;
+    if (view_saved) {
+      this.store.dispatch(new LoadFormDataFail(''));
+    }
+  }
+
 }

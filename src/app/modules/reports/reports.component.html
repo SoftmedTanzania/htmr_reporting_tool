@@ -6,7 +6,7 @@
           <a class="nav-link" [routerLink]="['']"> <i class="fa fa-home"></i> <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item " routerLinkActive="active-item">
-          <a class="nav-link" routerLink="../data_entry">Custom Reports<span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="../reports">Custom Reports<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
@@ -38,10 +38,11 @@
       [selectedFormID]="selectedFormId$ | async"
       [selectedForm]="selectedForm$ | async"
       [dataElements]="dataElementsList$ | async"
+      (onViewSavedChange)="viewSavedChange($event)"
     >
       ></app-paramete-selector>
     <!--data entry-->
-    <div class="row" *ngIf="loading$ | async">
+    <div class="row" *ngIf="(loading$ | async) && !view_saved">
       <app-indicatordisplay
        [indicator]="indicator"
        [orgunit]="orgunit$ | async"

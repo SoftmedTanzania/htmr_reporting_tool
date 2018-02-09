@@ -14,8 +14,11 @@
     <span class="fa fa-caret-down pull-right text-muted"></span>
   </div>
   <div class="tree-view" [ngClass]="{'hiddenTree':hideOptions}">
+    <div style="padding: 10px">
+      <input class="form-control" [(ngModel)]="filterText">
+    </div>
     <ul class="nav nav-pills flex-column">
-      <li *ngFor="let item of items"
+      <li *ngFor="let item of items | filterByName: filterText "
           class="period" (click)="selectItem(item)"
           [ngClass]="{'selected': checkItemAvailabilty(item,selected_items)}"
           title="Click to select"

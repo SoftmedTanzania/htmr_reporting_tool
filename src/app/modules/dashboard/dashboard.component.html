@@ -21,8 +21,17 @@
     </div>
   </div>
 
+<!--No dashboard message-->
+  <div class="row no-print" *ngIf="dashboards.length == 0 && !loading">
+    <div class="col-sm-12" style="padding: 0px">
+      <h2 class="lead text-center">
+        There are no saved dashboard, start by adding them from custom report section
+      </h2>
+    </div>
+  </div>
+
   <div class="row" *ngIf="dashboards.length != 0">
-    <div class="col-sm-12" style="padding: 0px" *ngFor="let dashboard of dashboards">
+    <div class="col-sm-6" style="padding-left: 0px; padding-right: 20px" *ngFor="let dashboard of dashboards">
       <app-dashboard-item
         [indicator]="dashboard"
         [orgunit]="dashboard.orgunit"
@@ -31,6 +40,7 @@
         [tableObject]="dashboard.tableObject"
         [analytics]="dashboard.analytics"
         [visualizerType]="dashboard.visualizationType"
+        [show_options]="false"
       ></app-dashboard-item>
     </div>
   </div>

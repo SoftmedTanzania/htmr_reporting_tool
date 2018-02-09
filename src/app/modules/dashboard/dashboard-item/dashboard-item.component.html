@@ -3,29 +3,83 @@
     <div class="card" style="width: 100%">
       <div class="card-header" style="background-color: transparent; padding-top: 3px; padding-bottom: 3px">
         <button
+          *ngIf="show_options"
           [@hiddenItem] = "!show_confirmation?'notHidden':'hidden'"
           (click)="show_confirmation = true"
           title="delete this dashboard"
           class="btn btn-sm btn-outline-danger pull-right">
           <i class="fa fa-trash-o"></i>
         </button>
-        <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_confirmation?'notHidden':'hidden'">
-          <div style="font-size: 11px; text-align: right">Are You Sure?</div>
-          <button
-            style="border-radius: 0px"
-            class="btn btn-sm btn-outline-warning pull-right"
-            (click)="show_confirmation = false">
-            <i class="fa fa-times"></i>
-            No
-          </button>
-          <button
-            style="border-radius: 0px"
-            class="btn btn-sm btn-outline-secondary pull-right"
-            (click)="saveToDashboard(indicator.id)">
-            <i class="fa fa-check"></i>
-            Yes
-          </button>
-        </div>
+        <button
+          *ngIf="!indicator.show_in_dashboard && show_options"
+          [@hiddenItem] = "!show_save_confirmation?'notHidden':'hidden'"
+          (click)="show_save_confirmation = true"
+          title="delete this dashboard"
+          style="margin-right: 5px"
+          class="btn btn-sm btn-outline-primary pull-right">
+          <i class="fa fa-dashboard"></i> Add to dashboard
+        </button>
+        <button
+          *ngIf="indicator.show_in_dashboard && show_options"
+          [@hiddenItem] = "!show_hide_confirmation?'notHidden':'hidden'"
+          (click)="show_hide_confirmation = true"
+          title="delete this dashboard"
+          style="margin-right: 5px"
+          class="btn btn-sm btn-outline-primary pull-right">
+          <i class="fa fa-dashboard"></i> Remove from dashboard
+        </button>
+
+      </div>
+      <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_confirmation?'notHidden':'hidden'">
+        <div style="font-size: 11px; text-align: right">Are You Sure?</div>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-warning pull-right"
+          (click)="show_confirmation = false">
+          <i class="fa fa-times"></i>
+          No
+        </button>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-secondary pull-right"
+          (click)="saveToDashboard(indicator.id)">
+          <i class="fa fa-check"></i>
+          Yes
+        </button>
+      </div>
+      <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_save_confirmation?'notHidden':'hidden'">
+        <p style="font-size: 11px; text-align: right" class="text-right">Confirm Adding to dashboard?</p>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-warning pull-right"
+          (click)="show_save_confirmation = false">
+          <i class="fa fa-times"></i>
+          No
+        </button>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-secondary pull-right"
+          (click)="addToDashboard(indicator)">
+          <i class="fa fa-check"></i>
+          Yes
+        </button>
+      </div>
+      <div class="container-fluid" style="padding: 0px; font-size: 11px" [@hiddenItem] = "show_hide_confirmation?'notHidden':'hidden'">
+        <p style="font-size: 11px; text-align: right" class="text-right">Confirm Removing from dashboard?</p>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-warning pull-right"
+          (click)="show_hide_confirmation = false">
+          <i class="fa fa-times"></i>
+          No
+        </button>
+        <button
+          style="border-radius: 0px"
+          class="btn btn-sm btn-outline-secondary pull-right"
+          (click)="removeToDashboard(indicator)">
+          <i class="fa fa-check"></i>
+          Yes
+        </button>
       </div>
       <div class="card-body">
         <h6 class="text-center text-muted">{{ getOrgUnitName() }} - {{ getPeriodName() }}</h6>

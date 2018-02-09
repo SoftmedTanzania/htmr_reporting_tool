@@ -49,7 +49,8 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
   third: string = 'Period';
   labels: boolean = false;
   show_confirmation: boolean = false;
-
+  report_title: string = '';
+  saving_dashboard: boolean = false;
   @ViewChild('chartTarget') chartTarget: ElementRef;
   constructor(private visualizer: VisualizerService, private http: HttpClientService) {
   }
@@ -72,6 +73,8 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
 
   updateType(type, item) {
     this.visualizerType = type;
+    this.show_confirmation = false;
+    this.report_title = '';
     if (type === 'map') {
     }
 
@@ -87,6 +90,8 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
   }
 
   switchType(x, y, third = null) {
+    this.show_confirmation = false;
+    this.report_title = '';
     if (third !== null) {
       this.hide_other = !this.hide_other;
     }
@@ -132,6 +137,8 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
   updateChartType(type, item) {
     this.charttype = type;
     this.current_settings = 'ou_dx';
+    this.show_confirmation = false;
+    this.report_title = '';
     const chartConfiguration = {
       type: type,
       title: '',
@@ -151,7 +158,11 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
   }
 
   saveToDashboard() {
+    this.saving_dashboard = true;
+    this.chartObject.title.text = this.report_title;
+    this.tableObject.title = this.report_title;
     const dashboard = {
+      tittle: this.report_title,
       period: this.period,
       orgunit: this.orgunit,
       loading: this.loading,
@@ -160,10 +171,15 @@ export class IndicatordisplayComponent implements OnInit, OnDestroy {
       chartObject: this.chartObject,
       visualizerType: this.visualizerType,
       analytics: this.analytics,
-      charttype: this.charttype
+      charttype: this.charttype,
+      show_in_dashboard: false
     };
     this.http.postDHIS('dataStore/dashboard/' + this.makeid(), dashboard).subscribe(
-      (response) => {},
+      (response) => {
+        this.show_confirmation = false;
+        this.report_title = '';
+        this.saving_dashboard = false;
+        },
       (error) => {});
   }
 

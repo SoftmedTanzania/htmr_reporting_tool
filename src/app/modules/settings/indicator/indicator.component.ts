@@ -21,7 +21,7 @@ export class IndicatorComponent implements OnInit {
   notify = false;
   loadingMessage = 'Loading services';
   searchText: any = '';
-
+  showEditForm: boolean = false;
 
   constructor(private settingService: SettingsService, private pagerService: PagerService) {
   }
@@ -310,5 +310,8 @@ export class IndicatorComponent implements OnInit {
     this.pagedIndicators = this.indicators.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-
+  showAddFormTemplate() {}
+  search() {}
+  closeForm() {}
+  deleteService(t) {}
 }

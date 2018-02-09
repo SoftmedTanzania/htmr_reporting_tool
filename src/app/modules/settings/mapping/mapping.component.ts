@@ -15,7 +15,7 @@ export class MappingComponent implements OnInit {
   mappings = [];
   indicators = [];
   services = [];
-
+  showEditForm: boolean = false;
   pagedMappings = [];
   // pager object
   pager: any = {};
@@ -1472,13 +1472,12 @@ export class MappingComponent implements OnInit {
 
     services.forEach((service => {
       const newIndicators: Array<MappingIndicator> = [];
-      const singleService =
-        {
+      const singleService = {
           serviceId: service.referralServiceId,
           serviceName: service.referralServiceName,
           indicators: [],
           wasMapped: false
-        }
+        };
 
       let catchedIndicators = [];
       if (_.find(mappings, ['serviceId', service.referralServiceId])) {
@@ -1599,4 +1598,5 @@ export class MappingComponent implements OnInit {
     this.pagedMappings = this.mappings.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
+  search() {}
 }

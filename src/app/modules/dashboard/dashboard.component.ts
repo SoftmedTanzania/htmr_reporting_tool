@@ -20,7 +20,9 @@ export class DashboardComponent implements OnInit {
           (dashbaord: any) => {
             this.loading = false;
             dashbaord.id = dashboardId;
-            this.dashboards.push(dashbaord);
+            if ( dashbaord.show_in_dashboard ) {
+              this.dashboards.push(dashbaord);
+            }
           }
         );
       }

@@ -1,10 +1,14 @@
 <div class="row no-print">
   <small>
     <i class="fa fa-question-circle"></i>
-    Select data, location and period to view the report.
+    <span *ngIf="!viewsaved">Select data, location and period to view the report or </span>
+    <button style="height: 25px; font-size: 11px" class="btn btn-link btn-sm" (click)="changeViewReport()">
+      <span *ngIf="viewsaved">Enable Parameter Selections</span>
+      <span *ngIf="!viewsaved">View Saved Reports</span>
+    </button>
   </small>
 </div>
-<div class="row no-print">
+<div class="row no-print" *ngIf="!viewsaved">
   <div class="col-sm-5" style="padding-left: 0px">
    <app-multiselect
     [items]="dataElements"
@@ -19,7 +23,7 @@
     </app-org-unit-filter>
   </div>
 </div>
-<div class="row no-print" style="margin-top: 8px">
+<div class="row no-print" style="margin-top: 8px" *ngIf="!viewsaved">
   <div class="col-sm-5" style="padding-left: 0px">
     <app-period-filter
       #periodComponent
@@ -36,5 +40,29 @@
       (click)="enterData()"
     >
       <i class="fa fa-table"></i> Get Report</button>
+  </div>
+</div>
+
+<div class="row no-print" *ngIf="viewsaved">
+  <div class="col-sm-12">
+    <select class="form-control tree-view2" #f (change)="loadSavedReport(f.value)">
+      <option value="">-- Select Report --</option>
+      <option *ngFor="let form of saved_reports" [value]="form.id">{{ form.tittle }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="row" *ngIf="viewsaved && dashboard_ready">
+  <div class="col-sm-12">
+    <app-dashboard-item
+      *ngIf="dashboard"
+      [indicator]="dashboard"
+      [orgunit]="dashboard.orgunit"
+      [period]="dashboard.period"
+      [chartObject]="dashboard.chartObject"
+      [tableObject]="dashboard.tableObject"
+      [analytics]="dashboard.analytics"
+      [visualizerType]="dashboard.visualizationType"
+    ></app-dashboard-item>
   </div>
 </div>

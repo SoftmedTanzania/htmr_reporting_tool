@@ -3,10 +3,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 declare var window;
 @Injectable()
 export class HttpClientService {
-  public DHISAPIURL = '../../../api/';
-  // public DHISAPIURL = 'http://45.56.90.103:8080/dhis/api/';
-  public OPENSRPAPIURL = 'http://45.56.90.103:8080/opensrp/';
-  public OPENMRSURL = 'http://45.56.90.103:8080/openmrs/ws/rest/v1/';
+  // public DHISAPIURL = '../../../api/';
+  public DHISAPIURL = 'http://139.162.151.34:8080/dhis/api/';
+  public OPENSRPAPIURL = 'http://139.162.151.34:8080/opensrp/';
+  public OPENMRSURL = 'http://139.162.151.34:8080/openmrs/ws/rest/v1/';
 
   constructor(private http: HttpClient) {
   }
@@ -46,8 +46,7 @@ export class HttpClientService {
     const password = 'district';
 
     const token = btoa(username + ':' + password);
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Basic ' + token);
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + token });
 
     return headers;
   }
@@ -66,8 +65,7 @@ export class HttpClientService {
     const password = 'Facilityuser2017.';
 
     const token = btoa(username + ':' + password);
-    const headers = new HttpHeaders();
-    headers.append('Authorization', 'Basic ' + token);
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + token });
 
     return 'Basic ' + token;
   }
@@ -108,6 +106,13 @@ export class HttpClientService {
   postDHIS(url, data, options?) {
     const headers: HttpHeaders = this.createDHISAuthorizationHeader();
     return this.http.post(this.DHISAPIURL + url, data, {
+      headers: headers
+    });
+  }
+
+  putDHIS(url, data, options?) {
+    const headers: HttpHeaders = this.createDHISAuthorizationHeader();
+    return this.http.put(this.DHISAPIURL + url, data, {
       headers: headers
     });
   }
