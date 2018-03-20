@@ -1582,9 +1582,6 @@ export class MappingComponent implements OnInit {
 
   }
 
-  deleteService(service) {
-
-  }
 
 
   setPage(page: number) {

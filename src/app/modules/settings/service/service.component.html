@@ -59,7 +59,7 @@
               <i class="fa fa-trash"></i>
             </a>
 
-            <a class="btn btn-danger btn-sm" *ngIf="service.confirmDelete" (click)="deleteLocation(service)"
+            <a class="btn btn-danger btn-sm" *ngIf="service.confirmDelete" (click)="deleteService(service)"
                title="Confirm Delete"><i class="fa fa-check"></i> Confirm</a>
             <a class="btn btn-success btn-sm" *ngIf="service.confirmDelete"
                (click)="service.confirmDelete = !service.confirmDelete" title="Cancel Delete"><i
