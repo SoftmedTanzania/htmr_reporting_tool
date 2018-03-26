@@ -48,19 +48,20 @@
             is important
           </small>
         </div>
-        <div *ngIf="!loginNotification.isError&&loginNotification.attempted"  style="padding:.35rem 0.25rem!important;" class="alert alert-success" role="alert">
+
+        <button type="submit" class="cursor btn btn-secondary btn-block" >Login</button>
+        <div *ngIf="!loginNotification.isError&&loginNotification.attempted"  style="padding:.35rem 0.25rem!important;color: forestgreen!important;font-weight: bolder;font-size: 14px" class="" role="alert">
           {{loginNotification.message}}
           <button type="button" class="close" style="padding-top: 0px!important;margin-top: 0px!important;" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <button type="submit" class="cursor btn btn-secondary btn-block" >Login</button>
         <div>
           <img *ngIf="loginNotification.loading" src="assets/img/loading.gif">
         </div>
-        <div class="" style="padding:.35rem 0.25rem!important;color: orangered!important;font-weight: bolder;" *ngIf="loginNotification.isError&&loginNotification.attempted" role="alert">
+        <div class="" style="padding:.35rem 0.25rem!important;color: orangered!important;font-weight: bolder;font-size: 14px" *ngIf="loginNotification.isError&&loginNotification.attempted" role="alert">
           {{loginNotification.message}}
-          <button type="button" class="close"  style="padding-top: 0px!important;margin-top: 0px!important;"  data-dismiss="alert" aria-label="Close">
+          <button type="button" class="close" (click)="closeNotification()"  style="padding-top: 0px!important;margin-top: 0px!important;"  data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>

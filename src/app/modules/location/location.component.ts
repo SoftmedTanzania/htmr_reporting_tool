@@ -69,7 +69,7 @@ export class LocationComponent implements OnInit {
       this.setPage(1);
       this.clearVariables();
     }, (error) => {
-      this.loadingMessage = this.locationService.loadingMessage;
+      this.loadingMessage = error;
       this.loading = true;
       this.notify = true;
       this.loadingIsError = true;
