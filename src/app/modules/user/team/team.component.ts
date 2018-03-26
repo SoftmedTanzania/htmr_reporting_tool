@@ -57,8 +57,8 @@ export class TeamComponent implements OnInit {
     }, (error) => {
       this.loading = false;
       this.notify = true;
-      this.loadingIsError = false;
-      this.loadingMessage = this.teamService.loadingMessage;
+      this.loadingIsError = true;
+      this.loadingMessage = error;
       this.clearVariables();
     });
 
@@ -177,7 +177,7 @@ export class TeamComponent implements OnInit {
       this.updating = false;
       this.deletingIsError = true;
       this.notify = true;
-      this.loadingMessage = this.teamService.loadingMessage;
+      this.loadingMessage = error;
       this.clearVariables();
     });
   }
@@ -214,7 +214,7 @@ export class TeamComponent implements OnInit {
       this.updating = false;
       this.updatingIsError = true;
       this.notify = true;
-      this.loadingMessage = this.teamService.loadingMessage;
+      this.loadingMessage = error;
       this.clearVariables();
     });
 
@@ -253,7 +253,7 @@ export class TeamComponent implements OnInit {
       this.updating = false;
       this.updatingIsError = true;
       this.notify = true;
-      this.loadingMessage = this.teamService.loadingMessage;
+      this.loadingMessage = error;
       this.clearVariables();
     });
 
