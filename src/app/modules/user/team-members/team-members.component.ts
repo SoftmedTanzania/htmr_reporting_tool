@@ -64,8 +64,8 @@ export class TeamMembersComponent implements OnInit {
     }, (error) => {
       this.loading = false;
       this.notify = true;
-      this.loadingIsError = false;
-      this.loadingMessage = this.teamService.loadingMessage;
+      this.loadingIsError = true;
+      this.loadingMessage = error;
       this.clearVariables();
     });
 

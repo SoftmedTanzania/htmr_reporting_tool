@@ -82,7 +82,7 @@ export class UsersComponent implements OnInit {
       this.loading = false;
       this.notify = true;
       this.loadingIsError = true;
-      this.loadingMessage = this.userService.loadingMessage;
+      this.loadingMessage = error;
       this.clearVariables();
     });
 

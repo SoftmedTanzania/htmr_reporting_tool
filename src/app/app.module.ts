@@ -68,12 +68,12 @@ import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashb
 import {PaginationComponent} from './shared/components/pagination/pagination.component';
 import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
 import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
-import {PagerService} from "./shared/services/pager.service";
+import { PagerService} from "./shared/services/pager.service";
 import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
 import { ServiceComponent } from './modules/settings/service/service.component';
 import { IndicatorComponent } from './modules/settings/indicator/indicator.component';
 import { MappingComponent } from './modules/settings/mapping/mapping.component';
-import {SettingsService} from "./shared/services/settings.service";
+import { SettingsService} from "./shared/services/settings.service";
 import { AddMappingComponent } from './modules/settings/mapping/forms/add-mapping/add-mapping.component';
 import { AddIndicatorComponent } from './modules/settings/indicator/forms/add-indicator/add-indicator.component';
 import { EditIndicatorComponent } from './modules/settings/indicator/forms/edit-indicator/edit-indicator.component';

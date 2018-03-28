@@ -48,18 +48,27 @@ export class LoginComponent implements OnInit {
       this.loginNotification.loading = false;
       this.userService.loggedIn = true;
       this.userService.setNavigation(results);
-      console.log(results);
       setTimeout(() => {
         this.store.dispatch(new Go({path: ['/home', 'dashboard']}));
       }, 2000);
 
     }, (error) => {
+
       this.loginNotification.isError = true;
-      this.loginNotification.message = 'Login failure, wrong username or password';
+      this.loginNotification.message = error.status === 0 ? error.message : error.error.error.message;
+      // this.loginNotification.message = 'Login failure, wrong username or password';
       this.loginNotification.attempted = true;
       this.loginNotification.loading = false;
       this.userService.loggedIn = false;
       this.store.dispatch(new Go({path: ['/login']}));
+      setTimeout(() => {
+        this.closeNotification();
+      }, 8000);
     });
+  }
+
+  closeNotification(){
+    this.loginNotification.isError = false;
+    this.loginNotification.attempted = false;
   }
 }

@@ -43,126 +43,19 @@ export class ServiceComponent implements OnInit {
       this.loadingIsError = false;
       this.notify = true;
       this.loadingMessage = 'Services loaded successfully';
-      this.services = services.results;
+      this.services = services;
       this.setPage(1);
       this.clearVariables();
     }, (error) => {
-
       this.loading = false;
       this.updating = false;
       this.deleting = false;
       this.updatingIsError = false;
       this.deletingIsError = false;
-      this.loadingIsError = false;
+      this.loadingIsError = true;
       this.notify = true;
-      this.loadingMessage = 'Services loaded successfully';
-      this.services = [{
-        'referralServiceId': 1,
-        'referralServiceName': 'Kifua kikuu',
-        'referralCategoryName': 'tb',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 2,
-        'referralServiceName': 'VVU/Ukimwi',
-        'referralCategoryName': 'hiv',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 3,
-        'referralServiceName': 'Malaria',
-        'referralCategoryName': 'malaria',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 4,
-        'referralServiceName': 'Uzazi wa mpango',
-        'referralCategoryName': 'fp',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 5,
-        'referralServiceName': 'Unyanyasaji wa kijinsia',
-        'referralCategoryName': 'gbv',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 6,
-        'referralServiceName': 'Chakula na Lishe',
-        'referralCategoryName': 'nutrition',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 7,
-        'referralServiceName': 'Kujifungulia nyumbani',
-        'referralCategoryName': 'homeDelivery',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 8,
-        'referralServiceName': 'Mjamzito',
-        'referralCategoryName': 'homeDelivery',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 9,
-        'referralServiceName': 'Benki ya damu',
-        'referralCategoryName': 'other',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 10,
-        'referralServiceName': 'Radiology',
-        'referralCategoryName': 'other',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 11,
-        'referralServiceName': 'Maabara',
-        'referralCategoryName': 'other',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 12,
-        'referralServiceName': 'RCH',
-        'referralCategoryName': 'other',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }, {
-        'referralServiceId': 13,
-        'referralServiceName': 'Wodini',
-        'referralCategoryName': 'other',
-        'isActive': true,
-        'createdAt': 1517647274000,
-        'updatedAt': '2018-02-03',
-        'active': true
-      }];
-      this.setPage(1);
-      this.clearVariables();
+      this.loadingMessage = error;
+      this.services = null;
     });
   }
 
@@ -299,6 +192,10 @@ export class ServiceComponent implements OnInit {
 
     // get current page of items
     this.pagedServices = this.services.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+  deleteService(service) {
+    console.log(service);
   }
 
 

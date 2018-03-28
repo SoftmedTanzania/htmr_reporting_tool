@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "^0.4.6",
     "@angular/animations": "^5.0.0",
     "@angular/cdk": "^2.0.0-beta.12",
     "@angular/common": "^5.0.0",
@@ -31,7 +32,7 @@
     "@types/lodash": "^4.14.78",
     "angular-tree-component": "^5.2.1",
     "angular2-csv": "^0.2.5",
-    "bootstrap": "4.0.0-beta",
+    "bootstrap": "4.0.0-beta.2",
     "core-js": "^2.5.1",
     "font-awesome": "^4.7.0",
     "highcharts": "^6.0.4",

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {LocationService} from '../../shared/services/location.service';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {PagerService} from "../../shared/services/pager.service";
+import {PagerService} from '../../shared/services/pager.service';
 
 @Component({
   selector: 'app-location',
@@ -69,7 +69,7 @@ export class LocationComponent implements OnInit {
       this.setPage(1);
       this.clearVariables();
     }, (error) => {
-      this.loadingMessage = this.locationService.loadingMessage;
+      this.loadingMessage = error;
       this.loading = true;
       this.notify = true;
       this.loadingIsError = true;
