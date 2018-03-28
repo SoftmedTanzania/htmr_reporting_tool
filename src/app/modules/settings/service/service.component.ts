@@ -301,8 +301,5 @@ export class ServiceComponent implements OnInit {
     this.pagedServices = this.services.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 
-  showAddFormTemplate() {
-
-  }
 
 }
