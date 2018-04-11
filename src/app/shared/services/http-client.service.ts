@@ -111,6 +111,13 @@ export class HttpClientService {
     });
   }
 
+  putDHIS(url, data, options?) {
+    const headers: HttpHeaders = this.createDHISAuthorizationHeader();
+    return this.http.put(this.DHISAPIURL + url, data, {
+      headers: headers
+    });
+  }
+
   postOpenSRP(url, data, options?) {
     const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
     return this.http.post(this.OPENSRPAPIURL + url, data, {

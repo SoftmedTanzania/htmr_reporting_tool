@@ -23,6 +23,9 @@ import {AuthGuard} from './guards/auth-guards.service';
 import {MappingComponent} from './modules/settings/mapping/mapping.component';
 import {IndicatorComponent} from './modules/settings/indicator/indicator.component';
 import {ServiceComponent} from './modules/settings/service/service.component';
+import {FormCreationComponent} from './modules/forms-management/form-creation/form-creation.component';
+import {FormUpdateComponent} from './modules/forms-management/form-update/form-update.component';
+import {FormListComponent} from "./modules/forms-management/form-list/form-list.component";
 
 const routes: Routes = [
   {
@@ -48,6 +51,24 @@ const routes: Routes = [
       path: 'forms',
       canActivate: [AuthGuard, FormsGuard],
       component: FormsManagementComponent,
+      children: [
+        { path: '', redirectTo: 'list', pathMatch: 'full' },
+        {
+          path: 'list',
+          canActivate: [AuthGuard, FormsGuard],
+          component: FormListComponent
+        },
+        {
+          path: 'create_form',
+          canActivate: [AuthGuard, FormsGuard],
+          component: FormCreationComponent
+        },
+        {
+          path: ':id/update',
+          canActivate: [AuthGuard, FormsGuard],
+          component: FormUpdateComponent
+        }
+      ]
     }, {
       path: 'location',
       canActivate: [AuthGuard],

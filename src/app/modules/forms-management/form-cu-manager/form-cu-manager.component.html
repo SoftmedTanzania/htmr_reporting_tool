@@ -1,0 +1,127 @@
+<form>
+  <div class="form-group">
+    <label for="form_name">Form Name</label>
+    <input type="text" class="form-control" [(ngModel)]="formName" name="form_name" id="form_name"
+           aria-describedby="form_nameHelp"
+           placeholder="Enter Form Name">
+    <small id="form_nameHelp" class="form-text text-muted">*</small>
+  </div>
+  <div class="form-group">
+    <label for="form_name">Period Type</label>
+    <select class="form-control" [(ngModel)]="periodType" name="period_type">
+      <option value="Monthly">Monthly</option>
+      <option value="Quarterly">Quarterly</option>
+      <option value="Yearly">Yearly</option>
+    </select>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-outline-info"
+            *ngIf="!showFormSectionForm"
+            (click)="(showFormSectionForm=true);(showFormFacilitySectionForm=false)">
+      Add form sections
+    </button>
+    <button class="btn btn-sm btn-outline-info"
+            *ngIf="!showFormFacilitySectionForm"
+            (click)="(showFormFacilitySectionForm=true);(showFormSectionForm=false)">
+      Add form facilities
+    </button>
+  </div>
+  <br/>
+  <div class="form-sections-manager" *ngIf="formSections && formSections.length>0">
+    <table class="table table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Categories</th>
+        <th>Data Elements</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let formSection of formSections">
+        <td>
+          {{formSection.name}}
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let category of formSection.categories">
+              {{category.name}}
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let dataElement of formSection.items">
+              {{dataElement.name}}
+            </li>
+          </ul>
+        </td>
+        <td>
+          <button class="btn btn-outline-primary btn-xs" (click)="deleteSection(formSection)"><i
+            class="fa fa-remove"></i></button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="form-sections-populator" *ngIf="showFormSectionForm">
+    <div class="form-group">
+      <label for="sections">Form Sections</label>
+      <div class="row">
+        <div class="col-md-10">
+          <input type="text" class="form-control" id="sections" [(ngModel)]="sectionName" name="sectionName"
+                 aria-describedby="form_nameHelp"
+                 placeholder="Enter Form Section Name">
+          <!--nameNotGiven-->
+          <small *ngIf="nameNotGiven" id="sectionsHelp" class="form-text text-muted" style="color: red!important;">
+            section name is mandatory
+          </small>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-block btn-outline-secondary" (click)="addFormSection()">Add Section</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="data_elements">Data Elements</label>
+          <app-multi-selector
+            id="data_elements"
+            [label]="'Data Elements'"
+            [inputItems]="availableDataElements"
+            [outPutItems]="selectedDataElements"
+            (selectedItemsChanged)="onSelectedDataChanged($event, 'dataElements')"
+          ></app-multi-selector>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="categories">Categories</label>
+          <app-multi-selector
+            id="categories"
+            [label]="'Categories'"
+            [inputItems]="availableCategories"
+            [outPutItems]="selectedCategories"
+            (selectedItemsChanged)="onSelectedDataChanged($event, 'categories')"
+          ></app-multi-selector>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-outline-info" (click)="doneCreatingSection()">Done</button>
+  </div>
+  <div class="form-sections-populator" *ngIf="showFormFacilitySectionForm">
+    <div class="form-group">
+      <label for="sections">Assign Organisation Units</label>
+      <div>
+        <app-org-unit-selector></app-org-unit-selector>
+      </div>
+    </div>
+
+    <button class="btn btn-outline-info" (click)="doneAssigningOrganisationUnit()">Done</button>
+  </div>
+
+  <br/>
+  <button type="button" class="btn btn-outline-primary" (click)="saveFormTemplate()">Create</button>
+</form>

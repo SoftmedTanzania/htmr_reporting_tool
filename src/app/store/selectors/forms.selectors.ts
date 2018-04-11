@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import * as formSelectors from '../reducers/forms.reducer';
 import {getFormState} from '../reducers';
-
+export const getStoreResources = createSelector(getFormState, formSelectors.getStoreResources);
 export const getForms = createSelector(getFormState, formSelectors.getForms);
 export const getFormsLoaded = createSelector(getFormState, formSelectors.getFormsLoaded);
 export const getFormsLoading = createSelector(getFormState, formSelectors.getFormsLoading);

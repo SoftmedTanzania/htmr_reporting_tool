@@ -1,0 +1,43 @@
+<div class="selector-container">
+  <div class="selector-container-body">
+    <div class="selector-sub-container-available">
+      <div class="title">
+        Available <span *ngIf="label">{{label}}</span>  <span  *ngIf="!label">items</span>  <span *ngIf="inputItems">({{inputItems.length}})</span>
+      </div>
+      <div class="contents">
+        <ul class="list-group">
+          <li class="list-group-item"
+              [ngClass]="{interested: item?.ofInterest? true: false}"
+              (dblclick)="selectItem(item, inputItems, outPutItems)"
+              (click)="showInterest(item)"
+              *ngFor="let item of inputItems">
+            {{item.name}}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="selector-sub-container-selected">
+      <div class="title">
+        Selected <span  *ngIf="label">{{label}}</span>  <span  *ngIf="!label">items</span> <span *ngIf="outPutItems&&outPutItems.length>0">({{outPutItems.length}})</span>
+      </div>
+      <div class="contents">
+        <ul class="list-group">
+          <li class="list-group-item"
+              (dblclick)="selectItem(item, outPutItems, inputItems, 'reverse')"
+              (click)="showInterest(item)"
+              *ngFor="let item of outPutItems; let i=index"
+
+          >{{item.name}}
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <!--<div style="margin-top: 10px">-->
+    <!--<button class="btn btn-outline-secondary" style="cursor: pointer">Update</button>-->
+    <!--<button  class="btn btn-outline-danger" style="cursor: pointer" (click)="closeDataSelector()">Cancel</button>-->
+  <!--</div>-->
+</div>
+

@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="tree-input" appClickOutside (clickOutside)="showOrgTree = true">
+      <div class="show_items" (click)="displayOrgTree()">
+              <span *ngIf="!orgunit_tree_config.loading">
+                  {{  getProperPreOrgunitName() }}
+              </span>
+
+        <span *ngIf="orgunit_model.selected_orgunits.length > 0">
+             Selected ({{orgunit_model.selected_orgunits.length}})
+    </span>
+
+      </div>
+      <div class="tree-view" [ngClass]="{'hiddenTree':showOrgTree}" id="tree_view">
+        <div class="container-fluid">
+          <div *ngIf="orgunit_tree_config.loading">{{ orgunit_tree_config.loading_message }}</div>
+          <div class="tree-area" [ngClass]="{'someclass': orgunit_model.selected_user_orgunit.length != 0}">
+            <tree-root
+              #orgtree
+              [nodes]="organisationunits"
+              [focused]="true"
+              [options]="customTemplateStringOrgunitOptions"
+              (activate)="activateOrg($event)"
+              (deactivate)="deactivateOrg($event)"
+            >
+              <ng-template #treeNodeTemplate let-node>
+                <span (click)="updateModelOnSelect(node.data)" style="font-size: 12px">{{ node.data.name }}</span>
+              </ng-template>
+            </tree-root>
+          </div>
+          <div class="col-sm-12" style="padding:0px;margin-top: 5px;border-top:1px solid rgba(0,0,0,0.3)"
+               *ngIf="showUpdate">
+            <button class="btn btn-outline-secondary btn-sm pull-right cursor" style="margin-top: 5px"
+                    (click)="updateOrgunits()">
+              <i class="fa fa-refresh"></i>
+              <span>Update</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-1">
+    <button  class="btn btn-outline-info btn-sm">
+      Select All&nbsp;&nbsp;
+    </button>
+    <br/>
+    <br/>
+    <button class="btn btn-outline-info btn-sm">
+      Deselect All
+    </button>
+  </div>
+  <div class="col-md-7"></div>
+</div>

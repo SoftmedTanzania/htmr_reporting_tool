@@ -8,10 +8,11 @@ import { of } from 'rxjs/observable/of';
 import {SetFormReady} from '../actions/forms.actions';
 import {LOAD_FLEXIBLE_REPORT_DATA} from '../actions/ui.actions';
 import {VisualizerService} from '../../shared/services/visualizer.service';
+import {DatasetService} from '../../shared/services/dataset.service';
 
 @Injectable()
 export class FormsEffects {
-  constructor ( private actions$: Actions, private httpClient: HttpClientService , private visualizeService: VisualizerService) {
+  constructor ( private actions$: Actions, private httpClient: HttpClientService , private visualizeService: VisualizerService, private dataSet: DatasetService) {
 
   }
 
@@ -21,6 +22,16 @@ export class FormsEffects {
       return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
         map((forms) => new formsActions.LoadFormsSuccess(forms)),
         catchError((error) => of(new formsActions.LoadFormsFail(error)))
+      );
+    })
+  );
+
+  @Effect()
+  createForms$ = this.actions$.ofType(formsActions.CREATE_FORMS).pipe(
+    switchMap((action: any) => {
+      return this.dataSet.createDataSet(action.payload).pipe(
+        map((forms) => new formsActions.CreateFormsSuccess(forms)),
+        catchError((error) => of(new formsActions.CreateFormsFail(error)))
       );
     })
   );
