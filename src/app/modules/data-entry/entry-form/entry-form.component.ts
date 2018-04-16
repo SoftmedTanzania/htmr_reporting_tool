@@ -82,7 +82,6 @@ export class EntryFormComponent implements OnInit {
           value: (this.dataObject[key]) ? this.dataObject[key] : 0
         }]
       };
-      console.log(dataValue);
       this.store.dispatch(new dataActions.SaveFormData(dataValue));
     }
 

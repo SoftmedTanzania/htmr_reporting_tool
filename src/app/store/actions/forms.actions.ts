@@ -4,6 +4,9 @@ export const LOAD_FORMS = '[forms] Load Forms';
 export const CREATE_FORMS = '[forms] Create Forms';
 export const CREATE_FORMS_SUCCESS = '[forms] Create Forms success';
 export const CREATE_FORMS_FAIL = '[forms] Create Forms fail';
+export const DELETE_FORMS = '[forms] Delete Forms';
+export const DELETE_FORMS_SUCCESS = '[forms] Delete Forms success';
+export const DELETE_FORMS_FAIL = '[forms] Delete Forms fail';
 export const LOAD_FORMS_SUCCESS = '[forms] Load Forms Success';
 export const LOAD_FORMS_FAIL = '[forms] Load Forms Fail';
 export const SET_ACTIVE_FORM = '[forms] Set Active Form';
@@ -41,6 +44,22 @@ export class CreateFormsFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class DeleteForms implements Action {
+  readonly type = DELETE_FORMS;
+  constructor(public payload: any) {}
+}
+
+export class DeleteFormsSuccess implements Action {
+  readonly type = DELETE_FORMS_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class DeleteFormsFail implements Action {
+  readonly type = DELETE_FORMS_FAIL;
+  constructor(public payload: any) {}
+}
+
+
 
 export class SetActiveForm implements Action {
   readonly type = SET_ACTIVE_FORM;
@@ -74,6 +93,9 @@ export type FormsActions =
   | CreateForms
   | CreateFormsSuccess
   | CreateFormsFail
+  | DeleteForms
+  | DeleteFormsSuccess
+  | DeleteFormsFail
   | SetActiveForm
   | SetOrgUnit
   | SetPeriod

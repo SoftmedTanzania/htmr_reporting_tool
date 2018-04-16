@@ -37,6 +37,17 @@ export class FormsEffects {
   );
 
   @Effect()
+  deleteForms$ = this.actions$.ofType(formsActions.DELETE_FORMS).pipe(
+    switchMap((action: any) => {
+      return this.dataSet.deleteDataSet(action.payload).pipe(
+        map((forms) => new formsActions.DeleteFormsSuccess(forms)),
+        catchError((error) => of(new formsActions.DeleteFormsFail(error)))
+      );
+    })
+  );
+
+
+  @Effect()
   loadFormData$ = this.actions$.ofType(dataActions.LOAD_FORM_DATA).pipe(
     map((action: dataActions.LoadFormData) => action.payload),
     switchMap((payload) => {

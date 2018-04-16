@@ -20,7 +20,8 @@ export class OrgUnitSelectorComponent implements OnInit {
     selected_orgunits: [],
     user_orgunits: [],
     type: 'report', // can be 'data_entry'
-    selected_user_orgunit: []
+    selected_user_orgunit: [],
+    last_level_orgunits: []
   };
   initial_usr_orgunit = [];
   // The organisation unit configuration object This will have to come from outside.
@@ -201,6 +202,34 @@ export class OrgUnitSelectorComponent implements OnInit {
     }
   }
 
+  selectAll() {
+    console.log(this.orgunit_model.last_level_orgunits.length);
+    // this.orgunit_model.last_level_orgunits
+    for (const active_orgunit of this.orgunit_model.last_level_orgunits) {
+      this.activateNode(active_orgunit, this.orgtree, true);
+    }
+    // const node = this.orgtree.treeModel.getNodeById(child.id);
+    // node.setIsActive(true, true);
+    // this.getOrgUnitId(this.organisationunits[0]);
+
+
+  }
+
+  getOrgUnitId(orgUnit) {
+    if ( orgUnit.children ) {
+      orgUnit.children.forEach((child) => {
+        const node = this.orgtree.treeModel.getNodeById(child.id);
+        node.setIsActive(true, true);
+        this.getOrgUnitId(child);
+      });
+    } else {
+      const node = this.orgtree.treeModel.getNodeById(orgUnit.id);
+      node.setIsActive(true, true);
+    }
+
+
+
+  }
   setType(type: string) {
     this.orgunit_model.selection_mode = type;
     if ( type !== 'orgUnit' ) {
@@ -335,6 +364,9 @@ export class OrgUnitSelectorComponent implements OnInit {
 
   prepareOrganisationUnitTree(organisationUnit, type: string = 'top') {
     if (type === 'top') {
+      if (organisationUnit.level === 4) {
+       this.orgunit_model.last_level_orgunits.push(organisationUnit.id);
+      }
       if (organisationUnit.children) {
         organisationUnit.children.sort((a, b) => {
           if (a.name > b.name) {

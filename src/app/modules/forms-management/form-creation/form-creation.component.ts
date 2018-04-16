@@ -29,8 +29,6 @@ export class FormCreationComponent implements OnInit {
       this.availableCategories = categories;
     });
     store.select(formSelectors.getForms).subscribe((forms: any) => {
-      console.log('FORMS');
-      console.log(forms);
       this.forms = forms;
     });
 
