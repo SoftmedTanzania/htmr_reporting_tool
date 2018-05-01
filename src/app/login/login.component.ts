@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  closeNotification(){
+  closeNotification() {
     this.loginNotification.isError = false;
     this.loginNotification.attempted = false;
   }
