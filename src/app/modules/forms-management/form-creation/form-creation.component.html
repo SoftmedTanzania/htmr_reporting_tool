@@ -1,0 +1,11 @@
+<div class="col-md-12">
+  <span>Create Data Entry Form</span>
+  <hr/>
+  <app-form-cu-manager
+    [availableDataElements]="availableDataElements"
+    [selectedDataElements]="selectedDataElements"
+    [availableCategories]="availableCategories"
+    [selectedCategories]="selectedCategories"
+    (newFormCreate)="onNewFormCreate($event)"
+  ></app-form-cu-manager>
+</div>

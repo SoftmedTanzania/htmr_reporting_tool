@@ -1,0 +1,242 @@
+<form>
+  <div class="form-group">
+    <label for="form_name">Form Name<span style="color: red">*</span></label>
+    <input type="text" class="form-control" [(ngModel)]="formName" (change)="selectFormName($event)" name="form_name" id="form_name"
+           aria-describedby="form_nameHelp"
+           placeholder="Enter Form Name">
+    <small id="form_nameHelp" class="form-text text-muted">*</small>
+  </div>
+  <div class="form-group">
+    <label for="form_name">Period Type<span style="color: red">*</span></label>
+    <select class="form-control" [(ngModel)]="periodType" (change)="selectPeriodType($event)" name="period_type">
+      <option value="Monthly">Monthly</option>
+      <option value="Quarterly">Quarterly</option>
+      <option value="Yearly">Yearly</option>
+    </select>
+  </div>
+  <div>
+    <button class="btn btn-sm btn-outline-info"
+            [disabled]="disbleFields"
+            *ngIf="!showFormSectionForm"
+            (click)="(showFormSectionForm=true);(showFormFacilitySectionForm=false)">
+      Add form sections
+    </button>
+
+    <button class="btn btn-sm btn-outline-info"
+            [disabled]="disbleFields"
+            *ngIf="!showFormFacilitySectionForm"
+            (click)="(showFormFacilitySectionForm=true);(showFormSectionForm=false)">
+      Add form facilities
+    </button>
+  </div>
+  <br/>
+  <div class="form-sections-manager" *ngIf="formSections && formSections.length>0">
+    <table class="table table-bordered table-hover" *ngFor="let formSection of formSections">
+      <caption>{{formSection.name}}</caption>
+      <thead>
+      <ng-container *ngFor="let category of formSection.categoryItems; let i =index">
+        <tr *ngIf="i === 0">
+          <th [attr.rowspan]="formSection.categories.length"></th>
+          <th *ngFor="let item of category.items"
+              [attr.colspan]="getColSpan(i+1 , formSection.categoryItems)">
+            <span *ngIf="item.name != 'Default'"> {{item.name}} </span>
+          </th>
+        </tr>
+        <tr *ngIf="i === 1">
+          <ng-container *ngFor="let topitem of formSection.categoryItems[0].items">
+
+            <th *ngFor="let item of category.items"
+                [attr.colspan]="getColSpan(i+1 , formSection.categoryItems)">
+              {{item.name}}
+            </th>
+
+          </ng-container>
+        </tr>
+        <tr *ngIf="i === 2">
+          <ng-container *ngFor="let topitem of formSection.categoryItems[0].items">
+            <ng-container *ngFor="let topitem1 of formSection.categoryItems[1].items">
+
+              <th
+                *ngFor="let item of category.items"
+                [attr.colspan]="getColSpan(i+1 , formSection.categoryItems)">
+                {{item.name}}
+              </th>
+            </ng-container>
+          </ng-container>
+        </tr>
+      </ng-container>
+      </thead>
+      <tbody>
+      <tr *ngFor="let row of formSection.items">
+        <td>
+          <span>{{row.name}}</span>
+        </td>
+        <td *ngFor="let element of row.dataElements">
+          <input [attr.value]="'['+row.name+']'">&nbsp;
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+  <div class="form-sections-populator" [ngClass]="{'conditional-display':!showFormSectionForm}">
+    <div class="form-group">
+      <label for="sections">Form Sections</label>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" class="form-control" id="sections" [(ngModel)]="sectionName" name="sectionName"
+                 aria-describedby="form_nameHelp"
+                 placeholder="Enter Form Section Name">
+          <!--nameNotGiven-->
+          <small *ngIf="nameNotGiven" id="sectionsHelp" class="form-text text-muted" style="color: red!important;">
+            section name is mandatory
+          </small>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <br/>
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="designSection">Design Section</label>
+          <div id="designSection">
+            <button class="btn btn-outline-info btn-sm" (click)="createTableRow()">
+              <i class="fa fa-plus"></i>&nbsp;Add Row
+            </button>
+            <br/>
+            <br/>
+            <div class="design-section">
+              <table class="table table-bordered table-hover">
+                <thead>
+                <ng-container *ngFor="let category of sectionDisplay(currentFormSection).categoryItems; let i =index">
+                  <tr *ngIf="i === 0">
+                    <th [attr.rowspan]="sectionDisplay(currentFormSection).categories.length" [attr.colspan]="2"></th>
+                    <th *ngFor="let item of category.items"
+                        [attr.colspan]="getColSpan(i+1 , sectionDisplay(currentFormSection).categoryItems)">
+                      <span *ngIf="item.name != 'Default'"> {{item.name}} </span>
+                    </th>
+                    <th>
+                      <a (click)="removeCategory(category)" style="cursor: pointer">
+                        <i class="fa fa-remove alert-danger"></i>
+                      </a>
+                    </th>
+                  </tr>
+                  <tr *ngIf="i === 1">
+                    <ng-container *ngFor="let topitem of sectionDisplay(currentFormSection).categoryItems[0].items">
+
+                      <th *ngFor="let item of category.items"
+                          [attr.colspan]="getColSpan(i+1 , sectionDisplay(currentFormSection).categoryItems)">
+                        {{item.name}}
+                      </th>
+
+                    </ng-container>
+                    <th>
+                      <a (click)="removeCategory(category)" style="cursor: pointer">
+                        <i class="fa fa-remove alert-danger"></i>
+                      </a>
+                    </th>
+                  </tr>
+                  <tr *ngIf="i === 2">
+                    <ng-container *ngFor="let topitem of sectionDisplay(currentFormSection).categoryItems[0].items">
+                      <ng-container *ngFor="let topitem1 of sectionDisplay(currentFormSection).categoryItems[1].items">
+
+                        <th
+                          *ngFor="let item of category.items"
+                          [attr.colspan]="getColSpan(i+1 , sectionDisplay(currentFormSection).categoryItems)">
+                          {{item.name}}
+                        </th>
+                      </ng-container>
+                    </ng-container>
+                    <th>
+                      <a (click)="removeCategory(category)" style="cursor: pointer">
+                        <i class="fa fa-remove alert-danger"></i>
+                      </a>
+                    </th>
+                  </tr>
+                </ng-container>
+                </thead>
+                <tbody>
+                <tr *ngFor="let row of sectionDisplay(currentFormSection).items">
+                  <td>
+                    <a style="cursor: pointer" (click)="editElement(row)"><i class="fa fa-pencil alert-warning"></i></a>&nbsp;
+                    <a style="cursor: pointer" (click)="deleteElement(row)"><i
+                      class="fa fa-remove alert-danger"></i></a>&nbsp;
+                  </td>
+                  <td>
+                    <span *ngIf="newDataItemId !== row.id">{{row.name}}</span>
+                    <input *ngIf="newDataItemId === row.id" type="text" name="label_{{row.id}}"
+                           (input)="updateDataItemName($event, row.id)" class="form-control" [attr.value]="row.name">
+                  </td>
+                  <td *ngFor="let element of row.dataElements">
+                    <input id="{{element}}" [attr.value]="'['+row.name+']'">&nbsp;
+                    <a style="cursor: pointer"
+                       (click)="deleteItem(element, row)"
+                       *ngIf="newDataItemId === row.id">
+                      <i class="fa fa-remove alert-danger"></i>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <div id="form_design" class="col-md-12">
+            <div class="col-md-8">
+
+            </div>
+            <div class="col-md-4">
+              <label for="category">Category</label>
+              <input name="search" class="form-control search-field" placeholder="Search">
+              <div id="category" class="resource-container">
+                <ul class="list-group">
+                  <li class="list-group-item"
+                      *ngFor="let item of availableCategories; let i=index"
+                      (click)="selectCategory(item)"
+                  >{{item.name}}
+                  </li>
+                </ul>
+              </div>
+              <br/>
+              <br/>
+              <label for="data_elements">Data Elements</label>
+              <input name="search" class="form-control search-field" placeholder="Search">
+              <div id="data_elements" class="resource-container">
+                <ul class="list-group">
+                  <li class="list-group-item"
+                      *ngFor="let item of availableDataElements; let i=index"
+                      (click)="selectDataElements(item)"
+                  >{{item.name}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-outline-secondary btn-sm" (click)="addFormSection()">Add Section</button>
+    <button class="btn btn-outline-danger btn-sm" (click)="doneCreatingSection()">Cancel</button>
+  </div>
+  <div class="form-sections-populator" [ngClass]="{'conditional-display':!showFormFacilitySectionForm}">
+    <div class="form-group">
+      <label for="sections">Assign Organisation Units</label>
+      <div>
+        <app-org-unit-selector
+          (onOrgUnitChange)="onOrgUnitChangeAction($event)"
+        ></app-org-unit-selector>
+      </div>
+    </div>
+
+    <button class="btn btn-outline-info" (click)="doneAssigningOrganisationUnit()">Done</button>
+  </div>
+
+  <br/>
+  <button type="button" class="btn btn-outline-primary btn-sm" (click)="saveFormTemplate()">Create</button>
+</form>

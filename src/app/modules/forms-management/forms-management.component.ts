@@ -13,13 +13,7 @@ import {Forms} from '../../store/reducers/forms.reducer';
 })
 export class FormsManagementComponent implements OnInit {
 
-  forms$: Observable<Forms[]>;
-  loading$: Observable<boolean>;
-  constructor(private store: Store<ApplicationState>) {
-    store.dispatch(new LoadForms());
-    this.forms$ = store.select( formSelectors.getFormsList );
-    this.forms$.subscribe((data) => console.log(data));
-    this.loading$ = store.select( formSelectors.getFormsLoading );
+  constructor() {
   }
 
   ngOnInit() {

@@ -68,17 +68,24 @@ import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashb
 import {PaginationComponent} from './shared/components/pagination/pagination.component';
 import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
 import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
-import { PagerService} from "./shared/services/pager.service";
+import { PagerService} from './shared/services/pager.service';
 import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
 import { ServiceComponent } from './modules/settings/service/service.component';
 import { IndicatorComponent } from './modules/settings/indicator/indicator.component';
 import { MappingComponent } from './modules/settings/mapping/mapping.component';
-import { SettingsService} from "./shared/services/settings.service";
+import { SettingsService} from './shared/services/settings.service';
 import { AddMappingComponent } from './modules/settings/mapping/forms/add-mapping/add-mapping.component';
 import { AddIndicatorComponent } from './modules/settings/indicator/forms/add-indicator/add-indicator.component';
 import { EditIndicatorComponent } from './modules/settings/indicator/forms/edit-indicator/edit-indicator.component';
 import { AddServiceComponent } from './modules/settings/service/forms/add-service/add-service.component';
 import { EditServiceComponent } from './modules/settings/service/forms/edit-service/edit-service.component';
+import { FormCreationComponent } from './modules/forms-management/form-creation/form-creation.component';
+import { FormUpdateComponent } from './modules/forms-management/form-update/form-update.component';
+import { FormListComponent } from './modules/forms-management/form-list/form-list.component';
+import { FormCuManagerComponent } from './modules/forms-management/form-cu-manager/form-cu-manager.component';
+import {MultiSelectorComponent} from './modules/forms-management/multi-selector/multi-selector.component';
+import {DatasetService} from './shared/services/dataset.service';
+import { OrgUnitSelectorComponent } from './modules/forms-management/org-unit-selector/org-unit-selector.component';
 
 @NgModule({
   declarations: [
@@ -132,7 +139,13 @@ import { EditServiceComponent } from './modules/settings/service/forms/edit-serv
     AddIndicatorComponent,
     EditIndicatorComponent,
     AddServiceComponent,
-    EditServiceComponent
+    EditServiceComponent,
+    FormCreationComponent,
+    FormUpdateComponent,
+    FormListComponent,
+    FormCuManagerComponent,
+    MultiSelectorComponent,
+    OrgUnitSelectorComponent
   ],
   imports: [
     BrowserModule,
@@ -153,6 +166,7 @@ import { EditServiceComponent } from './modules/settings/service/forms/edit-serv
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     DataService,
+    DatasetService,
     HttpClientService,
     SettingsService,
     OrgUnitService,

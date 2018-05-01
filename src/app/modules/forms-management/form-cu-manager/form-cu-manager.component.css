@@ -1,0 +1,50 @@
+.form-sections-populator{
+  padding: 20px;
+  border-radius: 2px;
+  border: 1px solid #CCCCCC;
+}
+
+.conditional-display{
+  display: none;
+}
+
+.resource-container{
+  border: 1px solid #CCCCCC;
+  border-radius: 2px;
+  width: 400px;
+  height: 200px;
+  overflow-y: auto;
+}
+
+.list-group-item {
+  padding: .1875rem 0.3125rem!important;
+  font-size: 12px!important;
+}
+
+.list-group-item:hover {
+  cursor: pointer;
+  background-color: #EEEEEE;
+}
+
+.selected{
+  background-color: #EEEEEE;
+}
+
+.interested{
+  background-color: #EEEEEE;
+}
+
+.search-field{
+  width: 400px;
+  height:30px;
+  font-size: 12px!important;
+}
+
+.design-section {
+  border: 1px solid #CCCCCC;
+  border-radius: 2px;
+  width: 100%;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
