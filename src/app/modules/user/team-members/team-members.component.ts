@@ -192,7 +192,7 @@ export class TeamMembersComponent implements OnInit {
       names: [{givenName: formData.firstName, familyName: formData.familyName}],
       gender: formData.gender,
       age: formData.age
-    }
+    };
     this.updating = true;
     this.updatingIsError = false;
     this.notify = false;
@@ -200,23 +200,23 @@ export class TeamMembersComponent implements OnInit {
     this.userService.createPerson(person).subscribe((personResponse) => {
       this.personObject = personResponse;
 
-      const userObject =
-        {
+      const userObject = {
           password: formData.password,
           person: this.personObject.uuid,
           roles: null,
           username: formData.username
-        }
+        };
 
       this.userService.createUser(userObject).subscribe((userResponse) => {
         this.userObject = userResponse;
 
-        const teamMember =
-          {
+        const teamMember = {
             person: this.personObject.uuid,
             teamRole: '',
             locations: [{uuid: formData.assignedLocation}],
-            team: formData.team
+            team: formData.team,
+            isDataProvider: false,
+            identifier: this.personObject.uuid
           };
 
         this.teamService.createTeamMember(teamMember).subscribe((teamMemberResponse) => {

@@ -2,8 +2,11 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item " routerLinkActive="active-item">
-          <a class="nav-link" routerLink="../forms">Forms Management Manager<span class="sr-only">(current)</span></a>
+        <li class="nav-item " routerLinkActive="active-menu">
+          <a class="nav-link" routerLink="list">Forms Management Manager<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item "  routerLinkActive="active-menu">
+          <a class="nav-link" routerLink="categories">Categories<span class="sr-only">(current)</span></a>
         </li>
       </ul>
     </div>
@@ -11,7 +14,7 @@
 </div>
 
 
-<div class="users-manager-bar" *ngIf="!(loading$ | async)">
+<div class="users-manager-bar">
   <div class="row">
     <div class="col-md-6">
       <p class="page-header">Form Management</p>

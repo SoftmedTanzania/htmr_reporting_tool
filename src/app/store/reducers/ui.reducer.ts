@@ -159,7 +159,6 @@ export function uiReducer(
     }
 
     case(fromuiaction.LOAD_REPORT_DATA_SUCCESS): {
-      console.log(action.payload)
       const form_data = {
         dataSet: null,
         period: action.payload.metaData.pe[0],
@@ -176,6 +175,8 @@ export function uiReducer(
       return {
         ...state,
         form_data,
+        data_loaded: true,
+        data_loading: false,
         analytics: action.payload
       };
     }

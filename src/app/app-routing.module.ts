@@ -26,6 +26,7 @@ import {ServiceComponent} from './modules/settings/service/service.component';
 import {FormCreationComponent} from './modules/forms-management/form-creation/form-creation.component';
 import {FormUpdateComponent} from './modules/forms-management/form-update/form-update.component';
 import {FormListComponent} from "./modules/forms-management/form-list/form-list.component";
+import {CategoriesComponent} from './modules/forms-management/categories/categories.component';
 
 const routes: Routes = [
   {
@@ -59,12 +60,17 @@ const routes: Routes = [
           component: FormListComponent
         },
         {
+          path: 'categories',
+          canActivate: [AuthGuard, FormsGuard],
+          component: CategoriesComponent
+        },
+        {
           path: 'create_form',
           canActivate: [AuthGuard, FormsGuard],
           component: FormCreationComponent
         },
         {
-          path: ':id/update',
+          path: ':formId/update',
           canActivate: [AuthGuard, FormsGuard],
           component: FormUpdateComponent
         }

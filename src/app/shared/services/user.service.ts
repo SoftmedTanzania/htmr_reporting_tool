@@ -51,13 +51,13 @@ export class UserService {
       roles: ['System Developer'],
       accessibility: false
     },
-    // {
-    //   name: 'Form Management',
-    //   links: ['/home', 'forms'],
-    //   icon: 'fa fa-file-text',
-    //   roles: ['System Developer'],
-    //   accessibility: false
-    // },
+    {
+      name: 'Form Management',
+      links: ['/home', 'forms'],
+      icon: 'fa fa-file-text',
+      roles: ['System Developer'],
+      accessibility: false
+    },
     {
       name: 'Location Management',
       links: ['/home', 'location'],
@@ -65,7 +65,7 @@ export class UserService {
       roles: ['System Developer'],
       accessibility: false
     }
-  ]
+  ];
 
   constructor(private http: HttpClientService) {
     if (this.http.getToken()) {

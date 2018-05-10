@@ -1,3 +1,6 @@
-<p>
-  form-update works!
-</p>
+<app-form-items
+  [form]="currentForm$ | async"
+  [categories]="categories$ | async"
+  [dataElements]="dataElements$ | async"
+  *ngIf="currentForm$ | async"
+></app-form-items>

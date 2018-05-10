@@ -7,6 +7,9 @@ import {Observable} from 'rxjs/Observable';
 import {FormCategory, Forms} from '../../store/reducers/forms.reducer';
 import {ResetState} from '../../store/actions/forms.actions';
 import {LoadFormDataFail} from '../../store/actions/ui.actions';
+import * as fromFrom from '../../store/forms/form.selector';
+import * as fromCategory from '../../store/categories/category.selector';
+import * as fromDataElement from '../../store/data-elements/data-element.selector';
 
 @Component({
   selector: 'app-reports',
@@ -40,15 +43,15 @@ export class ReportsComponent implements OnInit, OnDestroy {
 
 
   constructor(private store: Store<ApplicationState>) {
-    this.forms$ = store.select( formSelectors.getFormsList );
+    this.forms$ = store.select( fromFrom.selectAll );
     this.loading$ = store.select( dataelectors.getDataLoaded );
-    this.loaded$ = store.select( formSelectors.getFormsLoaded );
-    this.formloading$ = store.select( formSelectors.getFormsLoading );
-    this.dataElements$ = store.select( formSelectors.getDataelements);
-    this.dataElementsList$ = store.select( formSelectors.getDataelementsList);
-    this.categories$ = store.select( formSelectors.getCategoriesList );
-    this.selectedForm$ = store.select( formSelectors.getSelectedForm );
-    this.selectedFormId$ = store.select( formSelectors.getSelectedFormID );
+    this.loaded$ = store.select( fromFrom.selectLoaded );
+    this.formloading$ = store.select( fromFrom.selectLoading );
+    this.dataElements$ = store.select( fromDataElement.selectEntities);
+    this.dataElementsList$ = store.select( fromDataElement.selectAll);
+    this.categories$ = store.select( fromCategory.selectAll );
+    this.selectedForm$ = store.select( fromFrom.selectCurrentForm );
+    this.selectedFormId$ = store.select( fromFrom.selectCurrentId );
     this.orgunit$ = store.select( formSelectors.getOrgunit );
     this.period$ = store.select( formSelectors.getPeriod );
     this.periodType$ = store.select( formSelectors.getPeriodType );

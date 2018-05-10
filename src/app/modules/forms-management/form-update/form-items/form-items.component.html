@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <!--Basic Details-->
+  <div class="row">
+    <!--Form Name-->
+    <div class="col-6">
+      <div class="form-group">
+        <label for="form_name">Form Name<span style="color: red">*</span></label>
+        <input type="text" class="form-control" (input)="selectFormName($event)" name="form_name" id="form_name"
+               aria-describedby="form_nameHelp"
+               [value]="form.name "
+               placeholder="Enter Form Name">
+        <small id="form_nameHelp" class="form-text text-muted">*</small>
+      </div>
+    </div>
+
+    <!--Period type-->
+    <div class="col-6">
+      <div class="form-group">
+        <label for="form_name">Period Type<span style="color: red">*</span></label>
+        <select class="form-control" (change)="selectPeriodType($event)" name="period_type">
+          <option value="Monthly" [selected]="form.periodType == 'Monthly'">Monthly</option>
+          <option value="Quarterly" [selected]="form.periodType == 'Quarterly'">Quarterly</option>
+          <option value="Yearly" [selected]="form.periodType == 'Yearly'">Yearly</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!--Sections-->
+  <div class="row">
+    <div class="col-10">
+      Section form
+    </div>
+    <div class="col-2">
+      Categories
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<h3>
+  Categories Management
+  <button class="btn btn-sm btn-outline-secondary" (click)="saveToDatabase()">Save Changes</button>
+</h3>
+
+<table class="table">
+  <tr>
+    <th>Category</th>
+    <th>Options</th>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <app-add-category></app-add-category>
+    </td>
+
+  </tr>
+  <tbody [@listState]="(categories$ | async).length">
+    <tr *ngFor="let category of categories$ | async ; let i = index">
+      <td *ngIf="currentEdditing[category.id]" colspan="2">
+        <app-add-category [newCategory]="category" (doneSaving)="doneSavingCat($event)"></app-add-category>
+      </td>
+      <td *ngIf="!currentEdditing[category.id]">
+        {{ category.name }}
+      </td>
+      <td *ngIf="!currentEdditing[category.id]">
+        <div class="container-fluid p-0">
+        <div class="row">
+          <div class="col-12">
+            <button @fade *ngIf="!currentDeleting[category.id]" (click)="currentDeleting[category.id] = true" class="btn btn-sm btn-danger pull-right" title="Delete this category">
+              <i class="fa fa-trash-o"></i>
+            </button>
+            <button @fade *ngIf="!currentDeleting[category.id]" (click)="currentEdditing[category.id] = true" class="btn btn-sm btn-warning pull-right" title="Delete this category">
+              <i class="fa fa-pencil-square"></i>
+            </button>
+
+            <button @fade *ngIf="currentDeleting[category.id]" (click)="currentDeleting[category.id] = false"  class="btn btn-sm btn-warning pull-right" title="Cancel Deleting this category">
+              <i class="fa fa-close"></i>
+              Cancel
+            </button>
+
+            <button @fade *ngIf="currentDeleting[category.id]" (click)="deleteCat(category)" class="btn btn-sm btn-success pull-right" title="Confirm Deleting this category">
+              <i class="fa fa-check"></i>
+              Delete
+            </button>
+          </div>
+          <div class="col-12">
+            <ul class="list-group">
+              <li
+                class="list-group-item p-1"
+                *ngFor="let item of category.items">
+                <span *ngIf="!currentEdditing[category.id]">{{ item.name }}</span>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </td>
+  </tr>
+  </tbody>
+</table>

@@ -11,6 +11,7 @@ export const getDataelements = createSelector(getFormState, formSelectors.getDat
 export const getOrgunit = createSelector(getFormState, formSelectors.getOrgunit);
 export const getPeriod = createSelector(getFormState, formSelectors.getPeriod);
 export const getFormReady = createSelector(getFormState, formSelectors.getFormReady);
+import * as fromForm from '../forms/form.selector';
 
 // export const getSelectedForm = createSelector(getForms, getSelectedFormID, (forms, selectedFormId) => forms[selectedFormId]);
 export const getSelectedForm = createSelector(getFormState, (formstate) => {
@@ -25,7 +26,7 @@ export const getSelectedForm = createSelector(getFormState, (formstate) => {
 
   return form;
 });
-export const getPeriodType = createSelector(getSelectedForm, (form) => form ? form.periodType : 'Monthly');
+export const getPeriodType = createSelector(fromForm.selectCurrentForm, (form) => form ? form.periodType : 'Monthly');
 
 export const getFormsList = createSelector(getForms, (forms) => {
   return Object.keys(forms).map((key) => forms[key]);

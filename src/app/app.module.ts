@@ -86,6 +86,9 @@ import { FormCuManagerComponent } from './modules/forms-management/form-cu-manag
 import {MultiSelectorComponent} from './modules/forms-management/multi-selector/multi-selector.component';
 import {DatasetService} from './shared/services/dataset.service';
 import { OrgUnitSelectorComponent } from './modules/forms-management/org-unit-selector/org-unit-selector.component';
+import { CategoriesComponent } from './modules/forms-management/categories/categories.component';
+import { AddCategoryComponent } from './modules/forms-management/categories/add-category/add-category.component';
+import { FormItemsComponent } from './modules/forms-management/form-update/form-items/form-items.component';
 
 @NgModule({
   declarations: [
@@ -145,7 +148,10 @@ import { OrgUnitSelectorComponent } from './modules/forms-management/org-unit-se
     FormListComponent,
     FormCuManagerComponent,
     MultiSelectorComponent,
-    OrgUnitSelectorComponent
+    OrgUnitSelectorComponent,
+    CategoriesComponent,
+    AddCategoryComponent,
+    FormItemsComponent
   ],
   imports: [
     BrowserModule,

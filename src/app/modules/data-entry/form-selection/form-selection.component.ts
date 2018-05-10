@@ -5,6 +5,7 @@ import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../../store/reducers';
 import {PeriodFilterComponent} from '../../../shared/components/period-filter/period-filter.component';
 import {Forms} from '../../../store/reducers/forms.reducer';
+import * as fromForm from '../../../store/forms/form.actions';
 
 @Component({
   selector: 'app-form-selection',
@@ -39,7 +40,7 @@ export class FormSelectionComponent implements OnInit {
   }
 
   updateSelectedForm(formId) {
-    this.store.dispatch(new formActions.SetActiveForm(formId));
+    this.store.dispatch(new fromForm.SetSelectedForm(formId));
     if (formId !== '') {
       setTimeout(() => {
         this.periodComponent.loadPeriods();

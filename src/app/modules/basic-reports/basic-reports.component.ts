@@ -6,6 +6,9 @@ import * as formSelectors from '../../store/selectors/forms.selectors';
 import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/reducers';
 import {ResetState} from '../../store/actions/forms.actions';
+import * as fromFrom from '../../store/forms/form.selector';
+import * as fromCategory from '../../store/categories/category.selector';
+import * as fromDataElement from '../../store/data-elements/data-element.selector';
 
 @Component({
   selector: 'app-basic-reports',
@@ -30,13 +33,13 @@ export class BasicReportsComponent implements OnInit, OnDestroy {
   data_loading: Observable<boolean>;
   data_object$: Observable<any>;
   constructor(private store: Store<ApplicationState>) {
-    this.forms$ = store.select( formSelectors.getFormsList );
-    this.loading$ = store.select( formSelectors.getFormsLoading );
-    this.loaded$ = store.select( formSelectors.getFormsLoaded );
-    this.dataElements$ = store.select( formSelectors.getDataelements);
-    this.categories$ = store.select( formSelectors.getCategoriesList );
-    this.selectedForm$ = store.select( formSelectors.getSelectedForm );
-    this.selectedFormId$ = store.select( formSelectors.getSelectedFormID );
+    this.forms$ = store.select( fromFrom.selectAll );
+    this.loading$ = store.select( fromFrom.selectLoading );
+    this.loaded$ = store.select( fromFrom.selectLoaded );
+    this.dataElements$ = store.select( fromDataElement.selectAll);
+    this.categories$ = store.select( fromCategory.selectAll );
+    this.selectedForm$ = store.select( fromFrom.selectCurrentForm );
+    this.selectedFormId$ = store.select( fromFrom.selectCurrentId );
     this.orgunit$ = store.select( formSelectors.getOrgunit );
     this.period$ = store.select( formSelectors.getPeriod );
     this.periodType$ = store.select( formSelectors.getPeriodType );

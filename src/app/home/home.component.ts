@@ -14,7 +14,10 @@ export class HomeComponent implements OnInit {
 
   navigation = [];
 
-  constructor(private store: Store<ApplicationState>,private  userService: UserService) {
+  constructor(
+    private store: Store<ApplicationState>,
+    private  userService: UserService
+  ) {
    this.navigation = userService.getNavigation();
   }
 

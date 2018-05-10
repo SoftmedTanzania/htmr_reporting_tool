@@ -4,12 +4,17 @@
   </div>
   <h5 class="text-center text-muted">{{ form?.name}}</h5>
   <h5 class="text-center text-muted">{{ getOrgUnitName() }} - {{ getPeriodName() }}</h5>
+  <p class="lead" *ngIf="data_loading">
+    <img src="assets/img/loading.gif">
+    Loading Data ...
+  </p>
   <div *ngFor="let section of form.sections">
     <h6>
       {{ section.name }}
       <button (click)="downloadCSV(section)" class="pull-right btn btn-sm btn-outline-secondary no-print" title="download as excel"><i class="fa fa-file-excel-o"></i> Excel </button>
     </h6>
-    <table class="table table-bordered table-condensed table-responsive">
+
+    <table class="table table-bordered table-condensed table-responsive" *ngIf="data_loaded">
       <ng-container *ngFor="let category of section.categoryItems; let i =index">
         <tr *ngIf="i === 0">
           <th [attr.rowspan]="section.categories.length"></th>
@@ -31,7 +36,7 @@
 
       <tr *ngFor="let item of section.items">
         <td>{{ item.name }}</td>
-        <td *ngFor="let cat of item.dataElements" class="text-center">
+        <td *ngFor="let cat of item.dataElements" class="text-center" style="min-width: 40px">
           {{ dataObject[cat+'_'+period.value+'_'+orgunit.value] }}
         </td>
       </tr>

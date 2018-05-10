@@ -40,11 +40,10 @@
       [dataElements]="dataElementsList$ | async"
       (onViewSavedChange)="viewSavedChange($event)"
     >
-      ></app-paramete-selector>
+    </app-paramete-selector>
     <!--data entry-->
     <div class="row" *ngIf="(loading$ | async) && !view_saved">
       <app-indicatordisplay
-       [indicator]="indicator"
        [orgunit]="orgunit$ | async"
        [period]="period$ | async"
        [chartObject]="chartObject$ | async"

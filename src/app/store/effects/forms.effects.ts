@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs/observable/of';
+import { catchError, map, switchMap, tap} from 'rxjs/operators';
 import * as formsActions from '../actions/forms.actions';
 import * as dataActions from '../actions/ui.actions';
-import {HttpClientService} from '../../shared/services/http-client.service';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
-import {SetFormReady} from '../actions/forms.actions';
-import {LOAD_FLEXIBLE_REPORT_DATA} from '../actions/ui.actions';
-import {VisualizerService} from '../../shared/services/visualizer.service';
-import {DatasetService} from '../../shared/services/dataset.service';
+import * as formActions from '../forms/form.actions';
+import * as categoryAction from '../categories/category.actions';
+import * as dataElementAction from '../data-elements/date-element.actions';
+import { HttpClientService } from '../../shared/services/http-client.service';
+import { VisualizerService } from '../../shared/services/visualizer.service';
+import { DatasetService } from '../../shared/services/dataset.service';
+import { ApplicationState } from '../reducers';
 
 @Injectable()
 export class FormsEffects {
-  constructor ( private actions$: Actions, private httpClient: HttpClientService , private visualizeService: VisualizerService, private dataSet: DatasetService) {
+  constructor (
+    private actions$: Actions,
+    private httpClient: HttpClientService ,
+    private visualizeService: VisualizerService,
+    private dataSet: DatasetService,
+    private store: Store<ApplicationState>
+  ) {
 
   }
 
@@ -22,6 +31,22 @@ export class FormsEffects {
       return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
         map((forms) => new formsActions.LoadFormsSuccess(forms)),
         catchError((error) => of(new formsActions.LoadFormsFail(error)))
+      );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  loadMetadata = this.actions$.ofType(formActions.FormActionTypes.GetForms).pipe(
+    switchMap(() => {
+      return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
+        tap(formdata => {
+          this.store.dispatch(new formActions.LoadForms({ forms: formdata.forms}));
+          this.store.dispatch(new formActions.DoneGettingForms());
+          this.store.dispatch(new categoryAction.LoadCategories({categorys: formdata.categories}));
+          this.store.dispatch(new categoryAction.DoneGettingCategories());
+          this.store.dispatch(new dataElementAction.LoadDateElements({dateElements: formdata.dataElements}));
+          this.store.dispatch(new dataElementAction.DoneGettingDateElements());
+        })
       );
     })
   );

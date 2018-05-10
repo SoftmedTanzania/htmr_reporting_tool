@@ -9,6 +9,8 @@ import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
 import {ApplicationState} from '../store/reducers';
 import {getFormsLoaded} from '../store/selectors/forms.selectors';
 import {LoadForms} from '../store/actions/forms.actions';
+import * as formSelector from '../store/forms/form.selector';
+import {FormActionTypes, GetForms} from '../store/forms/form.actions';
 
 @Injectable()
 export class FormsGuard implements CanActivate {
@@ -22,10 +24,10 @@ export class FormsGuard implements CanActivate {
   }
 
   checkStore(): Observable<boolean> {
-    return this.store.select(getFormsLoaded).pipe(
+    return this.store.select(formSelector.selectLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
-          this.store.dispatch(new LoadForms());
+          this.store.dispatch(new GetForms());
         }
       }),
       filter(loaded => loaded),

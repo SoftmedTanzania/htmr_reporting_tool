@@ -296,7 +296,7 @@ export class FormCuManagerComponent implements OnInit {
     );
   }
 
-  private sectionDisplay(section): any {
+  public sectionDisplay(section): any {
     section.categoryItems = section.categories.map((cat) => {
       return _.filter(this.availableCategories, (category) => {
         return category.id === cat ? category : null;

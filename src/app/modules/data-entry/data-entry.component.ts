@@ -1,14 +1,15 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {LoadForms, ResetState} from '../../store/actions/forms.actions';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+
+import { ResetState} from '../../store/actions/forms.actions';
 import * as formSelectors from '../../store/selectors/forms.selectors';
 import * as dataelectors from '../../store/selectors/ui.selectors';
-import * as formActions from '../../store/actions/forms.actions';
-import {Store} from '@ngrx/store';
 import {ApplicationState} from '../../store/reducers';
-import {Observable} from 'rxjs/Observable';
-import {DataElement, FormCategory, Forms} from '../../store/reducers/forms.reducer';
-import {PeriodFilterComponent} from '../../shared/components/period-filter/period-filter.component';
-
+import { FormCategory, Forms} from '../../store/reducers/forms.reducer';
+import * as fromFrom from '../../store/forms/form.selector';
+import * as fromCategory from '../../store/categories/category.selector';
+import * as fromDataElement from '../../store/data-elements/data-element.selector';
 @Component({
   selector: 'app-data-entry',
   templateUrl: './data-entry.component.html',
@@ -34,13 +35,13 @@ export class DataEntryComponent implements OnInit, OnDestroy {
 
 
   constructor(private store: Store<ApplicationState>) {
-    this.forms$ = store.select( formSelectors.getFormsList );
-    this.loading$ = store.select( formSelectors.getFormsLoading );
-    this.loaded$ = store.select( formSelectors.getFormsLoaded );
-    this.dataElements$ = store.select( formSelectors.getDataelements);
-    this.categories$ = store.select( formSelectors.getCategoriesList );
-    this.selectedForm$ = store.select( formSelectors.getSelectedForm );
-    this.selectedFormId$ = store.select( formSelectors.getSelectedFormID );
+    this.forms$ = store.select( fromFrom.selectAll );
+    this.loading$ = store.select( fromFrom.selectLoading );
+    this.loaded$ = store.select( fromFrom.selectLoaded );
+    this.dataElements$ = store.select( fromDataElement.selectAll);
+    this.categories$ = store.select( fromCategory.selectAll );
+    this.selectedForm$ = store.select( fromFrom.selectCurrentForm );
+    this.selectedFormId$ = store.select( fromFrom.selectCurrentId );
     this.orgunit$ = store.select( formSelectors.getOrgunit );
     this.period$ = store.select( formSelectors.getPeriod );
     this.periodType$ = store.select( formSelectors.getPeriodType );
