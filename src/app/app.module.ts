@@ -21,9 +21,9 @@ import { CustomSerializer } from './store/reducers/router.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import * as fromGuards from './guards';
-import {OrgUnitService} from './shared/services/org-unit.service';
-import {VisualizerService} from './shared/services/visualizer.service';
-import {FilterService} from './shared/services/filter.service';
+import { OrgUnitService} from './shared/services/org-unit.service';
+import { VisualizerService} from './shared/services/visualizer.service';
+import { FilterService} from './shared/services/filter.service';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './modules/user/user.component';
 import { PasswordComponent } from './modules/user/password/password.component';
@@ -36,16 +36,16 @@ import { DataEntryComponent } from './modules/data-entry/data-entry.component';
 import { TeamComponent } from './modules/user/team/team.component';
 import { TeamMembersComponent } from './modules/user/team-members/team-members.component';
 import { UsersComponent } from './modules/user/users/users.component';
-import {LocationService} from './shared/services/location.service';
-import {NotificationComponent} from './shared/components/notification/notification.component';
-import {LoaderComponent} from './shared/components/loader/loader.component';
-import {OrgUnitFilterComponent} from './shared/components/org-unit-filter/org-unit-filter.component';
-import {PeriodFilterComponent} from './shared/components/period-filter/period-filter.component';
-import {MultiselectComponent} from './shared/components/org-unit-filter/multiselect/multiselect.component';
-import {DndModule} from 'ng2-dnd';
-import {Ng2HighchartsModule} from 'ng2-highcharts';
-import {TreeModule} from 'angular-tree-component';
-import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
+import { LocationService} from './shared/services/location.service';
+import { NotificationComponent} from './shared/components/notification/notification.component';
+import { LoaderComponent} from './shared/components/loader/loader.component';
+import { OrgUnitFilterComponent} from './shared/components/org-unit-filter/org-unit-filter.component';
+import { PeriodFilterComponent} from './shared/components/period-filter/period-filter.component';
+import { MultiselectComponent} from './shared/components/org-unit-filter/multiselect/multiselect.component';
+import { DndModule} from 'ng2-dnd';
+import { Ng2HighchartsModule} from 'ng2-highcharts';
+import { TreeModule} from 'angular-tree-component';
+import { ClickOutsideDirective} from './shared/directives/click-outside.directive';
 import { EntryFormComponent } from './modules/data-entry/entry-form/entry-form.component';
 import { FormSelectionComponent } from './modules/data-entry/form-selection/form-selection.component';
 import { AddLocationComponent } from './modules/location/forms/add-location/add-location.component';
@@ -60,14 +60,14 @@ import { BasicReportsComponent } from './modules/basic-reports/basic-reports.com
 import { ReportSelectionComponent } from './modules/basic-reports/report-selection/report-selection.component';
 import { ReportTempleteComponent } from './modules/basic-reports/report-templete/report-templete.component';
 import { ParameteSelectorComponent } from './modules/reports/paramete-selector/paramete-selector.component';
-import {IndicatordisplayComponent} from './shared/components/indicatordisplay/indicatordisplay.component';
-import {TableTemplateComponent} from './shared/components/table-template/table-template.component';
-import {TeamService} from './shared/services/team.service';
-import {UserService} from './shared/services/user.service';
+import { IndicatordisplayComponent} from './shared/components/indicatordisplay/indicatordisplay.component';
+import { TableTemplateComponent} from './shared/components/table-template/table-template.component';
+import { TeamService} from './shared/services/team.service';
+import { UserService} from './shared/services/user.service';
 import { DashboardItemComponent } from './modules/dashboard/dashboard-item/dashboard-item.component';
-import {PaginationComponent} from './shared/components/pagination/pagination.component';
-import {FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
-import {PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
+import { PaginationComponent} from './shared/components/pagination/pagination.component';
+import { FilterByNamePipe} from './shared/pipes/filter-by-name.pipe';
+import { PlaceholderComponent} from './shared/components/placeholder/placeholder.component';
 import { PagerService} from './shared/services/pager.service';
 import { CollectionFilterPipe } from './shared/pipes/collection-filter.pipe';
 import { ServiceComponent } from './modules/settings/service/service.component';
@@ -83,13 +83,14 @@ import { FormCreationComponent } from './modules/forms-management/form-creation/
 import { FormUpdateComponent } from './modules/forms-management/form-update/form-update.component';
 import { FormListComponent } from './modules/forms-management/form-list/form-list.component';
 import { FormCuManagerComponent } from './modules/forms-management/form-cu-manager/form-cu-manager.component';
-import {MultiSelectorComponent} from './modules/forms-management/multi-selector/multi-selector.component';
-import {DatasetService} from './shared/services/dataset.service';
+import { MultiSelectorComponent} from './modules/forms-management/multi-selector/multi-selector.component';
+import { DatasetService} from './shared/services/dataset.service';
 import { OrgUnitSelectorComponent } from './modules/forms-management/org-unit-selector/org-unit-selector.component';
 import { CategoriesComponent } from './modules/forms-management/categories/categories.component';
 import { AddCategoryComponent } from './modules/forms-management/categories/add-category/add-category.component';
 import { FormItemsComponent } from './modules/forms-management/form-update/form-items/form-items.component';
 import { ProvidersReportComponent } from './modules/providers-report/providers-report.component';
+import { CalculateColumnSpanPipe } from './shared/pipes/calculate-column-span.pipe';
 
 @NgModule({
   declarations: [
@@ -153,7 +154,8 @@ import { ProvidersReportComponent } from './modules/providers-report/providers-r
     CategoriesComponent,
     AddCategoryComponent,
     FormItemsComponent,
-    ProvidersReportComponent
+    ProvidersReportComponent,
+    CalculateColumnSpanPipe
   ],
   imports: [
     BrowserModule,

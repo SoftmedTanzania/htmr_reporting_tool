@@ -7,4 +7,5 @@ export interface Section {
     name: string;
     dataElements: string[];
   }[];
+  categoryItems?: any;
 }

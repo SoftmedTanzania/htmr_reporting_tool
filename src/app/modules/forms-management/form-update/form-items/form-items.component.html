@@ -5,11 +5,10 @@
     <div class="col-6">
       <div class="form-group">
         <label for="form_name">Form Name<span style="color: red">*</span></label>
-        <input type="text" class="form-control" (input)="selectFormName($event)" name="form_name" id="form_name"
+        <input type="text" class="form-control" (input)="selectFormName($event.target.value)" name="form_name" id="form_name"
                aria-describedby="form_nameHelp"
                [value]="form.name "
                placeholder="Enter Form Name">
-        <small id="form_nameHelp" class="form-text text-muted">*</small>
       </div>
     </div>
 
@@ -17,7 +16,7 @@
     <div class="col-6">
       <div class="form-group">
         <label for="form_name">Period Type<span style="color: red">*</span></label>
-        <select class="form-control" (change)="selectPeriodType($event)" name="period_type">
+        <select class="form-control" (change)="selectPeriodType($event.target.value)" name="period_type">
           <option value="Monthly" [selected]="form.periodType == 'Monthly'">Monthly</option>
           <option value="Quarterly" [selected]="form.periodType == 'Quarterly'">Quarterly</option>
           <option value="Yearly" [selected]="form.periodType == 'Yearly'">Yearly</option>
@@ -27,12 +26,76 @@
   </div>
 
   <!--Sections-->
-  <div class="row">
-    <div class="col-10">
-      Section form
-    </div>
-    <div class="col-2">
-      Categories
+    <div *ngFor="let section of form.sections">
+      <div class="row">
+        <div class="col-10 pr-1">
+          <h3 *ngIf="form.sections.length == 0">No Sections</h3>
+            <input
+              class="form-control form-control-sm"
+              [value]="section.name"
+              (input)="setSectionTitle(section, $event.target.value)">
+            <table class="table table-bordered table-condensed">
+              <ng-container *ngFor="let category of section.categoryItems; let i =index">
+                <tr *ngIf="i === 0">
+                  <th [attr.rowspan]="section.categories.length"></th>
+                  <th *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">
+                    <span *ngIf="item.name != 'Default'"> {{item.name}} </span>
+                  </th>
+                </tr>
+                <tr *ngIf="i === 1">
+                  <ng-container *ngFor="let topitem of section.categoryItems[0].items">
+                    <th *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">{{item.name}}</th>
+                  </ng-container>
+                </tr>
+                <tr *ngIf="i === 2">
+                  <ng-container *ngFor="let topitem of section.categoryItems[0].items">
+                    <ng-container *ngFor="let topitem1 of section.categoryItems[1].items">
+                      <th  style="max-width: 60px" *ngFor="let item of category.items" [attr.colspan]="getColSpan(i+1 , section.categoryItems)">{{item.name}}</th>
+                    </ng-container>
+                  </ng-container>
+                </tr>
+              </ng-container>
+
+              <tr *ngFor="let item of section.items">
+                <td class="p-1" style="min-width: 200px; min-height: 50px">
+                  <textarea
+                    class="form-control form-control-sm"
+                    [value]="item.name"
+                    (input)="setSectionItemTitle(section, item, $event.target.value)">
+                  </textarea>
+                </td>
+                <td class="p-1" *ngFor="let cat of item.dataElements" style="max-width: 60px">
+                  <input type="text" disabled class="form-control entryinput">
+                </td>
+              </tr>
+              <tr>
+                <td class="p-1" [attr.colspan]="getColSpans(section) + 1">
+                  <p class="mb-1">New Data Element</p>
+                  <textarea
+                    class="form-control form-control-sm"
+                    [(ngModel)]="newItem[section.id]">
+                  </textarea>
+                  <button class="mt-2 btn btn-outline-primary btn-sm pull-right" (click)="setNewItem(section, newItem[section.id])">Add Item</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-2 pl-1">
+            <h3></h3>
+            <h6> categories</h6>
+            <ul class="list-group">
+              <li
+                class="list-group-item cursor"
+                [ngClass]="{'active': section.categories.indexOf(item.id) != -1}"
+                *ngFor="let item of categories; let i=index"
+                title="click to {{ section.categories.indexOf(item.id) != -1 ? ' remove ' : ' add '}} category"
+                (click)="selectCategory(item, section)"
+              >
+                <i class="fa fa-check" *ngIf="section.categories.indexOf(item.id) != -1"></i>
+                {{item.name}}
+              </li>
+            </ul>
+          </div>
     </div>
   </div>
 </div>

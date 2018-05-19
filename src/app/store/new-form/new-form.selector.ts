@@ -3,7 +3,7 @@ import {createSelector} from '@ngrx/store';
 import {getRouterState, selectNewFormState} from '../reducers';
 import * as fromNewForm from '../new-form/new-form.reducer';
 import * as fromForm from '../forms/form.selector';
-import {Form} from '../forms/form.model';
+import * as fromCategory from '../categories/category.selector';
 
 export const selectIds = createSelector(selectNewFormState, fromNewForm.selectIds);
 export const selectEntities = createSelector(selectNewFormState, fromNewForm.selectEntities);
@@ -12,9 +12,18 @@ export const selectTotal = createSelector(selectNewFormState, fromNewForm.select
 export const selectCurrentId = createSelector(selectNewFormState, fromNewForm.getSelectedId);
 
 export const getCurrentCreatedForm = createSelector(
-  fromForm.selectEntities,
+  selectEntities,
   getRouterState,
-  (entities, router): Form => {
-    return router.state && entities[router.state.params.formId];
+  fromCategory.selectEntities,
+  (entities, router, categories) => {
+    const form  = router.state && entities[router.state.params.formId];
+    if (form) {
+      for ( const section of form.sections) {
+        section.categoryItems = section.categories.map((cat) => {
+          return categories[cat];
+        });
+      }
+    }
+    return form;
   }
 );

@@ -9,7 +9,9 @@ import {getCurrentCreatedForm} from '../../../store/new-form/new-form.selector';
 import {Category} from '../../../store/categories/category.model';
 import {DataElement} from '../../../store/reducers/forms.reducer';
 import * as fromCategory from '../../../store/categories/category.selector';
+import * as fromForm from '../../../store/new-form/new-form.selector';
 import * as fromDataElements from '../../../store/data-elements/data-element.selector';
+import {Go} from '../../../store/actions/router.action';
 
 
 @Component({
@@ -27,6 +29,11 @@ export class FormUpdateComponent implements OnInit {
     private datasetService: DatasetService
   ) {
     this.currentForm$ = this.store.select(getCurrentCreatedForm);
+    this.currentForm$.subscribe(h => {
+      if (!h) {
+        this.store.dispatch(new Go({path: ['home', 'forms', 'list']}));
+      }
+    })
     this.categories$ = this.store.select(fromCategory.selectAll);
     this.dataElements$ = this.store.select(fromDataElements.selectAll);
   }
