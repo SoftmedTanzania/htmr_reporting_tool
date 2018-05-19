@@ -53,6 +53,7 @@ export class TeamMembersComponent implements OnInit {
     this.loading = true;
     this.loadingMessage = 'Loading Team Members';
     this.teamService.listTeamMembers().subscribe((results) => {
+      console.log(results);
       this.loading = false;
       this.notify = true;
       this.loadingIsError = false;
@@ -71,7 +72,7 @@ export class TeamMembersComponent implements OnInit {
 
     this.teamService.listTeams().subscribe((response) => {
       this.teams = this._prepareTeams(response);
-    })
+    });
 
     this.userService.listRoles().subscribe((response) => {
       this.roles = this._prepareUserRoles(response);
@@ -133,12 +134,15 @@ export class TeamMembersComponent implements OnInit {
     const teamMembers = [];
     if (results.results && results.results.length > 0) {
       results.results.forEach((teamMember) => {
+        console.log(teamMember);
         teamMembers.push(
           {
             identifier: teamMember.identifier,
-            role: teamMember.teamRole.display,
+            role: teamMember.teamRole ? teamMember.teamRole.display : '',
+            // role: teamMember.teamRole.display,
             team: teamMember.display,
             locations: teamMember.locations,
+            location: teamMember.locations[0] ? teamMember.locations[0] : null,
             sub_teams: teamMember.subTeams,
             is_data_provider: teamMember.isDataProvider,
             voiced: teamMember.voiced,
@@ -312,7 +316,7 @@ export class TeamMembersComponent implements OnInit {
 
   search(event) {
     this.teamMembers = this.extraTeamMembers;
-    if (this.searchText !== undefined){
+    if (this.searchText !== undefined) {
       this.teamMembers = this.pagerService.filterCollection(this.teamMembers, this.searchText, 'team');
     }
     this.setPage(1);

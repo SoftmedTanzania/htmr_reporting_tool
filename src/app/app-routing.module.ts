@@ -27,6 +27,7 @@ import {FormCreationComponent} from './modules/forms-management/form-creation/fo
 import {FormUpdateComponent} from './modules/forms-management/form-update/form-update.component';
 import {FormListComponent} from "./modules/forms-management/form-list/form-list.component";
 import {CategoriesComponent} from './modules/forms-management/categories/categories.component';
+import {ProvidersReportComponent} from './modules/providers-report/providers-report.component';
 
 const routes: Routes = [
   {
@@ -114,6 +115,10 @@ const routes: Routes = [
       path: 'reports',
       canActivate: [AuthGuard, FormsGuard],
       component: ReportsComponent,
+    }, {
+      path: 'providers_report',
+      canActivate: [AuthGuard, FormsGuard],
+      component: ProvidersReportComponent,
     }, {
       path: 'basic_reports',
       canActivate: [AuthGuard, FormsGuard],

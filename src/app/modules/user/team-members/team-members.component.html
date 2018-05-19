@@ -31,10 +31,7 @@
         <th scope="col">Role</th>
         <th scope="col">Team</th>
         <th scope="col">Locations</th>
-        <th scope="col">Sub Teams</th>
         <th scope="col">Is Data Provider</th>
-        <th scope="col">Voiced</th>
-        <th scope="col">Patients</th>
         <th scope="col">Action</th>
       </tr>
       </thead>
@@ -43,13 +40,10 @@
       <tr *ngFor="let teamMember of pagedTeamMembers; let teamCounter = index">
         <th scope="row">{{teamCounter+1}}</th>
         <td>{{teamMember.identifier}}</td>
-        <td>{{teamMember.role}}</td>
-        <td>{{teamMember.team}}</td>
-        <td>{{''}}</td>
-        <td>{{teamMember.sub_teams}}</td>
+        <td>{{teamMember.role }}</td>
+        <td>{{teamMember.team }}</td>
+        <td>{{ teamMember.location ? teamMember.location.name : '' }}</td>
         <td>{{teamMember.is_data_provider}}</td>
-        <td>{{teamMember.voiced}}</td>
-        <td>{{teamMember.patients}}</td>
         <td>
           <div class="pull-right">
             <!--<a class="btn custom-btn-primary btn-sm" title="View History">-->

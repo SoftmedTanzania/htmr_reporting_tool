@@ -89,6 +89,7 @@ import { OrgUnitSelectorComponent } from './modules/forms-management/org-unit-se
 import { CategoriesComponent } from './modules/forms-management/categories/categories.component';
 import { AddCategoryComponent } from './modules/forms-management/categories/add-category/add-category.component';
 import { FormItemsComponent } from './modules/forms-management/form-update/form-items/form-items.component';
+import { ProvidersReportComponent } from './modules/providers-report/providers-report.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { FormItemsComponent } from './modules/forms-management/form-update/form-
     OrgUnitSelectorComponent,
     CategoriesComponent,
     AddCategoryComponent,
-    FormItemsComponent
+    FormItemsComponent,
+    ProvidersReportComponent
   ],
   imports: [
     BrowserModule,

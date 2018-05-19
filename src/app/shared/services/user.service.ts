@@ -38,6 +38,13 @@ export class UserService {
       accessibility: false
     },
     {
+      name: 'Providers Reports',
+      links: ['/home', 'providers_report'],
+      icon: 'fa fa-pie-chart',
+      roles: ['System Developer'],
+      accessibility: false
+    },
+    {
       name: 'Settings',
       links: ['/home', 'settings', 'indicator_service_mappings'],
       icon: 'fa fa-cogs',
