@@ -13,43 +13,44 @@
   </nav>
 </div>
 
-<div class="container-fluid" style="margin-top: 15px">
-  <!--Loading message-->
-  <div class="row" *ngIf="loading$ | async">
-    <div class="col-sm-12" style="padding: 0px">
-      <app-loader [message]="'Loading please wait...'"></app-loader>
-    </div>
-  </div>
-  <!--Error message in case something doesnt load-->
-  <div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">
-    <div class="col-sm-12 text-center text-danger">
-      Loading Failed
-    </div>
-  </div>
-  <!--data selections-->
-  <div *ngIf="!(loading$ | async)">
-    <app-form-selection
-      [forms]="forms$ | async"
-      [periodType]="periodType$ | async"
-      [period]="period$ | async"
-      [orgunit]="orgunit$ | async"
-      [selectedFormID]="selectedFormId$ | async"
-      [selectedForm]="selectedForm$ | async"
-    >
-    ></app-form-selection>
-    <!--data entry-->
-    <div class="row" *ngIf="form_ready$ | async">
-      <app-entry-form
-        [form]="selectedForm$ | async"
-        [dataElements]="dataElements$ | async"
-        [categories]="categories$ | async"
-        [form_data]="form_data$ | async"
-        [data_loaded]="data_loaded$ | async"
-        [data_loading]="data_loading | async"
-        [period]="period$ | async"
-        [orgunit]="orgunit$ | async"
-        [dataObject]="data_object$ | async"
-      ></app-entry-form>
-    </div>
-  </div>
-</div>
+<app-custom-table></app-custom-table>
+<!--<div class="container-fluid" style="margin-top: 15px">-->
+  <!--&lt;!&ndash;Loading message&ndash;&gt;-->
+  <!--<div class="row" *ngIf="loading$ | async">-->
+    <!--<div class="col-sm-12" style="padding: 0px">-->
+      <!--<app-loader [message]="'Loading please wait...'"></app-loader>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--&lt;!&ndash;Error message in case something doesnt load&ndash;&gt;-->
+  <!--<div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">-->
+    <!--<div class="col-sm-12 text-center text-danger">-->
+      <!--Loading Failed-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--&lt;!&ndash;data selections&ndash;&gt;-->
+  <!--<div *ngIf="!(loading$ | async)">-->
+    <!--<app-form-selection-->
+      <!--[forms]="forms$ | async"-->
+      <!--[periodType]="periodType$ | async"-->
+      <!--[period]="period$ | async"-->
+      <!--[orgunit]="orgunit$ | async"-->
+      <!--[selectedFormID]="selectedFormId$ | async"-->
+      <!--[selectedForm]="selectedForm$ | async"-->
+    <!--&gt;-->
+    <!--&gt;</app-form-selection>-->
+    <!--&lt;!&ndash;data entry&ndash;&gt;-->
+    <!--<div class="row" *ngIf="form_ready$ | async">-->
+      <!--<app-entry-form-->
+        <!--[form]="selectedForm$ | async"-->
+        <!--[dataElements]="dataElements$ | async"-->
+        <!--[categories]="categories$ | async"-->
+        <!--[form_data]="form_data$ | async"-->
+        <!--[data_loaded]="data_loaded$ | async"-->
+        <!--[data_loading]="data_loading | async"-->
+        <!--[period]="period$ | async"-->
+        <!--[orgunit]="orgunit$ | async"-->
+        <!--[dataObject]="data_object$ | async"-->
+      <!--&gt;</app-entry-form>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

@@ -12,7 +12,7 @@ import * as dataActions from '../../../store/actions/ui.actions';
 export class EntryFormComponent implements OnInit {
 
   @Input() form: Forms;
-  @Input() dataElements: DataElement;
+  @Input() dataElements: {[id: string]: DataElement};
   @Input() categories: FormCategory;
   @Input() form_data: any;
   @Input() data_loaded: boolean = false;
@@ -71,8 +71,10 @@ export class EntryFormComponent implements OnInit {
   }
 
   saveData(item, cat) {
+    console.log('nafika hapa', item, cat)
     const key = cat + '_' + this.period.value + '_' + this.orgunit.value;
     const dataElement = this.dataElements[cat];
+    console.log('nafika hapa1', dataElement)
     if (dataElement) {
       const dataValue = {
         dataValues: [{
@@ -82,6 +84,7 @@ export class EntryFormComponent implements OnInit {
           value: (this.dataObject[key]) ? this.dataObject[key] : 0
         }]
       };
+      console.log('nafika')
       this.store.dispatch(new dataActions.SaveFormData(dataValue));
     }
 

@@ -6,6 +6,11 @@ import {Category} from '../../../../store/categories/category.model';
 import {DataElement} from '../../../../store/reducers/forms.reducer';
 import * as formActions from '../../../../store/new-form/new-form.actions';
 import * as dataElementActions from '../../../../store/data-elements/date-element.actions';
+import {HttpClientService} from '../../../../shared/services/http-client.service';
+import * as _ from 'lodash';
+import {UpsertForm, UpsertForms} from '../../../../store/forms/form.actions';
+import {ClearNewForms, UpsertNewForm} from '../../../../store/new-form/new-form.actions';
+import {Go} from '../../../../store/actions/router.action';
 
 @Component({
   selector: 'app-form-items',
@@ -14,11 +19,18 @@ import * as dataElementActions from '../../../../store/data-elements/date-elemen
 })
 export class FormItemsComponent implements OnInit {
   @Input() form: Form;
+  @Input() forms: Form[];
   @Input() categories: Category[] = [];
   @Input() dataElements: DataElement[] = [];
+  saving_data = false;
+  saving_data_message = 'Saving form Information...';
+  error_saving_data = false;
   newItem: any = {};
+  totalActions = 0;
+  doneActions = 0;
   constructor(
-    private store: Store<ApplicationState>
+    private store: Store<ApplicationState>,
+    private httpService: HttpClientService
   ) { }
 
   ngOnInit() {
@@ -95,9 +107,10 @@ export class FormItemsComponent implements OnInit {
     return len;
   }
 
-  setSectionTitle(section, value) {
-    const sectionIndex = this.form.sections.map(item => item.id).indexOf(section.id);
+  setSectionTitle(section, event) {
+    const value = event.target.value;
     const sections = [...this.form.sections];
+    const sectionIndex = sections.map(item => item.id).indexOf(section.id);
     sections[sectionIndex] = {
       ...this.form.sections[sectionIndex],
       name: value
@@ -107,6 +120,7 @@ export class FormItemsComponent implements OnInit {
       sections
     };
     this.updateForm(formChanges);
+    event.stopPropagation();
   }
 
   setNewItem(section, name) {
@@ -231,4 +245,224 @@ export class FormItemsComponent implements OnInit {
     return dataElemets;
   }
 
+  cancel() {
+    this.store.dispatch(new ClearNewForms());
+    this.store.dispatch(new Go({path: ['home', 'forms', 'list']}));
+  }
+
+  saveForm() {
+    const dataElements = [];
+    this.saving_data = true;
+    // getting dataelements for this form only
+    this.form.sections.forEach(section => {
+      section.items.forEach(section_item => {
+        dataElements.push(...section_item.dataElements);
+      });
+    });
+    this.totalActions = dataElements.length + 2;
+    this.store.dispatch(new UpsertForm({
+      form: {
+        id: this.form.id,
+        changes: {
+          ...this.form
+        }
+      }
+    }));
+
+    // setTimeout(() => this.save_form(), 1000);
+    // saving dataelements for this form
+    let count = 0;
+    this.dataElements.forEach(dataElement => {
+      if ( dataElements.indexOf(dataElement.id ) !== -1) {
+        this.httpService.getDHIS(`dataElements/${dataElement.id}`).subscribe(result => {
+          this.httpService.putDHIS(`dataElements/${dataElement.id}`, this.prepareDataElementPayload(dataElement))
+            .subscribe(success => {
+              console.log('succesfull update', dataElement.name);
+              this.saving_data_message = 'Done saving ' + dataElement.name;
+              this.doneActions += 1;
+              count ++;
+                if (count === dataElements.length ) {
+                  this.save_form(dataElements);
+                }
+              },
+                error1 => {
+                  count++;
+                  if (count === dataElements.length ) {
+                    this.save_form(dataElements);
+                  }
+                }
+            );
+        }, error => {
+          console.log(error);
+          this.httpService.postDHIS('dataElements', this.prepareDataElementPayload(dataElement))
+            .subscribe(success => {
+                console.log('succesfull added', dataElement.name);
+                this.saving_data_message = 'Done saving ' + dataElement.name;
+                this.doneActions += 1;
+                count++;
+                if (count === dataElements.length ) {
+                  this.save_form(dataElements);
+                }
+              },
+                error1 => {
+                  count++;
+                  if (count === dataElements.length ) {
+                    this.save_form(dataElements);
+                  }
+                }
+            );
+        });
+      }
+
+      // this.httpService.postDHIS('27/schemas/dataElement', this.prepareDataElementPayload(dataElement))
+      //   .subscribe((data: any) => {
+      //     console.log(dataElement.name, data);
+      //   });
+    });
+  }
+
+  save_form(dataElements) {
+    const dataStore = {
+      forms: this.forms,
+      dataElements: this.dataElements,
+      categories: this.categories
+    };
+    this.saving_data_message = 'saving form information';
+    this.httpService.postDHIS('27/metadata', this.prepareDataset(dataElements))
+      .subscribe((done) => {
+        this.doneActions += 1;
+        this.saving_data_message = 'saving configuration details';
+        this.httpService.putDHIS('dataStore/Reporting/Entry_forms', dataStore)
+          .subscribe((dataSaved) => {
+            this.doneActions += 1;
+            this.saving_data_message = 'Done saving form redirecting...';
+            setTimeout(() => this.cancel(), 3000);
+          });
+      });
+    // this.cancel();
+  }
+
+  prepareDataElementPayload(dx: DataElement) {
+    // return {
+    //   'aggregationType': 'SUM',
+    //   'domainType': 'AGGREGATE',
+    //   'valueType': 'NUMBER',
+    //   'name': dx.name,
+    //   'shortName': 'some test',
+    //   'id': dx.id,
+    //   'legendSets': []
+    // };
+    return {
+      'aggregationType': 'SUM',
+      'domainType': 'AGGREGATE',
+      'publicAccess': 'rw------',
+      'lastUpdated': '2018-05-01T19:54:25.366',
+      'valueType': 'NUMBER',
+      'id': dx.id,
+      'created': '2018-02-03T16:38:55.736',
+      'attributeValues': [],
+      'zeroIsSignificant': false,
+      'name': dx.name,
+      'shortName': dx.id,
+      'categoryCombo': {
+        'id': 'bjDvmb4bfuf'
+      },
+      'lastUpdatedBy': {
+        'id': 'M5zQapPyTZI'
+      },
+      'user': {
+        'id': 'M5zQapPyTZI'
+      },
+      'translations': [],
+      'userGroupAccesses': [],
+      'userAccesses': [],
+      'legendSets': [],
+      'aggregationLevels': []
+    };
+  }
+
+  prepareDataset(dataElemets: string[]) {
+    return {
+      'dataSets': [
+      {
+        'validCompleteOnly': false,
+        'publicAccess': 'rw------',
+        'skipOffline': false,
+        'lastUpdated': '2018-06-05T11:29:24.171',
+        'id': this.form.datasetId,
+        'created': '2018-05-04T07:17:25.737',
+        'attributeValues': [],
+        'version': 1,
+        'timelyDays': 15,
+        'name': this.form.name,
+        'shortName': this.form.id,
+        'dataElementDecoration': false,
+        'notifyCompletingUser': false,
+        'noValueRequiresComment': false,
+        'fieldCombinationRequired': false,
+        'renderHorizontally': false,
+        'renderAsTabs': false,
+        'mobile': false,
+        'periodType': this.form.periodType,
+        'openFuturePeriods': 3,
+        'expiryDays': 0,
+        'categoryCombo': {
+          'id': 'bjDvmb4bfuf'
+        },
+        'lastUpdatedBy': {
+          'id': 'M5zQapPyTZI'
+        },
+        'user': {
+          'id': 'M5zQapPyTZI'
+        },
+        'dataSetElements': dataElemets.map((dx) => {
+          return {
+            'dataSet': {
+              'id': this.form.datasetId
+            },
+            'categoryCombo': {
+              'id': 'bjDvmb4bfuf',
+              'displayName': 'default'
+            },
+            'dataElement': {
+              'id': dx
+            }
+          };
+        }),
+        'translations': [],
+        'dataInputPeriods': [],
+        'userGroupAccesses': [],
+        'indicators': [],
+        'userAccesses': [],
+        'legendSets': [],
+        'compulsoryDataElementOperands': [],
+        'organisationUnits': [
+          {
+            'id': 'xd2Rxi91ZTD'
+          },
+          {
+            'id': 'VN8Jjz61jOE'
+          },
+          {
+            'id': 'SuoqM5pXPWG'
+          }
+        ]
+      }
+    ]
+    };
+  }
+
+  createNewSection() {
+    const new_section = {
+      id: this.makeid(),
+      categories: [],
+      name: '',
+      items: []
+    };
+    const form_sections = {
+      ...this.form,
+      sections: [...this.form.sections, new_section]
+    };
+    this.updateForm(form_sections);
+  }
 }

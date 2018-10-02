@@ -1,5 +1,6 @@
 <app-form-items
   [form]="currentForm$ | async"
+  [forms]="forms$ | async"
   [categories]="categories$ | async"
   [dataElements]="dataElements$ | async"
   *ngIf="currentForm$ | async"

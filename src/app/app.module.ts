@@ -91,6 +91,10 @@ import { AddCategoryComponent } from './modules/forms-management/categories/add-
 import { FormItemsComponent } from './modules/forms-management/form-update/form-items/form-items.component';
 import { ProvidersReportComponent } from './modules/providers-report/providers-report.component';
 import { CalculateColumnSpanPipe } from './shared/pipes/calculate-column-span.pipe';
+import { FacilityReportComponent } from './modules/facility-report/facility-report.component';
+import { RefferalReportComponent } from './modules/refferal-report/refferal-report.component';
+import { IntraFacilitySummaryComponent } from './modules/intra-facility-summary/intra-facility-summary.component';
+import { CustomTableComponent } from './shared/custom-table/custom-table.component';
 
 @NgModule({
   declarations: [
@@ -155,7 +159,11 @@ import { CalculateColumnSpanPipe } from './shared/pipes/calculate-column-span.pi
     AddCategoryComponent,
     FormItemsComponent,
     ProvidersReportComponent,
-    CalculateColumnSpanPipe
+    CalculateColumnSpanPipe,
+    FacilityReportComponent,
+    RefferalReportComponent,
+    IntraFacilitySummaryComponent,
+    CustomTableComponent
   ],
   imports: [
     BrowserModule,

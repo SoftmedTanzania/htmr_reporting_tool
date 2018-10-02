@@ -26,7 +26,7 @@ export class HttpClientService {
 
   getToken() {
     const username = 'admin';
-    const password = 'district';
+    const password = 'Admin123';
     let webToken = null;
     if (typeof(Storage) !== undefined) {
       webToken = window.sessionStorage.getItem('web-token');
@@ -118,24 +118,28 @@ export class HttpClientService {
   }
 
   postOpenSRP(url, data, options?) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.post(this.OPENSRPAPIURL + url, data, {
-      headers: headers
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
     });
   }
 
 
   getOpenSRP(url) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    // const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.get<any>(this.OPENSRPAPIURL + url, {
-      headers: headers
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
     });
   }
 
   deleteOpenSRP(url, id) {
-    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
     return this.http.delete<any>(this.OPENSRPAPIURL + url + '/' + id, {
-      headers: headers
+      headers: new HttpHeaders()
+        .set('Authorization', headers)
     });
   }
 

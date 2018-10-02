@@ -28,6 +28,9 @@ import {FormUpdateComponent} from './modules/forms-management/form-update/form-u
 import {FormListComponent} from "./modules/forms-management/form-list/form-list.component";
 import {CategoriesComponent} from './modules/forms-management/categories/categories.component';
 import {ProvidersReportComponent} from './modules/providers-report/providers-report.component';
+import {FacilityReportComponent} from './modules/facility-report/facility-report.component';
+import {RefferalReportComponent} from './modules/refferal-report/refferal-report.component';
+import {IntraFacilitySummaryComponent} from './modules/intra-facility-summary/intra-facility-summary.component';
 
 const routes: Routes = [
   {
@@ -47,7 +50,7 @@ const routes: Routes = [
       component: PasswordComponent,
     }, {
       path: 'data_entry',
-      canActivate: [AuthGuard, FormsGuard],
+      // canActivate: [AuthGuard, FormsGuard],
       component: DataEntryComponent ,
     }, {
       path: 'forms',
@@ -119,6 +122,18 @@ const routes: Routes = [
       path: 'providers_report',
       canActivate: [AuthGuard, FormsGuard],
       component: ProvidersReportComponent,
+    }, {
+      path: 'facility_providers_report',
+      canActivate: [AuthGuard, FormsGuard],
+      component: RefferalReportComponent,
+    }, {
+      path: 'intra_facility_departments',
+      canActivate: [AuthGuard, FormsGuard],
+      component: IntraFacilitySummaryComponent,
+    }, {
+      path: 'facility_report',
+      canActivate: [AuthGuard, FormsGuard],
+      component: FacilityReportComponent,
     }, {
       path: 'basic_reports',
       canActivate: [AuthGuard, FormsGuard],

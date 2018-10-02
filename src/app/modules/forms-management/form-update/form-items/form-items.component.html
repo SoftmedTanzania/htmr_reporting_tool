@@ -1,6 +1,32 @@
 <div class="container-fluid">
   <!--Basic Details-->
   <div class="row">
+    <div class="col-sm-12">
+      <button
+      class="btn btn-outline-primary btn-sm pull-right"
+      (click)="saveForm()"
+    >
+      <i class="fa fa-save"></i> Save Form
+    </button>
+      <button
+        class="btn btn-outline-warning btn-sm pull-right"
+        (click)="cancel()"
+      >
+        <i class="fa fa-close"></i> Cancel
+      </button>
+
+    </div>
+    <div class="col-sm-12">
+      <p class="lead" *ngIf="saving_data">
+        (<b>{{ doneActions }}/ {{ totalActions }}  ({{ ((doneActions/totalActions) * 100) | number: '0.0-0'}}%)</b>)
+        <br> {{ saving_data_message }}
+      </p>
+      <p class="lead" *ngIf="error_saving_data">
+        There was a problem saving data
+      </p>
+    </div>
+  </div>
+  <div class="row">
     <!--Form Name-->
     <div class="col-6">
       <div class="form-group">
@@ -26,14 +52,14 @@
   </div>
 
   <!--Sections-->
-    <div *ngFor="let section of form.sections">
+  <div *ngFor="let section of form.sections">
       <div class="row">
         <div class="col-10 pr-1">
           <h3 *ngIf="form.sections.length == 0">No Sections</h3>
             <input
               class="form-control form-control-sm"
               [value]="section.name"
-              (input)="setSectionTitle(section, $event.target.value)">
+              (change)="setSectionTitle(section, $event)">
             <table class="table table-bordered table-condensed">
               <ng-container *ngFor="let category of section.categoryItems; let i =index">
                 <tr *ngIf="i === 0">
@@ -97,5 +123,11 @@
             </ul>
           </div>
     </div>
+  </div>
+
+  <div class="col-sm-row">
+    <button (click)="createNewSection()" class="btn btn-outline-secondary pull-left">
+      Add section
+    </button>
   </div>
 </div>

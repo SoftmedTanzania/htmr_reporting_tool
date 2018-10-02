@@ -72,27 +72,13 @@
           class="btn btn-outline-secondary"
           [disabled]="start_date == '' || end_date == '' || orgunit == null"
           (click)="getProviders()"
-        >Get Providers List
+        >Get Report
         </button>
       </div>
     </div>
     <div class="row no-print mt-4" *ngIf="loading">
       <div class="col-sm-12" style="padding: 0px">
         <app-loader [message]="'Getting a list of providers...'"></app-loader>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-5">
-        <app-multiselect
-          *ngIf="providers.length != 0"
-          [items]="providers"
-          [placeholder]="'Select data items to see in the report'"
-          (onSelected)="setSelectedData($event)"
-        ></app-multiselect>
-      </div>
-      <div class="col-7" *ngIf="selected_providers.length != 0">
-        <button class="btn btn-outline-secondary" (click)="getData()">Get Report</button>
       </div>
     </div>
 
@@ -104,17 +90,33 @@
 
     <div class="row mt-5" *ngIf="done_loading">
       <div class="col">
-        <h4 class="text-center">Service Provided by {{ selected_providers_names }} for {{ orgunitnames }} from {{
+        <h4 class="text-center">Facility Providers Referral Report {{ orgunitnames }} from {{
           start_date | date:'mediumDate' }} to {{ end_date | date:'mediumDate' }}</h4>
         <table class="table table-bordered">
-          <tr>
-            <th>Referral Type</th>
-            <th>Number of Referals</th>
-          </tr>
-          <tr *ngFor="let data of values">
-            <td>{{ data.serviceName }}</td>
-            <td>{{ data.count }}</td>
-          </tr>
+          <ng-container *ngFor="let data of values">
+            <tr *ngIf="data.summaryDTOS.length != 0">
+              <td><h3>{{ data.facilityName }}</h3></td>
+            </tr>
+            <tr  *ngIf="data.summaryDTOS.length != 0">
+              <td>
+                <table>
+                  <tr>
+                    <th>Department Name</th>
+                    <th>Provider Name</th>
+                    <th>Status</th>
+                    <th>Referrals</th>
+                  </tr>
+                  <tr *ngFor="let pr of data.summaryDTOS">
+                    <td>{{ pr.departmentName }}</td>
+                    <td>{{ pr.providerName }}</td>
+                    <td>{{ pr.status }}</td>
+                    <td>{{ pr.count }}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+
         </table>
       </div>
     </div>
