@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as formActions from '../../store/actions/forms.actions';
 import {HttpClientService} from '../../shared/services/http-client.service';
+import {LocationService} from '../../shared/services/location.service';
+import {OrgUnitService} from '../../shared/services/org-unit.service';
 
 @Component({
   selector: 'app-providers-report',
@@ -32,7 +34,8 @@ export class ProvidersReportComponent implements OnInit {
   data_loading: boolean = false;
   selected_providers_names: string = '';
   constructor(
-    private httpClient: HttpClientService
+    private httpClient: HttpClientService,
+    private orgunitService: OrgUnitService
   ) { }
 
   ngOnInit() {
@@ -49,26 +52,23 @@ export class ProvidersReportComponent implements OnInit {
     this.loading = true;
     this.loading_failed = false;
     this.done_loading = false;
-    this.httpClient.getDHIS(`25/analytics.json?dimension=ou:LEVEL-4;${this.orgunit.value}&dimension=pe:2014&displayProperty=NAME&skipData=true`)
-      .subscribe((analytics: any) => {
-        const facilities = analytics.metaData.ou;
-        this.httpClient.postOpenSRP('get-team-members-by-facility-uuid', facilities)
-          .subscribe(( data: any[]) => {
-            if ( data && data.length !== 0) {
-              this.providers = data.map(d => {
-                return {
-                  name: d.person.display,
-                  id: d.person.uuid
-                };
-              });
-              console.log('prodviders', this.providers);
-            }
-            this.loading = false;
-            this.loading_failed = false;
-          }, (error) => {
-            this.loading_failed = true;
-            this.loading = false;
+    const facilities = this.orgunitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);
+    this.httpClient.postOpenSRP('get-team-members-by-facility-uuid', facilities)
+      .subscribe(( data: any[]) => {
+        if ( data && data.length !== 0) {
+          this.providers = data.map(d => {
+            return {
+              name: d.person.display,
+              id: d.person.uuid
+            };
           });
+          console.log('prodviders', this.providers);
+        }
+        this.loading = false;
+        this.loading_failed = false;
+      }, (error) => {
+        this.loading_failed = true;
+        this.loading = false;
       });
 
   }

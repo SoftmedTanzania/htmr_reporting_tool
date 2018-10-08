@@ -2,6 +2,8 @@ import {Component, OnInit, Input, Output, EventEmitter, ViewChild} from '@angula
 import { TreeComponent, TREE_ACTIONS, IActionMapping } from 'angular-tree-component';
 import { MultiselectComponent } from './multiselect/multiselect.component';
 import { OrgUnitService } from '../../services/org-unit.service';
+import {LocationService} from '../../services/location.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-org-unit-filter',
@@ -48,6 +50,7 @@ export class OrgUnitFilterComponent implements OnInit {
   orgunit_levels: any[] = [];
   @ViewChild('orgtree')
   orgtree: TreeComponent;
+  visit_locations: any[] = [];
 
   organisationunits: any[] = [];
   selected_orgunits: any[] = [];
@@ -63,7 +66,8 @@ export class OrgUnitFilterComponent implements OnInit {
     {id: 'USER_ORGUNIT_GRANDCHILDREN', name: 'User sub-x2-units', shown: true}
   ];
   constructor(
-    private orgunitService: OrgUnitService
+    private orgunitService: OrgUnitService,
+    private locationService: LocationService
   ) {
      if (!this.orgunit_tree_config.hasOwnProperty('multiple_key')) {
        this.orgunit_tree_config.multiple_key = 'none';
@@ -87,7 +91,7 @@ export class OrgUnitFilterComponent implements OnInit {
         };
         this.customTemplateStringOrgunitOptions = {actionMapping};
 
-      }else if (this.orgunit_tree_config.multiple_key === 'control') { // multselect using control key
+      } else if (this.orgunit_tree_config.multiple_key === 'control') { // multselect using control key
         const actionMapping: IActionMapping = {
           mouse: {
             click: (node, tree, $event) => {
@@ -98,7 +102,7 @@ export class OrgUnitFilterComponent implements OnInit {
           }
         };
         this.customTemplateStringOrgunitOptions = {actionMapping};
-      }else if (this.orgunit_tree_config.multiple_key === 'shift') { // multselect using shift key
+      } else if (this.orgunit_tree_config.multiple_key === 'shift') { // multselect using shift key
         const actionMapping: IActionMapping = {
           mouse: {
             click: (node, tree, $event) => {
@@ -111,7 +115,7 @@ export class OrgUnitFilterComponent implements OnInit {
         this.customTemplateStringOrgunitOptions = {actionMapping};
       }
 
-    }else {
+    } else {
       const actionMapping: IActionMapping = {
         mouse: {
           dblClick: TREE_ACTIONS.TOGGLE_EXPANDED,
@@ -120,73 +124,156 @@ export class OrgUnitFilterComponent implements OnInit {
       };
       this.customTemplateStringOrgunitOptions = {actionMapping};
     }
-
-
-    // if (this.orgunitService.nodes === null) {
-      this.orgunitService.getOrgunitLevelsInformation()
-        .subscribe(
-          (data: any) => {
-            // assign urgunit levels and groups to variables
-            this.orgunit_model.orgunit_levels = data.organisationUnitLevels;
-            // setting organisation groups
-            this.orgunitService.getOrgunitGroups().subscribe( groups => {//noinspection TypeScriptUnresolvedVariable
-              this.orgunit_model.orgunit_groups = groups;
+    if (this.orgunitService.nodes === null) {
+      this.locationService.loadTreeLocations().subscribe(
+        (locations => {
+          // get top level locations
+          const top_locations = locations.filter(location => location.parentLocation == null);
+          // filter down to remain with only visit facilities
+          let visit_location: any = _.find(top_locations, {uuid: '98fbb095-c33e-11e8-ba9c-f23c917bb7ec'});
+          this.visit_locations.push(
+            {
+              name: visit_location.name,
+              id: visit_location.uuid,
+              level: 1,
+              parents: ``
             });
-
-            // identify currently logged in usser
-            this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe(
-              userOrgunit => {
-                const level = this.orgunitService.getUserHighestOrgUnitlevel( userOrgunit );
-                this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits( userOrgunit );
-                this.orgunitService.user_orgunits = this.orgunitService.getUserOrgUnits( userOrgunit );
-                const all_levels = data.pager.total;
-                const orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel( level, userOrgunit );
-                const use_level = parseInt(all_levels) - (parseInt(level) - 1);
-                // load inital orgiunits to speed up loading speed
-                this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
-                  (initial_data) => {
-                    this.organisationunits = initial_data;
-                    // a hack to make sure the user orgunit is not triggered on the first time
-                    this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
-                    // after done loading initial organisation units now load all organisation units
-                    const fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
-                    this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
-                      items => {
-                        items[0].expanded = true;
-                        this.organisationunits = items;
-
-                        this.orgunit_tree_config.loading = false;
-                        // activate organisation units
-                        for (const active_orgunit of this.orgunit_model.selected_orgunits) {
-                          this.activateNode(active_orgunit.id, this.orgtree, true);
-                        }
-                        if (this.orgunit_model.selected_user_orgunit.length !== 0) {
-                          this.emit(false);
-                        }
-                        // backup to make sure that always there is default organisation unit
-                        // if (this.orgunit_model.selected_orgunits.length === 0 && this.orgunit_model.selected_user_orgunit.length === 0) {
-                        //   for (const active_orgunit of this.orgunit_model.user_orgunits) {
-                        //     this.activateNode(active_orgunit.id, this.orgtree, true);
-                        //   }
-                        // }
-                        this.prepareOrganisationUnitTree(this.organisationunits, 'parent');
-                      },
-                      error => {
-                        console.log('something went wrong while fetching Organisation units');
-                        this.orgunit_tree_config.loading = false;
-                      }
-                    );
-                  },
-                  error => {
-                    console.log('something went wrong while fetching Organisation units');
-                    this.orgunit_tree_config.loading = false;
-                  }
-                );
-
+          visit_location = {
+            name: visit_location.name,
+            id: visit_location.uuid,
+            level: 1,
+            children: visit_location.childLocations.map(
+              (location: any) => {
+                const child_loc = this.getChildOrgunits(locations, location.uuid);
+                this.visit_locations.push(
+                  {
+                    name: child_loc.name,
+                    id: child_loc.uuid,
+                    level: 2,
+                    parents: `${visit_location.uuid}`
+                  });
+                return {
+                  name: child_loc.name,
+                  id: child_loc.uuid,
+                  level: 2,
+                  children: child_loc.childLocations.map(
+                    (child: any) => {
+                      const last_child = this.getChildOrgunits(locations, child.uuid);
+                      this.visit_locations.push(
+                        {
+                          name: last_child.name,
+                          id: last_child.uuid,
+                          level: 3,
+                          parents: `${visit_location.uuid};${child_loc.uuid}`
+                        });
+                      return {
+                        name: last_child.name,
+                        id: last_child.uuid,
+                        level: 3,
+                        children: last_child.childLocations.map(
+                          (level3child: any) => {
+                            const facility = this.getChildOrgunits(locations, level3child.uuid);
+                            this.visit_locations.push(
+                              {
+                                name: facility.name,
+                                id: facility.uuid,
+                                level: 4,
+                                parents: `${visit_location.uuid};${child_loc.uuid};${last_child.uuid}`
+                              });
+                            return {
+                              name: facility.name,
+                              id: facility.uuid,
+                              level: 4,
+                              children: facility.childLocations
+                            };
+                          }
+                        )
+                      };
+                    }
+                  )
+                };
               }
-            );
-          }
-        );
+            )
+          };
+          this.organisationunits = [visit_location];
+          this.orgunitService.nodes = [visit_location];
+          this.nodes = [visit_location];
+          this.orgunit_tree_config.loading = false;
+        })
+      );
+    } else {
+      this.organisationunits = this.orgunitService.nodes;
+      this.orgunit_tree_config.loading = false;
+    }
+    // if (this.orgunitService.nodes === null) {
+    //   this.orgunitService.getOrgunitLevelsInformation()
+    //     .subscribe(
+    //       (data: any) => {
+    //         // assign urgunit levels and groups to variables
+    //         this.orgunit_model.orgunit_levels = data.organisationUnitLevels;
+    //         // setting organisation groups
+    //         this.orgunitService.getOrgunitGroups().subscribe( groups => {//noinspection TypeScriptUnresolvedVariable
+    //           this.orgunit_model.orgunit_groups = groups;
+    //         });
+    //
+    //         // identify currently logged in usser
+    //         this.orgunitService.getUserInformation(this.orgunit_model.type).subscribe(
+    //           userOrgunit => {
+    //             const level = this.orgunitService.getUserHighestOrgUnitlevel( userOrgunit );
+    //             this.orgunit_model.user_orgunits = this.orgunitService.getUserOrgUnits( userOrgunit );
+    //             this.orgunitService.user_orgunits = this.orgunitService.getUserOrgUnits( userOrgunit );
+    //             const all_levels = data.pager.total;
+    //             const orgunits = this.orgunitService.getuserOrganisationUnitsWithHighestlevel( level, userOrgunit );
+    //             const use_level = parseInt(all_levels) - (parseInt(level) - 1);
+    //             // load inital orgiunits to speed up loading speed
+    //             this.orgunitService.getInitialOrgunitsForTree(orgunits).subscribe(
+    //               (initial_data) => {
+    //                 this.organisationunits = initial_data;
+    //                 // a hack to make sure the user orgunit is not triggered on the first time
+    //                 this.initial_usr_orgunit = [{id: 'USER_ORGUNIT', name: 'User org unit'}];
+    //                 // after done loading initial organisation units now load all organisation units
+    //                 const fields = this.orgunitService.generateUrlBasedOnLevels(use_level);
+    //                 this.orgunitService.getAllOrgunitsForTree1(fields, orgunits).subscribe(
+    //                   items => {
+    //                     items[0].expanded = true;
+    //                     this.organisationunits = items;
+    //
+    //                     this.orgunit_tree_config.loading = false;
+    //                     // activate organisation units
+    //                     for (const active_orgunit of this.orgunit_model.selected_orgunits) {
+    //                       this.activateNode(active_orgunit.id, this.orgtree, true);
+    //                     }
+    //                     if (this.orgunit_model.selected_user_orgunit.length !== 0) {
+    //                       this.emit(false);
+    //                     }
+    //                     // backup to make sure that always there is default organisation unit
+    //                     // if (this.orgunit_model.selected_orgunits.length === 0 && this.orgunit_model.selected_user_orgunit.length === 0) {
+    //                     //   for (const active_orgunit of this.orgunit_model.user_orgunits) {
+    //                     //     this.activateNode(active_orgunit.id, this.orgtree, true);
+    //                     //   }
+    //                     // }
+    //                     this.prepareOrganisationUnitTree(this.organisationunits, 'parent');
+    //                   },
+    //                   error => {
+    //                     console.log('something went wrong while fetching Organisation units');
+    //                     this.orgunit_tree_config.loading = false;
+    //                   }
+    //                 );
+    //               },
+    //               error => {
+    //                 console.log('something went wrong while fetching Organisation units');
+    //                 this.orgunit_tree_config.loading = false;
+    //               }
+    //             );
+    //
+    //           }
+    //         );
+    //       }
+    //     );
+  }
+
+  getChildOrgunits(orgunits, uuid): any {
+    return _.find(orgunits, {uuid});
   }
 
 
@@ -299,6 +386,7 @@ export class OrgUnitFilterComponent implements OnInit {
   emit(showUpdate: boolean) {
     if (showUpdate) {
       this.onOrgUnitUpdate.emit({
+        visit_locations: this.visit_locations,
         starting_name: this.getProperPreOrgunitName(),
         items: this.orgunit_model.selected_orgunits,
         name: 'ou',
@@ -306,6 +394,7 @@ export class OrgUnitFilterComponent implements OnInit {
       });
     }else {
       this.onOrgUnitChange.emit({
+        visit_locations: this.visit_locations,
         starting_name: this.getProperPreOrgunitName(),
         items: this.orgunit_model.selected_orgunits,
         name: 'ou',

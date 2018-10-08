@@ -9,34 +9,34 @@ export class UserService {
   loggedIn = false;
 
   private navigations = [
-    {
-      name: 'Dashboard',
-      links: ['/home', 'dashboard'],
-      icon: 'fa fa-dashboard',
-      roles: ['all'],
-      accessibility: false
-    },
-    {
-      name: 'Data Entry',
-      links: ['/home', 'data_entry'],
-      icon: 'fa fa-edit',
-      roles: ['System Developer'],
-      accessibility: false
-    },
-    {
-      name: 'Basic Reports',
-      links: ['/home', 'basic_reports'],
-      icon: 'fa fa-bar-chart',
-      roles: ['System Developer'],
-      accessibility: false
-    },
-    {
-      name: 'Custom Reports',
-      links: ['/home', 'reports'],
-      icon: 'fa fa-bar-chart',
-      roles: ['System Developer'],
-      accessibility: false
-    },
+    // {
+    //   name: 'Dashboard',
+    //   links: ['/home', 'dashboard'],
+    //   icon: 'fa fa-dashboard',
+    //   roles: ['all'],
+    //   accessibility: false
+    // },
+    // {
+    //   name: 'Data Entry',
+    //   links: ['/home', 'data_entry'],
+    //   icon: 'fa fa-edit',
+    //   roles: ['System Developer'],
+    //   accessibility: false
+    // },
+    // {
+    //   name: 'Basic Reports',
+    //   links: ['/home', 'basic_reports'],
+    //   icon: 'fa fa-bar-chart',
+    //   roles: ['System Developer'],
+    //   accessibility: false
+    // },
+    // {
+    //   name: 'Custom Reports',
+    //   links: ['/home', 'reports'],
+    //   icon: 'fa fa-bar-chart',
+    //   roles: ['System Developer'],
+    //   accessibility: false
+    // },
     {
       name: 'Providers Reports',
       links: ['/home', 'providers_report'],
@@ -58,13 +58,13 @@ export class UserService {
       roles: ['System Developer'],
       accessibility: false
     },
-    {
-      name: 'Form Management',
-      links: ['/home', 'forms'],
-      icon: 'fa fa-file-text',
-      roles: ['System Developer'],
-      accessibility: false
-    },
+    // {
+    //   name: 'Form Management',
+    //   links: ['/home', 'forms'],
+    //   icon: 'fa fa-file-text',
+    //   roles: ['System Developer'],
+    //   accessibility: false
+    // },
     {
       name: 'Location Management',
       links: ['/home', 'location'],

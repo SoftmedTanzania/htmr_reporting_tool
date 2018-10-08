@@ -35,21 +35,21 @@ export class FormsEffects {
     })
   );
 
-  @Effect({ dispatch: false })
-  loadMetadata = this.actions$.ofType(formActions.FormActionTypes.GetForms).pipe(
-    switchMap(() => {
-      return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
-        tap(formdata => {
-          this.store.dispatch(new formActions.LoadForms({ forms: formdata.forms}));
-          this.store.dispatch(new formActions.DoneGettingForms());
-          this.store.dispatch(new categoryAction.LoadCategories({categorys: formdata.categories}));
-          this.store.dispatch(new categoryAction.DoneGettingCategories());
-          this.store.dispatch(new dataElementAction.LoadDateElements({dateElements: formdata.dataElements}));
-          this.store.dispatch(new dataElementAction.DoneGettingDateElements());
-        })
-      );
-    })
-  );
+  // @Effect({ dispatch: false })
+  // loadMetadata = this.actions$.ofType(formActions.FormActionTypes.GetForms).pipe(
+  //   switchMap(() => {
+  //     return this.httpClient.get('dataStore/Reporting/Entry_forms').pipe(
+  //       tap(formdata => {
+  //         // this.store.dispatch(new formActions.LoadForms({ forms: formdata.forms}));
+  //         // this.store.dispatch(new formActions.DoneGettingForms());
+  //         // this.store.dispatch(new categoryAction.LoadCategories({categorys: formdata.categories}));
+  //         // this.store.dispatch(new categoryAction.DoneGettingCategories());
+  //         // this.store.dispatch(new dataElementAction.LoadDateElements({dateElements: formdata.dataElements}));
+  //         // this.store.dispatch(new dataElementAction.DoneGettingDateElements());
+  //       })
+  //     );
+  //   })
+  // );
 
   @Effect()
   createForms$ = this.actions$.ofType(formsActions.CREATE_FORMS).pipe(

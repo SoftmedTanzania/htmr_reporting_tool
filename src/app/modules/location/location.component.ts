@@ -30,7 +30,7 @@ export class LocationComponent implements OnInit {
   tags = {
     tagOne: '15d11935-e183-43da-9c42-d0ced1efd872',
     tagTwo: '8d4626ca-7abd-42ad-be48-56767bbcf272'
-  }
+  };
   showEditForm = false;
   showAddForm = false;
   locationForm: FormGroup;

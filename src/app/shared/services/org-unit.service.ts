@@ -276,6 +276,24 @@ export class OrgUnitService {
     });
   }
 
+  getLevel4OrgunitsIds(orgunits: any[], uuid) {
+    return orgunits
+      .filter((ou: any) => ou.parents.indexOf(uuid) !== -1)
+      .map(ou => ou.id);
+  }
+
+  getLevel4OrgunitsNames(orgunits: any[], uuid) {
+    console.log(uuid);
+    return orgunits
+      .filter((ou: any) => ou.parents.indexOf(uuid) !== -1)
+      .map(ou => {
+        return {
+          facility_name: ou.name,
+          facility_id: ou.id
+        };
+      });
+  }
+
 
 }
 

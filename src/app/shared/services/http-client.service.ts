@@ -86,6 +86,15 @@ export class HttpClientService {
     });
   }
 
+  getOpenMRSLocation(url) {
+    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
+    return this.http.get('../../../openmrs/q/' + url, {
+      headers: new HttpHeaders()
+        .set('Content-Type', 'application/json')
+        .set('Authorization', headers)
+    });
+  }
+
 
   getDHIS(url) {
     const headers: HttpHeaders = this.createDHISAuthorizationHeader();
@@ -118,29 +127,20 @@ export class HttpClientService {
   }
 
   postOpenSRP(url, data, options?) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
-    return this.http.post(this.OPENSRPAPIURL + url, data, {
-      headers: new HttpHeaders()
-        .set('Authorization', headers)
-    });
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    return this.http.post(this.OPENSRPAPIURL + url, data, { headers});
   }
 
 
   getOpenSRP(url) {
     // const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
-    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
-    return this.http.get<any>(this.OPENSRPAPIURL + url, {
-      headers: new HttpHeaders()
-        .set('Authorization', headers)
-    });
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    return this.http.get<any>(this.OPENSRPAPIURL + url, { headers });
   }
 
   deleteOpenSRP(url, id) {
-    const headers: string = this.createOpenMRSAuthorizationHeader(this.getToken());
-    return this.http.delete<any>(this.OPENSRPAPIURL + url + '/' + id, {
-      headers: new HttpHeaders()
-        .set('Authorization', headers)
-    });
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    return this.http.delete<any>(this.OPENSRPAPIURL + url + '/' + id, { headers });
   }
 
   updateOpenSRP(url, data, id) {

@@ -25,7 +25,7 @@ import {IndicatorComponent} from './modules/settings/indicator/indicator.compone
 import {ServiceComponent} from './modules/settings/service/service.component';
 import {FormCreationComponent} from './modules/forms-management/form-creation/form-creation.component';
 import {FormUpdateComponent} from './modules/forms-management/form-update/form-update.component';
-import {FormListComponent} from "./modules/forms-management/form-list/form-list.component";
+import {FormListComponent} from './modules/forms-management/form-list/form-list.component';
 import {CategoriesComponent} from './modules/forms-management/categories/categories.component';
 import {ProvidersReportComponent} from './modules/providers-report/providers-report.component';
 import {FacilityReportComponent} from './modules/facility-report/facility-report.component';
@@ -52,30 +52,31 @@ const routes: Routes = [
       path: 'data_entry',
       // canActivate: [AuthGuard, FormsGuard],
       component: DataEntryComponent ,
-    }, {
+    },
+      {
       path: 'forms',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: FormsManagementComponent,
       children: [
         { path: '', redirectTo: 'list', pathMatch: 'full' },
         {
           path: 'list',
-          canActivate: [AuthGuard, FormsGuard],
+          canActivate: [AuthGuard],
           component: FormListComponent
         },
         {
           path: 'categories',
-          canActivate: [AuthGuard, FormsGuard],
+          canActivate: [AuthGuard],
           component: CategoriesComponent
         },
         {
           path: 'create_form',
-          canActivate: [AuthGuard, FormsGuard],
+          canActivate: [AuthGuard],
           component: FormCreationComponent
         },
         {
           path: ':formId/update',
-          canActivate: [AuthGuard, FormsGuard],
+          canActivate: [AuthGuard],
           component: FormUpdateComponent
         }
       ]
@@ -120,23 +121,23 @@ const routes: Routes = [
       component: ReportsComponent,
     }, {
       path: 'providers_report',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: ProvidersReportComponent,
     }, {
       path: 'facility_providers_report',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: RefferalReportComponent,
     }, {
       path: 'intra_facility_departments',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: IntraFacilitySummaryComponent,
     }, {
       path: 'facility_report',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: FacilityReportComponent,
     }, {
       path: 'basic_reports',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: BasicReportsComponent,
     } ]
   },

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       this.userService.loggedIn = true;
       this.userService.setNavigation(results);
       setTimeout(() => {
-        this.store.dispatch(new Go({path: ['/home', 'dashboard']}));
+        this.store.dispatch(new Go({path: ['/home', 'providers_report']}));
       }, 2000);
 
     }, (error) => {

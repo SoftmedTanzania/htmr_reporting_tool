@@ -32,7 +32,41 @@ export class LocationService {
                 confirmDelete: false
               };
             });
-            console.log(this.locations.length );
+            this.loadingMessage = 'loaded successfully';
+            observer.next(this.locations);
+            observer.complete();
+          },
+          error => {
+            this.loadingMessage = 'loading failed';
+            observer.error('some error occur');
+          });
+
+    });
+
+  }
+
+// get all data element group
+  loadTreeLocations(): Observable<Array<Location>> {
+
+    return Observable.create(observer => {
+
+      this.http.getOpenMRS(`location?v=default&limit=1000`)
+        .subscribe((locationResponse: any) => {
+
+            this.locations = locationResponse.results
+              .map((location) => {
+              return {
+                uuid: location.uuid,
+                id: location.id,
+                name: location.name,
+                display: location.display,
+                links: location.links,
+                tags: location.tags,
+                parentLocation: location.parentLocation,
+                childLocations: location.childLocations,
+                confirmDelete: false
+              };
+            });
             this.loadingMessage = 'loaded successfully';
             observer.next(this.locations);
             observer.complete();
