@@ -131,6 +131,15 @@ export class HttpClientService {
     return this.http.post(this.OPENSRPAPIURL + url, data, { headers});
   }
 
+  postOpenSRP1(url, data, options?) {
+    const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();
+    const postOptions = {
+      headers,
+      responseType: 'text'
+    }
+    return this.http.post(this.OPENSRPAPIURL + url, data, { headers, responseType: 'text'});
+  }
+
 
   getOpenSRP(url) {
     // const headers: HttpHeaders = this.createOPENSRPAuthorizationHeader();

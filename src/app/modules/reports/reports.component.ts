@@ -51,6 +51,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     active: boolean
   }[] = [];
   current_report = null;
+  html_data = null;
   constructor(
     private store: Store<ApplicationState>,
     private httpClient: HttpClientService,
@@ -103,11 +104,14 @@ export class ReportsComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.loading_failed = false;
     const facilities = this.orgunitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);
-    const reportUrl = this.current_report.url.replace('/opensrp/', '');
-    this.httpClient.postOpenSRP('report/get-chw-referrals-summary',
-      {from_date: this.start_date, to_date: this.end_date, facilities})
+    const reportUrl = this.current_report.url.replace('/opensrp/', '') + '/html';
+    const from_date = this.start_date.replace('-', '/').replace('-', '/');
+    const to_date = this.start_date.replace('-', '/').replace('-', '/');
+    this.httpClient.postOpenSRP1(reportUrl,
+      {from_date, to_date, facilities})
     .subscribe((data: any) => {
-      console.log(data)
+      console.log(data);
+      this.html_data = data;
       this.loading = false;
       this.loading_failed = false;
     }, error => {
