@@ -130,7 +130,7 @@ export class OrgUnitFilterComponent implements OnInit {
           // get top level locations
           const top_locations = locations.filter(location => location.parentLocation == null);
           // filter down to remain with only visit facilities
-          let visit_location: any = _.find(top_locations, {uuid: '98fbb095-c33e-11e8-ba9c-f23c917bb7ec'});
+          let visit_location: any = _.find(top_locations, {uuid: 'ed787525-d770-11e8-ba9c-f23c917bb7ec'});
           this.visit_locations.push(
             {
               name: visit_location.name,
