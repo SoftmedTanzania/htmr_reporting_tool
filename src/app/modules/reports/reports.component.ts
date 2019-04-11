@@ -76,13 +76,16 @@ export class ReportsComponent implements OnInit, OnDestroy {
   changeOrgUnit(orgunit) {
     this.orgunit = orgunit;
     this.orgunitnames = orgunit.items.map(d => d.name).join(', ');
+    this.html_data = null;
   }
 
   changeReport(report: any) {
     this.reportTitle = report.name;
     this.showReport = true;
     this.current_report = report;
-
+    this.html_data = null;
+    this.loading_failed = false;
+    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -101,6 +104,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   getReport() {
+    this.html_data = null;
     this.loading = true;
     this.loading_failed = false;
     const facilities = this.orgunitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);

@@ -65,7 +65,9 @@
         </div>
       </div>
 
-      <div class="container-fluid">
-        {{ html_data | safeH}}
+      <div
+      class="container-fluid"
+      *ngIf="html_data"
+      [innerHtml]="html_data | safeHtml">
       </div>
 </div>
