@@ -45,6 +45,13 @@ export class UserService {
       accessibility: false
     },
     {
+      name: 'Other Reports',
+      links: ['/home', 'reports'],
+      icon: 'fa fa-bar-chart',
+      roles: ['System Developer'],
+      accessibility: false
+    },
+    {
       name: 'Settings',
       links: ['/home', 'settings', 'indicator_service_mappings'],
       icon: 'fa fa-cogs',

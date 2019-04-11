@@ -117,7 +117,7 @@ const routes: Routes = [
 
     }, {
       path: 'reports',
-      canActivate: [AuthGuard, FormsGuard],
+      canActivate: [AuthGuard],
       component: ReportsComponent,
     }, {
       path: 'providers_report',

@@ -1,4 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import { fadeIn } from './../../shared/animations/basic-animations';
+import {Component, OnDestroy, OnInit, Input} from '@angular/core';
 import * as dataelectors from '../../store/selectors/ui.selectors';
 import * as formSelectors from '../../store/selectors/forms.selectors';
 import {Store} from '@ngrx/store';
@@ -10,63 +11,77 @@ import {LoadFormDataFail} from '../../store/actions/ui.actions';
 import * as fromFrom from '../../store/forms/form.selector';
 import * as fromCategory from '../../store/categories/category.selector';
 import * as fromDataElement from '../../store/data-elements/data-element.selector';
+import { HttpClientService } from '../../shared/services/http-client.service';
+import { OrgUnitService } from '../../shared/services/org-unit.service';
 
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  styleUrls: ['./reports.component.css'],
+  animations: [fadeIn]
 })
 export class ReportsComponent implements OnInit, OnDestroy {
 
-  forms$: Observable<Forms[]>;
-  loading$: Observable<boolean>;
-  formloading$: Observable<boolean>;
-  loaded$: Observable<boolean>;
-  dataElements$: Observable<any>;
-  dataElementsList$: Observable<any>;
-  categories$: Observable<FormCategory[]>;
-  selectedForm$: Observable<Forms>;
-  selectedFormId$: Observable<string>;
-  period$: Observable<any>;
-  orgunit$: Observable<any>;
-  periodType$: Observable<string>;
-  form_ready$: Observable<boolean>;
-  form_data$: Observable<any>;
-  data_loaded$: Observable<boolean>;
-  data_loading: Observable<boolean>;
-  data_object$: Observable<any>;
-  analytics$: Observable<any>;
-  chartObject$: Observable<any>;
-  tableObject$: Observable<any>;
-  visualizationType$: Observable<any>;
-  view_saved: boolean = false;
+  loading: boolean = false;
+  orgunit: any = null;
+  orgunitnames: string = '';
+  reportTitle: string = '';
+  showReport: boolean = false;
+  start_date: any = '';
+  end_date: any = '';
+  done_loading: boolean = false;
+  loading_failed: boolean = false;
+  @Input() orgunit_tree_config: any = {
+    show_search : true,
+    search_text : 'Search',
+    level: null,
+    loading: true,
+    loading_message: 'Loading Organisation units...',
+    multiple: true,
+    multiple_key: 'control', // can be control or shift
+    placeholder: 'Select Location'
+  };
+  reports: {
+    id: string;
+    name: string;
+    notes: string;
+    url: string;
+    createdAt: string;
+    updatedAt: string;
+    active: boolean
+  }[] = [];
+  current_report = null;
+  constructor(
+    private store: Store<ApplicationState>,
+    private httpClient: HttpClientService,
+    private orgunitService: OrgUnitService
+    ) {
 
-
-  constructor(private store: Store<ApplicationState>) {
-    this.forms$ = store.select( fromFrom.selectAll );
-    this.loading$ = store.select( dataelectors.getDataLoaded );
-    this.loaded$ = store.select( fromFrom.selectLoaded );
-    this.formloading$ = store.select( fromFrom.selectLoading );
-    this.dataElements$ = store.select( fromDataElement.selectEntities);
-    this.dataElementsList$ = store.select( fromDataElement.selectAll);
-    this.categories$ = store.select( fromCategory.selectAll );
-    this.selectedForm$ = store.select( fromFrom.selectCurrentForm );
-    this.selectedFormId$ = store.select( fromFrom.selectCurrentId );
-    this.orgunit$ = store.select( formSelectors.getOrgunit );
-    this.period$ = store.select( formSelectors.getPeriod );
-    this.periodType$ = store.select( formSelectors.getPeriodType );
-    this.form_data$ = store.select( dataelectors.getFormData );
-    this.form_ready$ = store.select( formSelectors.getFormReady );
-    this.data_loaded$ = store.select( dataelectors.getDataLoaded );
-    this.data_loading = store.select( dataelectors.getDataLoading );
-    this.data_object$ = store.select( dataelectors.getDataObect );
-    this.analytics$ = store.select( dataelectors.getanalytics );
-    this.chartObject$ = store.select( dataelectors.getchartObject );
-    this.tableObject$ = store.select( dataelectors.gettableObject );
-    this.visualizationType$ = store.select( dataelectors.getvisualizerType );
   }
 
   ngOnInit() {
+    const payload = {
+      from_date: '2019-04-01',
+      to_date: '2019-04-08',
+      facilities: ['ed7d4f8d-d770-11e8-ba9c-f23c917bb7ec','ed7d4f8d-d770-11e8-ba9c-f23c917bb7ec']
+    }
+    this.httpClient.getOpenSRP('available_reports')
+    .subscribe((data: any) => {
+      this.reports = data;
+    })
+
+  }
+
+  changeOrgUnit(orgunit) {
+    this.orgunit = orgunit;
+    this.orgunitnames = orgunit.items.map(d => d.name).join(', ');
+  }
+
+  changeReport(report: any) {
+    this.reportTitle = report.name;
+    this.showReport = true;
+    this.current_report = report;
+
   }
 
   ngOnDestroy() {
@@ -74,10 +89,32 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   viewSavedChange(view_saved) {
-    this.view_saved = view_saved;
-    if (view_saved) {
-      this.store.dispatch(new LoadFormDataFail(''));
-    }
+
+  }
+
+  checkDate() {  }
+
+  backToReports() {
+    this.reportTitle = '';
+    this.showReport = false;
+  }
+
+  getReport() {
+    this.loading = true;
+    this.loading_failed = false;
+    const facilities = this.orgunitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);
+    const reportUrl = this.current_report.url.replace('/opensrp/', '');
+    this.httpClient.postOpenSRP('report/get-chw-referrals-summary',
+      {from_date: this.start_date, to_date: this.end_date, facilities})
+    .subscribe((data: any) => {
+      console.log(data)
+      this.loading = false;
+      this.loading_failed = false;
+    }, error => {
+       console.log(error);
+       this.loading = false;
+       this.loading_failed = true;
+    });
   }
 
 }

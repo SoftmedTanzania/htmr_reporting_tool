@@ -1,56 +1,68 @@
-<div class="inner-menu">
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item " routerLinkActive="active-item">
-          <a class="nav-link" [routerLink]="['']"> <i class="fa fa-home"></i> <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item " routerLinkActive="active-item">
-          <a class="nav-link" routerLink="../reports">Custom Reports<span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+<div class="container-fluid mt-3" *ngIf="!showReport" @fade>
+  <h4>Report List</h4>
+  <ul class="list-group">
+    <li
+    class="list-group-item"
+    (click)="changeReport(report)"
+     *ngFor="let report of reports" >
+      {{ report.name }}
+      <i class="fa fa-arrow-right pull-right"></i>
+    </li>
+  </ul>
 </div>
 
-<!--{{ dataElementsList$ | async | json }}-->
+<div class="container-fluid mt-3" *ngIf="showReport" @fade>
+  <button
+  class="btn btn-primary pull-right"
+  (click)="backToReports()"
+  >
+  <i class="fa fa-arrow-back"></i>
+  Back to Reports
+</button>
+  <h4>{{ reportTitle }}</h4>
+  <div class="row">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="startdate">Start Date</label>
+          <input [(ngModel)]="start_date" (input)="checkDate()" type="date" class="form-control" id="startdate"
+                 aria-describedby="emailHelp" placeholder="Start date">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="enddate">End Date</label>
+          <input [(ngModel)]="end_date" (input)="checkDate()" type="date" class="form-control" id="enddate"
+                 aria-describedby="emailHelp" placeholder="Enter email">
+        </div>
+      </div>
+      <div class="col-4">
+        <label>Administrative Areas</label>
+        <app-org-unit-filter
+          (onOrgUnitChange)="changeOrgUnit($event)"
+          [orgunit_tree_config]="orgunit_tree_config">
+        </app-org-unit-filter>
+      </div>
+      <div class="col-2 mt-4 pt-1">
+        <button
+          class="btn btn-outline-secondary"
+          [disabled]="start_date == '' || end_date == '' || orgunit == null"
+          (click)="getReport()"
+        >Get Report
+        </button>
+      </div>
+    </div>
+    <div class="row no-print mt-4" *ngIf="loading">
+      <div class="col-sm-12">
+        <app-loader [message]="'Getting a Report Data...'"></app-loader>
+      </div>
+    </div>
 
-<div class="container-fluid" style="margin-top: 15px">
-  <!--Loading message-->
-  <div class="row" *ngIf="formloading$ | async">
-    <div class="col-sm-12" style="padding: 0px">
-      <app-loader [message]="'Loading please wait...'"></app-loader>
-    </div>
-  </div>
-  <!--Error message in case something doesnt load-->
-  <div class="row" *ngIf="!(loading$ | async) && !(loaded$ | async)">
-    <div class="col-sm-12 text-center text-danger">
-      Loading Failed
-    </div>
-  </div>
-  <!--data selections-->
-  <div *ngIf="!(formloading$ | async)">
-    <app-paramete-selector
-      [forms]="forms$ | async"
-      [periodType]="periodType$ | async"
-      [period]="period$ | async"
-      [orgunit]="orgunit$ | async"
-      [selectedFormID]="selectedFormId$ | async"
-      [selectedForm]="selectedForm$ | async"
-      [dataElements]="dataElementsList$ | async"
-      (onViewSavedChange)="viewSavedChange($event)"
-    >
-    </app-paramete-selector>
-    <!--data entry-->
-    <div class="row" *ngIf="(loading$ | async) && !view_saved">
-      <app-indicatordisplay
-       [orgunit]="orgunit$ | async"
-       [period]="period$ | async"
-       [chartObject]="chartObject$ | async"
-       [tableObject]="tableObject$ | async"
-       [analytics]="analytics$ | async"
-       [visualizerType]="visualizationType$ | async"
-      ></app-indicatordisplay>
-    </div>
-  </div>
+    <div class="row no-print mt-4" *ngIf="loading_failed">
+        <div class="col-sm-12">
+          <p class="lead text-danger">
+            Something went wrong and we are not able to get the report, Please try again.
+          </p>
+        </div>
+      </div>
+
 </div>

@@ -34,8 +34,7 @@ export const hiddenItem = trigger('hiddenItem', [
 
 export const fadeIn = trigger('fade', [
     state('void', style({opacity: 0})),
-    transition(':enter', animate('300ms')),
-    transition(':leave', animate('300ms'))
+    transition(':enter', animate('300ms'))
   ]);
 
 export const fadeSmooth = trigger('fadeSmooth', [
