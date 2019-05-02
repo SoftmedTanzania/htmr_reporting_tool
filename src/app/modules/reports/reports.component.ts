@@ -61,15 +61,10 @@ export class ReportsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const payload = {
-      from_date: '2019-04-01',
-      to_date: '2019-04-08',
-      facilities: ['ed7d4f8d-d770-11e8-ba9c-f23c917bb7ec','ed7d4f8d-d770-11e8-ba9c-f23c917bb7ec']
-    }
     this.httpClient.getOpenSRP('available_reports')
     .subscribe((data: any) => {
       this.reports = data;
-    })
+    });
 
   }
 
@@ -110,7 +105,7 @@ export class ReportsComponent implements OnInit, OnDestroy {
     const facilities = this.orgunitService.getLevel4OrgunitsIds(this.orgunit.visit_locations, this.orgunit.value);
     const reportUrl = this.current_report.url.replace('/opensrp/', '') + '/html';
     const from_date = this.start_date.replace('-', '/').replace('-', '/');
-    const to_date = this.start_date.replace('-', '/').replace('-', '/');
+    const to_date = this.end_date.replace('-', '/').replace('-', '/');
     this.httpClient.postOpenSRP1(reportUrl,
       {from_date, to_date, facilities})
     .subscribe((data: any) => {

@@ -277,9 +277,14 @@ export class OrgUnitService {
   }
 
   getLevel4OrgunitsIds(orgunits: any[], uuid) {
-    return orgunits
+    console.log({orgunits});
+    let orgunitItems = orgunits
       .filter((ou: any) => ou.parents.indexOf(uuid) !== -1)
       .map(ou => ou.id);
+    if (orgunitItems.length === 0) {
+      orgunitItems = [uuid];
+    }
+    return orgunitItems;
   }
 
   getLevel4OrgunitsNames(orgunits: any[], uuid) {
